@@ -8,8 +8,9 @@ import { XIAOMI_DEVICES } from './xiaomiDevices';
 import { POCO_DEVICES } from './pocoDevices';
 import { REDMI_DEVICES } from './redmiDevices';
 import { VIVO_DEVICES } from './vivoDevices';
+import { MOTOROLA_DEVICES } from './motorolaDevices';
 
-export const DEVICES_DATA: DeviceInfo[] = [
+const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
   {
     id: 'poco-x6-pro',
@@ -1186,8 +1187,29 @@ export const DEVICES_DATA: DeviceInfo[] = [
   },
 
   // --- OPPO (GLOBAL REPOSITORY - 37+ MODELS) ---
-  ...OPPO_DEVICES
+  ...OPPO_DEVICES,
+
+  // --- XIAOMI (GLOBAL REPOSITORY - 22+ MODELS) ---
+  ...XIAOMI_DEVICES,
+
+  // --- POCO (GLOBAL REPOSITORY - 23+ MODELS) ---
+  ...POCO_DEVICES,
+
+  // --- REDMI (GLOBAL REPOSITORY - 27+ MODELS) ---
+  ...REDMI_DEVICES,
+
+  // --- MOTOROLA (GLOBAL REPOSITORY - 28+ MODELS) ---
+  ...MOTOROLA_DEVICES
 ];
+
+// De-duplicate devices by brandSlug + slug ensuring clean uniqueness across static generation
+const seenDeviceKeys = new Set<string>();
+export const DEVICES_DATA: DeviceInfo[] = RAW_DEVICES.filter((d) => {
+  const key = `${d.brandSlug.toLowerCase()}/${d.slug.toLowerCase()}`;
+  if (seenDeviceKeys.has(key)) return false;
+  seenDeviceKeys.add(key);
+  return true;
+});
 
 export const ALL_BRANDS = Array.from(new Set(DEVICES_DATA.map((d) => d.brand))).sort();
 
@@ -1214,6 +1236,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if (b === 'poco' && (brandLower === 'poco' || slugLower === 'poco')) return true;
     if (b === 'redmi' && (brandLower === 'redmi' || slugLower === 'redmi')) return true;
     if (b === 'vivo' && (brandLower === 'vivo' || slugLower === 'vivo')) return true;
+    if ((b === 'motorola' || b === 'moto') && (brandLower === 'motorola' || slugLower === 'motorola')) return true;
     return false;
   });
 }
