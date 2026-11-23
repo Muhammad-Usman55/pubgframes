@@ -11,6 +11,17 @@ import { VIVO_DEVICES } from './vivoDevices';
 import { MOTOROLA_DEVICES } from './motorolaDevices';
 import { LG_DEVICES } from './lgDevices';
 import { QMOBILE_DEVICES } from './qmobileDevices';
+import { ONEPLUS_DEVICES } from './oneplusDevices';
+import { REALME_DEVICES } from './realmeDevices';
+import { INFINIX_DEVICES } from './infinixDevices';
+import { TECNO_DEVICES } from './tecnoDevices';
+import { ASUS_DEVICES } from './asusDevices';
+import { ZTE_DEVICES } from './zteDevices';
+import { HONOR_DEVICES } from './honorDevices';
+import { NOTHING_DEVICES } from './nothingDevices';
+import { SONY_DEVICES } from './sonyDevices';
+import { TABLET_DEVICES } from './tabletDevices';
+import { GLOBAL_BRANDS_DEVICES } from './globalBrandsDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1207,7 +1218,40 @@ const RAW_DEVICES: DeviceInfo[] = [
   ...LG_DEVICES,
 
   // --- QMOBILE (PAKISTANI REPOSITORY - 23+ MODELS) ---
-  ...QMOBILE_DEVICES
+  ...QMOBILE_DEVICES,
+
+  // --- ONEPLUS (GLOBAL REPOSITORY - 14+ MODELS) ---
+  ...ONEPLUS_DEVICES,
+
+  // --- REALME (GLOBAL REPOSITORY - 11+ MODELS) ---
+  ...REALME_DEVICES,
+
+  // --- INFINIX (GLOBAL REPOSITORY - 9+ MODELS) ---
+  ...INFINIX_DEVICES,
+
+  // --- TECNO (GLOBAL REPOSITORY - 7+ MODELS) ---
+  ...TECNO_DEVICES,
+
+  // --- ASUS & ROG PHONE (GLOBAL REPOSITORY - 5+ MODELS) ---
+  ...ASUS_DEVICES,
+
+  // --- ZTE & REDMAGIC (GLOBAL REPOSITORY - 5+ MODELS) ---
+  ...ZTE_DEVICES,
+
+  // --- HONOR (GLOBAL REPOSITORY - 6+ MODELS) ---
+  ...HONOR_DEVICES,
+
+  // --- NOTHING & CMF (GLOBAL REPOSITORY - 3+ MODELS) ---
+  ...NOTHING_DEVICES,
+
+  // --- SONY XPERIA (GLOBAL REPOSITORY - 3+ MODELS) ---
+  ...SONY_DEVICES,
+
+  // --- DEDICATED ESPORTS TABLETS (5+ MODELS) ---
+  ...TABLET_DEVICES,
+
+  // --- GLOBAL & LEGACY BRANDS (NOKIA, LENOVO, ITEL, HTC, BLU, ETC. - 17+ MODELS) ---
+  ...GLOBAL_BRANDS_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug ensuring clean uniqueness across static generation
@@ -1247,6 +1291,31 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if ((b === 'motorola' || b === 'moto') && (brandLower === 'motorola' || slugLower === 'motorola')) return true;
     if (b === 'lg' && (brandLower === 'lg' || slugLower === 'lg')) return true;
     if ((b === 'qmobile' || b === 'q-mobile' || b === 'q mobile') && (brandLower === 'qmobile' || slugLower === 'qmobile')) return true;
+    if ((b === 'oneplus' || b === '1+') && (brandLower === 'oneplus' || slugLower === 'oneplus')) return true;
+    if (b === 'realme' && (brandLower === 'realme' || slugLower === 'realme')) return true;
+    if (b === 'infinix' && (brandLower === 'infinix' || slugLower === 'infinix')) return true;
+    if (b === 'tecno' && (brandLower === 'tecno' || slugLower === 'tecno')) return true;
+    if ((b === 'asus' || b === 'rog' || b === 'asus-rog') && (brandLower.includes('asus') || slugLower.includes('asus'))) return true;
+    if ((b === 'zte' || b === 'redmagic' || b === 'nubia') && (brandLower === 'zte' || slugLower === 'zte')) return true;
+    if (b === 'honor' && (brandLower === 'honor' || slugLower === 'honor')) return true;
+    if ((b === 'nothing' || b === 'cmf') && (brandLower === 'nothing' || slugLower === 'nothing')) return true;
+    if ((b === 'sony' || b === 'xperia') && (brandLower === 'sony' || slugLower === 'sony')) return true;
+    if ((b === 'nokia' || b === 'hmd') && (brandLower === 'nokia' || slugLower === 'nokia')) return true;
+    if ((b === 'lenovo' || b === 'legion') && (brandLower === 'lenovo' || slugLower === 'lenovo')) return true;
+    if (b === 'itel' && (brandLower === 'itel' || slugLower === 'itel')) return true;
+    if (b === 'meizu' && (brandLower === 'meizu' || slugLower === 'meizu')) return true;
+    if ((b === 'black-shark' || b === 'blackshark') && (brandLower.includes('black') || slugLower.includes('black'))) return true;
+    if (b === 'razer' && (brandLower === 'razer' || slugLower === 'razer')) return true;
+    if (b === 'htc' && (brandLower === 'htc' || slugLower === 'htc')) return true;
+    if ((b === 'blackberry' || b === 'bb') && (brandLower === 'blackberry' || slugLower === 'blackberry')) return true;
+    if (b === 'blackview' && (brandLower === 'blackview' || slugLower === 'blackview')) return true;
+    if (b === 'ulefone' && (brandLower === 'ulefone' || slugLower === 'ulefone')) return true;
+    if (b === 'doogee' && (brandLower === 'doogee' || slugLower === 'doogee')) return true;
+    if (b === 'lava' && (brandLower === 'lava' || slugLower === 'lava')) return true;
+    if (b === 'micromax' && (brandLower === 'micromax' || slugLower === 'micromax')) return true;
+    if (b === 'blu' && (brandLower === 'blu' || slugLower === 'blu')) return true;
+    if (b === 'alcatel' && (brandLower === 'alcatel' || slugLower === 'alcatel')) return true;
+    if (b === 'acer' && (brandLower === 'acer' || slugLower === 'acer')) return true;
     return false;
   });
 }
