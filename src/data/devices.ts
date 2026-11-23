@@ -3,6 +3,7 @@ import { SAMSUNG_DEVICES } from './samsungDevices';
 import { APPLE_DEVICES } from './appleDevices';
 import { OPPO_DEVICES } from './oppoDevices';
 import { PIXEL_DEVICES } from './pixelDevices';
+import { HUAWEI_DEVICES } from './huaweiDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -1083,6 +1084,9 @@ export const DEVICES_DATA: DeviceInfo[] = [
 
   // --- GOOGLE PIXEL (GLOBAL REPOSITORY - 24+ MODELS) ---
   ...PIXEL_DEVICES,
+
+  // --- HUAWEI (GLOBAL REPOSITORY - 71+ MODELS) ---
+  ...HUAWEI_DEVICES,
 
   // --- TECNO ---
   {
