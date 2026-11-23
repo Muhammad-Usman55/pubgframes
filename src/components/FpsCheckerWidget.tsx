@@ -154,7 +154,9 @@ Check your PUBG FPS free on: https://pubgframes.com`;
               <div className="p-3.5 rounded-xl bg-[#171D21] border border-white/10 text-xs space-y-1.5">
                 <div className="text-gray-400 font-semibold flex items-center justify-between">
                   <span>Selected Hardware:</span>
-                  <span className="text-[#39F56A] font-mono font-bold">{selectedDevice.maxSupportedFps} FPS Max</span>
+                  <span className={`font-mono font-bold ${selectedDevice.maxSupportedFps === 0 ? 'text-red-400' : 'text-[#39F56A]'}`}>
+                    {selectedDevice.maxSupportedFps === 0 ? 'UNSUPPORTED' : `${selectedDevice.maxSupportedFps} FPS Max`}
+                  </span>
                 </div>
                 <div className="font-extrabold text-white text-sm">
                   {selectedDevice.brand} {selectedDevice.model}
@@ -279,8 +281,12 @@ Check your PUBG FPS free on: https://pubgframes.com`;
                           <div className="font-bold text-white">{device.brand} {device.model}</div>
                           <div className="text-[10px] text-gray-400 font-mono">{device.chipset}</div>
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 text-[#FFD400] font-bold">
-                          {device.maxSupportedFps} FPS
+                        <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                          device.maxSupportedFps === 0
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            : 'bg-black/40 text-[#FFD400]'
+                        }`}>
+                          {device.maxSupportedFps === 0 ? 'UNSUPPORTED' : `${device.maxSupportedFps} FPS`}
                         </span>
                       </button>
                     ))}
@@ -373,12 +379,14 @@ Check your PUBG FPS free on: https://pubgframes.com`;
             {/* Custom Semicircular Gauge Meter */}
             <FpsGauge
               fps={currentDisplayFps}
-              isUnsupported={!baseFpsResult.setting.supported}
+              isUnsupported={!baseFpsResult.setting.supported || selectedDevice.maxSupportedFps === 0}
               size={200}
             />
 
             <div className="mt-2 text-xs font-semibold text-gray-300">
-              {baseFpsResult.setting.supported
+              {selectedDevice.maxSupportedFps === 0
+                ? 'Hardware Insufficient (PUBG Unsupported)'
+                : baseFpsResult.setting.supported
                 ? gamingMinutes > 0 && thermalState.throttlingPercent > 0
                   ? `Throttled by ${thermalState.throttlingPercent}% (${thermalState.temperature}°C)`
                   : baseFpsResult.statusDescription
@@ -432,6 +440,24 @@ Check your PUBG FPS free on: https://pubgframes.com`;
                 </Link>
               </div>
             </div>
+
+            {/* Unsupported / Hardware Insufficient Notice */}
+            {(selectedDevice.maxSupportedFps === 0 || selectedDevice.isUnsupportedHardware) && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-red-950/40 border border-red-500/40 flex items-start gap-3.5">
+                <AlertTriangle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <h4 className="text-sm font-extrabold text-red-400 uppercase tracking-wider">
+                    CRITICAL: Unsupported Hardware — PUBG Mobile Cannot Run
+                  </h4>
+                  <p className="text-xs text-gray-200 leading-relaxed">
+                    <strong>{selectedDevice.brand} {selectedDevice.model}</strong> does not meet the minimum hardware and architecture requirements (ARMv8 64-bit OS &amp; 3GB+ RAM). The game client will fail to boot, freeze on the Tencent/Krafton splash screen, or crash during match initialization.
+                  </p>
+                  <p className="text-[11px] text-gray-400">
+                    Recommendation: Use a device with at least 40–60 FPS capability (such as Galaxy A15, A25, or A55) for playable frame rates.
+                  </p>
+                </div>
+              </div>
+            )}
 
             {/* Real-Time Thermal Throttling Simulator Slider */}
             {baseFpsResult.setting.supported && (

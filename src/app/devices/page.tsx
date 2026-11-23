@@ -8,17 +8,23 @@ import { Smartphone, Search, Zap, SlidersHorizontal, ArrowUpRight, Scale, CheckC
 export default function DevicesCatalogPage() {
   const [search, setSearch] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
-  const [selectedFpsFilter, setSelectedFpsFilter] = useState<'All' | '120' | '90' | '60'>('All');
+  const [selectedFpsFilter, setSelectedFpsFilter] = useState<'All' | '120' | '90' | '60' | '40' | 'Unsupported'>('All');
   const [sortBy, setSortBy] = useState<'popularity' | 'name' | 'fps'>('popularity');
 
   const filteredDevices = useMemo(() => {
+    const searchTerms = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
+
     return DEVICES_DATA.filter((device) => {
       const matchBrand = selectedBrand === 'All' || device.brand === selectedBrand;
-      const matchFps = selectedFpsFilter === 'All' || device.maxSupportedFps.toString() === selectedFpsFilter;
+      const matchFps =
+        selectedFpsFilter === 'All'
+          ? true
+          : selectedFpsFilter === 'Unsupported'
+          ? device.maxSupportedFps === 0 || device.isUnsupportedHardware
+          : device.maxSupportedFps.toString() === selectedFpsFilter;
+      const fullText = `${device.brand} ${device.model} ${device.chipset} ${device.slug}`.toLowerCase();
       const matchSearch =
-        device.model.toLowerCase().includes(search.toLowerCase()) ||
-        device.brand.toLowerCase().includes(search.toLowerCase()) ||
-        device.chipset.toLowerCase().includes(search.toLowerCase());
+        searchTerms.length === 0 || searchTerms.every((term) => fullText.includes(term));
       return matchBrand && matchFps && matchSearch;
     }).sort((a, b) => {
       if (sortBy === 'popularity') return a.popularityRank - b.popularityRank;
@@ -97,19 +103,19 @@ export default function DevicesCatalogPage() {
         </div>
 
         {/* FPS Tier Filter Pills */}
-        <div className="flex items-center gap-2 text-xs pt-1 border-t border-white/5">
-          <span className="text-gray-400 font-semibold text-[11px] uppercase mr-1">FPS Tier:</span>
-          {['All', '120', '90', '60'].map((fps) => (
+        <div className="flex items-center gap-2 text-xs pt-1 border-t border-white/5 overflow-x-auto pb-1 scrollbar-none">
+          <span className="text-gray-400 font-semibold text-[11px] uppercase mr-1 shrink-0">FPS Tier:</span>
+          {['All', '120', '90', '60', '40', 'Unsupported'].map((fps) => (
             <button
               key={fps}
               onClick={() => setSelectedFpsFilter(fps as any)}
-              className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold transition-colors ${
+              className={`px-2.5 py-1 rounded-md text-[11px] font-mono font-bold transition-colors shrink-0 ${
                 selectedFpsFilter === fps
-                  ? 'bg-[#39F56A] text-black'
+                  ? fps === 'Unsupported' ? 'bg-red-500 text-white' : 'bg-[#39F56A] text-black'
                   : 'bg-black/30 text-gray-400 hover:text-white'
               }`}
             >
-              {fps === 'All' ? 'All Tiers' : `${fps} FPS`}
+              {fps === 'All' ? 'All Tiers' : fps === 'Unsupported' ? 'Unsupported (0 FPS)' : `${fps} FPS`}
             </button>
           ))}
         </div>
@@ -119,10 +125,14 @@ export default function DevicesCatalogPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDevices.map((device) => {
           const fps = device.maxSupportedFps;
+          const isUnsupported = fps === 0 || device.isUnsupportedHardware;
+
           return (
             <div
               key={device.id}
-              className="group p-5 rounded-2xl bg-[#171D21] border border-white/5 hover:border-white/15 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col justify-between"
+              className={`group p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col justify-between ${
+                isUnsupported ? 'bg-[#141012] border-red-900/30 hover:border-red-500/40' : 'bg-[#171D21] border-white/5 hover:border-white/15'
+              }`}
             >
               <div className="space-y-4">
                 {/* Brand and Max FPS Pill */}
@@ -131,13 +141,15 @@ export default function DevicesCatalogPage() {
                     {device.brand}
                   </span>
                   <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-black ${
-                    fps === 120
+                    isUnsupported
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                      : fps === 120
                       ? 'bg-blue-500/15 text-[#28A9FF] border border-[#28A9FF]/30'
                       : fps === 90
                       ? 'bg-green-500/15 text-[#39F56A] border border-[#39F56A]/30'
                       : 'bg-yellow-500/15 text-[#FFD400] border border-[#FFD400]/30'
                   }`}>
-                    {fps} FPS Max
+                    {isUnsupported ? 'UNSUPPORTED' : `${fps} FPS Max`}
                   </span>
                 </div>
 

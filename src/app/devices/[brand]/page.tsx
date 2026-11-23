@@ -70,8 +70,12 @@ export default async function BrandCatalogPage({ params }: BrandPageProps) {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-gray-400 font-bold uppercase">{device.brand}</span>
-                <span className="px-2.5 py-0.5 rounded text-xs font-mono font-bold bg-[#39F56A]/10 text-[#39F56A] border border-[#39F56A]/20">
-                  {device.maxSupportedFps} FPS Max
+                <span className={`px-2.5 py-0.5 rounded text-xs font-mono font-bold ${
+                  device.maxSupportedFps === 0 || device.isUnsupportedHardware
+                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                    : 'bg-[#39F56A]/10 text-[#39F56A] border border-[#39F56A]/20'
+                }`}>
+                  {device.maxSupportedFps === 0 || device.isUnsupportedHardware ? 'UNSUPPORTED' : `${device.maxSupportedFps} FPS Max`}
                 </span>
               </div>
 
@@ -81,7 +85,11 @@ export default async function BrandCatalogPage({ params }: BrandPageProps) {
               </div>
 
               <div className="text-xs text-gray-300 space-y-1 pt-2 border-t border-white/5">
-                <div>Smooth: <strong className="text-white">{device.graphicsModes.Smooth.estimatedFps} FPS</strong> ({device.graphicsModes.Smooth.stabilityScore}% stability)</div>
+                {device.maxSupportedFps === 0 || device.isUnsupportedHardware ? (
+                  <div className="text-red-400 font-semibold">Status: Insufficient RAM / Architecture</div>
+                ) : (
+                  <div>Smooth: <strong className="text-white">{device.graphicsModes.Smooth.estimatedFps} FPS</strong> ({device.graphicsModes.Smooth.stabilityScore}% stability)</div>
+                )}
                 <div>Display: <span className="text-gray-400">{device.displayRefreshRate}Hz {device.screenSize}</span></div>
                 <div>Cooling: <span className="text-gray-400">{device.coolingSystem}</span></div>
               </div>

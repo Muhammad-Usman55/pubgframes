@@ -118,8 +118,10 @@ function CompareContent() {
           <div className="p-5 rounded-2xl bg-[#171D21] border border-[#FFD400]/30 shadow-xl space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-[#FFD400] uppercase tracking-wider">Device 1</span>
-              <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
-                {deviceA.maxSupportedFps} FPS Max
+              <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                deviceA.maxSupportedFps === 0 ? 'bg-red-500/20 text-red-400' : 'bg-black/40 text-white'
+              }`}>
+                {deviceA.maxSupportedFps === 0 ? 'UNSUPPORTED' : `${deviceA.maxSupportedFps} FPS Max`}
               </span>
             </div>
 
@@ -144,8 +146,10 @@ function CompareContent() {
           <div className="p-5 rounded-2xl bg-[#171D21] border border-[#39F56A]/30 shadow-xl space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-[#39F56A] uppercase tracking-wider">Device 2</span>
-              <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
-                {deviceB.maxSupportedFps} FPS Max
+              <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                deviceB.maxSupportedFps === 0 ? 'bg-red-500/20 text-red-400' : 'bg-black/40 text-white'
+              }`}>
+                {deviceB.maxSupportedFps === 0 ? 'UNSUPPORTED' : `${deviceB.maxSupportedFps} FPS Max`}
               </span>
             </div>
 
@@ -249,8 +253,12 @@ function CompareContent() {
               </tr>
               <tr>
                 <td className="p-4 text-gray-400">Peak Supported FPS</td>
-                <td className="p-4 text-[#FFD400] font-black text-base">{deviceA.maxSupportedFps} FPS</td>
-                <td className="p-4 text-[#39F56A] font-black text-base">{deviceB.maxSupportedFps} FPS</td>
+                <td className={`p-4 font-black text-base ${deviceA.maxSupportedFps === 0 ? 'text-red-400' : 'text-[#FFD400]'}`}>
+                  {deviceA.maxSupportedFps === 0 ? 'Unsupported (0 FPS)' : `${deviceA.maxSupportedFps} FPS`}
+                </td>
+                <td className={`p-4 font-black text-base ${deviceB.maxSupportedFps === 0 ? 'text-red-400' : 'text-[#39F56A]'}`}>
+                  {deviceB.maxSupportedFps === 0 ? 'Unsupported (0 FPS)' : `${deviceB.maxSupportedFps} FPS`}
+                </td>
               </tr>
               <tr>
                 <td className="p-4 text-gray-400">Display Refresh Rate</td>

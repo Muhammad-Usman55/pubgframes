@@ -16,7 +16,8 @@ import {
   Scale,
   Gauge,
   Zap,
-  Info
+  Info,
+  AlertTriangle
 } from 'lucide-react';
 
 interface DeviceDetailProps {
@@ -75,8 +76,12 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
               <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-gray-300">
                 {device.brand}
               </span>
-              <span className="px-3 py-1 rounded-full bg-[#39F56A]/10 border border-[#39F56A]/30 text-xs font-mono font-bold text-[#39F56A]">
-                {device.maxSupportedFps} FPS Max
+              <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold ${
+                device.maxSupportedFps === 0 || device.isUnsupportedHardware
+                  ? 'bg-red-500/15 border border-red-500/30 text-red-400'
+                  : 'bg-[#39F56A]/10 border border-[#39F56A]/30 text-[#39F56A]'
+              }`}>
+                {device.maxSupportedFps === 0 || device.isUnsupportedHardware ? 'UNSUPPORTED HARDWARE' : `${device.maxSupportedFps} FPS Max`}
               </span>
               {device.pubgOfficialPartner && (
                 <span className="px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-xs font-bold text-[#FFD400]">
@@ -126,6 +131,24 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
           </div>
         </div>
       </div>
+
+      {/* Critical Incompatibility Notice for Unsupported Hardware */}
+      {(device.isUnsupportedHardware || device.maxSupportedFps === 0) && (
+        <div className="p-6 rounded-2xl bg-red-950/40 border border-red-500/40 flex items-start gap-4">
+          <AlertTriangle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h3 className="text-base font-extrabold text-red-400 uppercase tracking-wide">
+              Official Notice: Hardware Unsupported for PUBG Mobile
+            </h3>
+            <p className="text-sm text-gray-200 leading-relaxed">
+              <strong>{device.brand} {device.model}</strong> does not meet the minimum hardware and architecture requirements (ARMv8 64-bit OS &amp; 3GB+ RAM). The game client will fail to boot, crash immediately on the splash screen, or fail installation from the Google Play Store.
+            </p>
+            <p className="text-xs text-gray-400 pt-1">
+              PUBGFrames Telemetry: 0 FPS • Hardware Insufficient • Out of Memory (OOM) Risk Severe
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* 5 Graphics Modes Detailed Telemetry Matrix */}
       <div className="space-y-4">
@@ -205,6 +228,24 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
           })}
         </div>
       </div>
+
+      {/* Critical Incompatibility Notice for Unsupported Hardware */}
+      {(device.isUnsupportedHardware || device.maxSupportedFps === 0) && (
+        <div className="p-6 rounded-2xl bg-red-950/40 border border-red-500/40 flex items-start gap-4">
+          <AlertTriangle className="w-6 h-6 text-red-400 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h3 className="text-base font-extrabold text-red-400 uppercase tracking-wide">
+              Official Notice: Hardware Unsupported for PUBG Mobile
+            </h3>
+            <p className="text-sm text-gray-200 leading-relaxed">
+              <strong>{device.brand} {device.model}</strong> does not meet the minimum hardware and architecture requirements (ARMv8 64-bit OS &amp; 3GB+ RAM). The game client will fail to boot, crash immediately on the splash screen, or fail installation from the Google Play Store.
+            </p>
+            <p className="text-xs text-gray-400 pt-1">
+              PUBGFrames Telemetry: 0 FPS • Hardware Insufficient • Out of Memory (OOM) Risk Severe
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Detailed Specifications & Pros / Cons */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

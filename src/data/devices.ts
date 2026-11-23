@@ -1,4 +1,5 @@
 import { DeviceInfo, FpsCalculationResult, GraphicsTier } from '@/types/device';
+import { SAMSUNG_DEVICES } from './samsungDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -533,271 +534,8 @@ export const DEVICES_DATA: DeviceInfo[] = [
     verdict: 'The best value 60 FPS iPhone for PUBG. Delivers uncompromised 60 FPS consistency.'
   },
 
-  // --- SAMSUNG ---
-  {
-    id: 'samsung-galaxy-s24-ultra',
-    brand: 'Samsung',
-    model: 'Galaxy S24 Ultra',
-    slug: 'galaxy-s24-ultra',
-    brandSlug: 'samsung',
-    releaseYear: 2024,
-    chipset: 'Snapdragon 8 Gen 3 for Galaxy (4nm)',
-    gpu: 'Adreno 750 (1000 MHz)',
-    ramOptions: ['12GB LPDDR5X'],
-    displayRefreshRate: 120,
-    screenSize: '6.8" Dynamic LTPO AMOLED 2X 120Hz Anti-Reflective',
-    batteryCapacity: 5000,
-    antutuScore: 1980000,
-    gyroscope: 'Ultra Fast Hardware Gyro',
-    coolingSystem: '1.9x Larger Vapor Chamber',
-    pubgOfficialPartner: false,
-    maxSupportedFps: 120,
-    overallGamingRating: 9.8,
-    popularityRank: 4,
-    benchmarkDate: '2024-10-15',
-    benchmarkSource: 'PUBGFrames Lab One UI 6.1.1 Tests',
-    graphicsModes: {
-      Smooth: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)', '120 FPS (Extreme+)'],
-        estimatedFps: 120,
-        fpsMin: 118,
-        fpsMax: 120,
-        stabilityScore: 98,
-        thermalRisk: 'Low',
-        batteryDrainPerHour: 18,
-        confidenceLevel: 'Verified',
-        notes: 'Officially certified for 120 FPS in PUBG Mobile. Vapor chamber keeps it cool under heavy load.'
-      },
-      Balanced: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)', '120 FPS (Extreme+)'],
-        estimatedFps: 120,
-        fpsMin: 115,
-        fpsMax: 120,
-        stabilityScore: 96,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 20,
-        confidenceLevel: 'Verified',
-        notes: 'Incredible 120 FPS smoothness on Balanced settings.'
-      },
-      HD: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)'],
-        estimatedFps: 90,
-        fpsMin: 89,
-        fpsMax: 90,
-        stabilityScore: 99,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 19,
-        confidenceLevel: 'Verified',
-        notes: 'Flawless 90 FPS performance on high resolution textures.'
-      },
-      HDR: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)', '90 FPS (Extreme)'],
-        estimatedFps: 90,
-        fpsMin: 87,
-        fpsMax: 90,
-        stabilityScore: 96,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 21,
-        confidenceLevel: 'Verified',
-        notes: 'Supports 90 FPS even on HDR graphics mode.'
-      },
-      'Ultra HD': {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 59,
-        fpsMax: 60,
-        stabilityScore: 98,
-        thermalRisk: 'High',
-        batteryDrainPerHour: 25,
-        confidenceLevel: 'Verified',
-        notes: 'Stunning 4K fidelity with locked 60 FPS.'
-      }
-    },
-    pros: ['Anti-reflective flat screen reduces glare', 'Official 120 FPS support', 'Massive cooling vapor chamber'],
-    cons: ['Heavy in hand (232g) during long sessions'],
-    verdict: 'The ultimate Android powerhouse for PUBG Mobile. Top-tier 120 FPS performance with zero thermal throttling.'
-  },
-  {
-    id: 'samsung-galaxy-s23-ultra',
-    brand: 'Samsung',
-    model: 'Galaxy S23 Ultra',
-    slug: 'galaxy-s23-ultra',
-    brandSlug: 'samsung',
-    releaseYear: 2023,
-    chipset: 'Snapdragon 8 Gen 2 for Galaxy (4nm)',
-    gpu: 'Adreno 740',
-    ramOptions: ['8GB', '12GB LPDDR5X'],
-    displayRefreshRate: 120,
-    screenSize: '6.8" Dynamic AMOLED 2X 120Hz',
-    batteryCapacity: 5000,
-    antutuScore: 1520000,
-    gyroscope: 'Ultra Fast Hardware Gyro',
-    coolingSystem: 'Vapor Chamber Cooling',
-    pubgOfficialPartner: false,
-    maxSupportedFps: 120,
-    overallGamingRating: 9.6,
-    popularityRank: 8,
-    benchmarkDate: '2024-09-12',
-    benchmarkSource: 'Verified One UI 6 Benchmarks',
-    graphicsModes: {
-      Smooth: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)', '120 FPS (Extreme+)'],
-        estimatedFps: 120,
-        fpsMin: 112,
-        fpsMax: 120,
-        stabilityScore: 95,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 20,
-        confidenceLevel: 'Verified',
-        notes: 'Supports 120 FPS. Exceptionally stable 90/120 FPS frame rate.'
-      },
-      Balanced: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)'],
-        estimatedFps: 90,
-        fpsMin: 89,
-        fpsMax: 90,
-        stabilityScore: 98,
-        thermalRisk: 'Low',
-        batteryDrainPerHour: 16,
-        confidenceLevel: 'Verified',
-        notes: 'Rock steady 90 FPS.'
-      },
-      HD: {
-        supported: true,
-        fpsOptions: ['90 FPS (Extreme)'],
-        estimatedFps: 90,
-        fpsMin: 87,
-        fpsMax: 90,
-        stabilityScore: 96,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 18,
-        confidenceLevel: 'Verified',
-        notes: 'High visual dynamic range.'
-      },
-      HDR: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 60,
-        fpsMax: 60,
-        stabilityScore: 99,
-        thermalRisk: 'Low',
-        batteryDrainPerHour: 17,
-        confidenceLevel: 'Verified',
-        notes: 'Solid 60 FPS.'
-      },
-      'Ultra HD': {
-        supported: true,
-        fpsOptions: ['40 FPS (High)'],
-        estimatedFps: 40,
-        fpsMin: 40,
-        fpsMax: 40,
-        stabilityScore: 99,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 22,
-        confidenceLevel: 'Verified',
-        notes: 'Locked 40 FPS.'
-      }
-    },
-    pros: ['Very stable 120 FPS', 'Amazing display and battery life', 'Great ergonomics'],
-    cons: ['Slightly curved display sides'],
-    verdict: 'Superb gaming value in the flagship tier. 120 FPS performance matching phones twice the price.'
-  },
-  {
-    id: 'samsung-galaxy-a55-5g',
-    brand: 'Samsung',
-    model: 'Galaxy A55 5G',
-    slug: 'galaxy-a55-5g',
-    brandSlug: 'samsung',
-    releaseYear: 2024,
-    chipset: 'Exynos 1480 (4nm, AMD RDNA 2 Xclipse 530)',
-    gpu: 'Xclipse 530',
-    ramOptions: ['8GB', '12GB'],
-    displayRefreshRate: 120,
-    screenSize: '6.6" Super AMOLED 120Hz',
-    batteryCapacity: 5000,
-    antutuScore: 720000,
-    gyroscope: 'Hardware Gyro',
-    coolingSystem: 'Integrated heat spreader',
-    pubgOfficialPartner: false,
-    maxSupportedFps: 60,
-    overallGamingRating: 7.9,
-    popularityRank: 14,
-    benchmarkDate: '2024-09-01',
-    benchmarkSource: 'Verified One UI 6 Benchmarks',
-    graphicsModes: {
-      Smooth: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 56,
-        fpsMax: 60,
-        stabilityScore: 92,
-        thermalRisk: 'Low',
-        batteryDrainPerHour: 14,
-        confidenceLevel: 'Verified',
-        notes: 'Supports up to Ultra (60 FPS) in Smooth mode. Stable 58-60 FPS in general matches.'
-      },
-      Balanced: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 54,
-        fpsMax: 60,
-        stabilityScore: 90,
-        thermalRisk: 'Low',
-        batteryDrainPerHour: 15,
-        confidenceLevel: 'Verified',
-        notes: 'Good visual clarity with solid 60 FPS.'
-      },
-      HD: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 50,
-        fpsMax: 60,
-        stabilityScore: 84,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 17,
-        confidenceLevel: 'Verified',
-        notes: '60 FPS supported; drops to ~52 FPS during heavy combat in Hotdrops like Georgopol.'
-      },
-      HDR: {
-        supported: true,
-        fpsOptions: ['40 FPS (High)'],
-        estimatedFps: 40,
-        fpsMin: 38,
-        fpsMax: 40,
-        stabilityScore: 94,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 19,
-        confidenceLevel: 'Verified',
-        notes: 'Capped at 40 FPS High on HDR.'
-      },
-      'Ultra HD': {
-        supported: false,
-        fpsOptions: [],
-        estimatedFps: 0,
-        fpsMin: 0,
-        fpsMax: 0,
-        stabilityScore: 0,
-        thermalRisk: 'Severe',
-        batteryDrainPerHour: 0,
-        confidenceLevel: 'Unsupported',
-        notes: 'Ultra HD graphics is not officially supported on Galaxy A55.'
-      }
-    },
-    pros: ['AMD RDNA 2 GPU architecture', 'Super AMOLED 120Hz display', 'Outstanding battery life'],
-    cons: ['90 FPS not unlocked in PUBG Mobile yet'],
-    verdict: 'Reliable mid-ranger that delivers dependable 60 FPS gaming with low temperatures.'
-  },
+  // --- SAMSUNG (GLOBAL REPOSITORY - 76+ VERIFIED & UNSUPPORTED MODELS) ---
+  ...SAMSUNG_DEVICES,
 
   // --- INFINIX ---
   {
@@ -1807,12 +1545,14 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
 export function searchDevices(query: string): DeviceInfo[] {
   const clean = query.trim().toLowerCase();
   if (!clean) return DEVICES_DATA;
-  return DEVICES_DATA.filter(
-    (d) =>
-      d.model.toLowerCase().includes(clean) ||
-      d.brand.toLowerCase().includes(clean) ||
-      d.chipset.toLowerCase().includes(clean)
-  );
+  
+  // Split query into terms to support multi-word queries like "samsung a03", "galaxy s24", "j2 core"
+  const terms = clean.split(/\s+/).filter(Boolean);
+
+  return DEVICES_DATA.filter((d) => {
+    const fullText = `${d.brand} ${d.model} ${d.chipset} ${d.slug} ${d.gpu} ${d.isUnsupportedHardware ? 'unsupported incompatible' : ''}`.toLowerCase();
+    return terms.every((term) => fullText.includes(term));
+  });
 }
 
 // Thermal throttling curve calculator over time
@@ -1852,6 +1592,34 @@ export function getThermalThrottledFps(
 }
 
 export function calculateFps(device: DeviceInfo, graphicsMode: GraphicsTier): FpsCalculationResult {
+  // Check for hardware insufficient / unsupported devices (e.g. Galaxy A03 Core, A02, J2 Core, J1 Ace)
+  if (device.isUnsupportedHardware || device.maxSupportedFps === 0) {
+    return {
+      device,
+      graphicsMode,
+      setting: {
+        supported: false,
+        fpsOptions: ['0 FPS (Unsupported)'],
+        estimatedFps: 0,
+        fpsMin: 0,
+        fpsMax: 0,
+        stabilityScore: 0,
+        thermalRisk: 'Severe',
+        batteryDrainPerHour: 0,
+        confidenceLevel: 'Unsupported',
+        notes: `${device.brand} ${device.model} does not meet PUBG Mobile minimum 64-bit OS & 3GB RAM requirements. Standard PUBG Mobile fails to boot or crashes on the spawn island.`
+      },
+      estimatedFps: 0,
+      fpsRange: [0, 0],
+      stability: 0,
+      performanceCategory: 'Hardware Incompatible / Unsupported',
+      statusDescription: 'Hardware Incompatible — PUBG Mobile Unsupported',
+      recommendation: `${device.brand} ${device.model} has insufficient RAM / CPU architecture for PUBG Mobile. The game will freeze, fail to install from Play Store, or crash immediately. A device with at least 40-60 FPS capability is recommended.`,
+      isVerified: true,
+      benchmarkSource: 'Hardware Architecture & PUBG Mobile Minimum Spec Matrix'
+    };
+  }
+
   const setting = device.graphicsModes[graphicsMode];
 
   if (!setting || !setting.supported) {

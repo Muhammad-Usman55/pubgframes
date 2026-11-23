@@ -1,6 +1,14 @@
 export type GraphicsTier = 'Smooth' | 'Balanced' | 'HD' | 'HDR' | 'Ultra HD';
 
-export type FpsOption = '30 FPS (Medium)' | '40 FPS (High)' | '60 FPS (Ultra)' | '90 FPS (Extreme)' | '120 FPS (Extreme+)';
+export type FpsOption =
+  | '0 FPS (Unsupported)'
+  | '20 FPS (Low)'
+  | '25 FPS (Low)'
+  | '30 FPS (Medium)'
+  | '40 FPS (High)'
+  | '60 FPS (Ultra)'
+  | '90 FPS (Extreme)'
+  | '120 FPS (Extreme+)';
 
 export interface GraphicsSettingPerformance {
   supported: boolean;
@@ -32,8 +40,8 @@ export interface DeviceInfo {
   gyroscope: 'Ultra Fast Hardware Gyro' | 'Hardware Gyro' | 'Software Gyro' | 'Not Supported';
   coolingSystem: string; // e.g. "Vapor Chamber Dual Loop"
   pubgOfficialPartner?: boolean;
-  maxSupportedFps: 30 | 40 | 60 | 90 | 120;
-  overallGamingRating: number; // 1-10 e.g. 9.4
+  maxSupportedFps: 0 | 20 | 25 | 30 | 40 | 60 | 90 | 120;
+  overallGamingRating: number; // 0-10 e.g. 9.4
   popularityRank: number;
   benchmarkDate: string;
   benchmarkSource: string;
@@ -41,6 +49,7 @@ export interface DeviceInfo {
   pros: string[];
   cons: string[];
   verdict: string;
+  isUnsupportedHardware?: boolean;
 }
 
 export interface FpsCalculationResult {
@@ -50,7 +59,7 @@ export interface FpsCalculationResult {
   estimatedFps: number;
   fpsRange: [number, number];
   stability: number;
-  performanceCategory: 'Competitive Elite' | 'Smooth & Fluid' | 'Playable Casual' | 'Challenging / Laggy' | 'Unsupported Setting';
+  performanceCategory: 'Competitive Elite' | 'Smooth & Fluid' | 'Playable Casual' | 'Challenging / Laggy' | 'Unsupported Setting' | 'Hardware Incompatible / Unsupported';
   statusDescription: string;
   recommendation: string;
   isVerified: boolean;
