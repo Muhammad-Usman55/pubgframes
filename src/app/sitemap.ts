@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
+import { DEVICES_DATA } from '@/data/devices';
 import { GUIDES_DATA } from '@/data/guides';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -43,7 +43,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5
     },
     {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6
+    },
+    {
       url: `${baseUrl}/disclaimer`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3
+    },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.3
+    },
+    {
+      url: `${baseUrl}/terms`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.3

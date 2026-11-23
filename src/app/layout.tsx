@@ -1,8 +1,21 @@
 import type { Metadata, Viewport } from 'next';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter'
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space'
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://pubgframes.com'),
@@ -68,7 +81,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#070A0D',
+  themeColor: '#080B0D',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -97,14 +110,14 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className={`dark scroll-smooth ${inter.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="bg-[#070A0D] tactical-grid-bg text-gray-100 antialiased min-h-screen flex flex-col selection:bg-[#FFD400] selection:text-black">
+      <body className="bg-[#080B0D] tactical-grid-bg text-gray-100 antialiased min-h-screen flex flex-col font-sans selection:bg-[#FFD400] selection:text-black">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
