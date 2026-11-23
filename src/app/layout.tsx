@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { MobileBottomNav } from '@/components/MobileBottomNav';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://pubgframes.com'),
@@ -67,10 +68,11 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#080B0D',
+  themeColor: '#070A0D',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5
+  maximumScale: 5,
+  viewportFit: 'cover'
 };
 
 export default function RootLayout({
@@ -78,7 +80,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // WebSite and SoftwareApplication Schema
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
@@ -103,10 +104,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="bg-[#080B0D] text-gray-100 antialiased min-h-screen flex flex-col selection:bg-[#FFD400] selection:text-black">
+      <body className="bg-[#070A0D] tactical-grid-bg text-gray-100 antialiased min-h-screen flex flex-col selection:bg-[#FFD400] selection:text-black">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <MobileBottomNav />
       </body>
     </html>
   );

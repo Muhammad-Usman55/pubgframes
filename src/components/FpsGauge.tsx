@@ -13,7 +13,7 @@ interface FpsGaugeProps {
 export const FpsGauge: React.FC<FpsGaugeProps> = ({
   fps,
   maxFps = 120,
-  size = 220,
+  size = 200,
   label = 'FPS',
   isUnsupported = false
 }) => {
@@ -21,7 +21,7 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
 
   useEffect(() => {
     const target = isUnsupported ? 0 : Math.min(fps, maxFps);
-    const duration = 900;
+    const duration = 800;
     const startTime = performance.now();
 
     const animate = (now: number) => {
@@ -39,24 +39,22 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
     requestAnimationFrame(animate);
   }, [fps, maxFps, isUnsupported]);
 
-  // Gauge angles: semi-circle from -180 deg (left) to 0 deg (right)
-  // mapped from 0 fps to maxFps (120)
   const clampedFps = isUnsupported ? 0 : Math.min(currentFps, maxFps);
   const ratio = clampedFps / maxFps;
   const needleAngle = -180 + ratio * 180; // from -180 (0 fps) to 0 (120 fps)
 
   // Color determination based on FPS tier
-  let fpsColor = '#39F56A'; // vibrant green default (60-90)
+  let fpsColor = '#39F56A'; // vibrant green default
   if (isUnsupported) fpsColor = '#EF4444';
-  else if (currentFps >= 110) fpsColor = '#28A9FF'; // 120 fps cyan/blue
+  else if (currentFps >= 110) fpsColor = '#28A9FF'; // 120 fps cyan
   else if (currentFps >= 85) fpsColor = '#39F56A'; // 90 fps neon green
   else if (currentFps >= 55) fpsColor = '#FFD400'; // 60 fps yellow
   else if (currentFps >= 35) fpsColor = '#FF9A24'; // 40 fps orange
   else fpsColor = '#EF4444'; // 30 or less red
 
   return (
-    <div className="flex flex-col items-center justify-center relative select-none" style={{ width: size }}>
-      <svg width={size} height={size * 0.65} viewBox="0 0 200 130" className="overflow-visible">
+    <div className="flex flex-col items-center justify-center relative select-none w-full max-w-[210px] mx-auto">
+      <svg viewBox="0 0 200 130" className="w-full h-auto overflow-visible">
         <defs>
           <linearGradient id="gauge_arc_gradient" x1="0%" y1="100%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#28A9FF" />    {/* Cyan / Blue */}
@@ -129,18 +127,18 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
       </svg>
 
       {/* Numerical FPS Readout */}
-      <div className="text-center -mt-4">
+      <div className="text-center -mt-3 sm:-mt-4">
         {isUnsupported ? (
-          <div className="text-red-500 font-black text-xl tracking-tight">UNSUPPORTED</div>
+          <div className="text-red-500 font-black text-lg sm:text-xl tracking-tight">UNSUPPORTED</div>
         ) : (
           <div className="flex flex-col items-center">
             <span
-              className="text-4xl md:text-5xl font-black tracking-tight leading-none transition-colors duration-300"
+              className="text-4xl sm:text-5xl font-black tracking-tight leading-none transition-colors duration-300 font-mono"
               style={{ color: fpsColor, textShadow: `0 0 20px ${fpsColor}40` }}
             >
               {currentFps}
             </span>
-            <span className="text-xs uppercase tracking-widest font-bold text-gray-400 mt-1">{label}</span>
+            <span className="text-[10px] sm:text-xs uppercase tracking-widest font-extrabold text-gray-400 mt-1">{label}</span>
           </div>
         )}
       </div>

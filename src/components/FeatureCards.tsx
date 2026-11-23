@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { TrendingUp, Scale, Lightbulb, Smartphone, ChevronRight } from 'lucide-react';
+import { soundEffects } from '@/utils/soundEffects';
 
 export const FeatureCards = () => {
   const features = [
@@ -43,32 +46,33 @@ export const FeatureCards = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {features.map((item, idx) => {
           const Icon = item.icon;
           return (
             <Link
               key={idx}
               href={item.href}
-              className={`group flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#171D21] border border-white/5 ${item.borderColor} transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
+              onClick={() => soundEffects.playClick()}
+              className={`group flex flex-col sm:flex-row sm:items-center justify-between p-3.5 sm:p-5 rounded-2xl bg-[#13181D] border border-white/5 ${item.borderColor} transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
             >
-              <div className="flex items-center gap-3.5">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3.5">
                 <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
+                  className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
                   style={{ backgroundColor: item.iconBg, color: item.iconColor }}
                 >
-                  <Icon className="w-5 h-5 stroke-[2.2]" />
+                  <Icon className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-white group-hover:text-yellow-400 transition-colors">
+                  <h3 className="text-xs sm:text-sm font-bold text-white group-hover:text-yellow-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-gray-400 mt-0.5">{item.description}</p>
+                  <p className="text-[11px] sm:text-xs text-gray-400 mt-0.5 line-clamp-1">{item.description}</p>
                 </div>
               </div>
 
-              <div className="w-7 h-7 rounded-full bg-[#101518] flex items-center justify-center text-gray-400 group-hover:text-white group-hover:bg-white/10 transition-colors">
+              <div className="hidden sm:flex w-7 h-7 rounded-full bg-[#0E1216] items-center justify-center text-gray-400 group-hover:text-white group-hover:bg-white/10 transition-colors">
                 <ChevronRight className="w-4 h-4" />
               </div>
             </Link>
