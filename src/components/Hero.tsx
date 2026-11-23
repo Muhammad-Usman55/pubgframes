@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Zap, Play, Check, Sparkles, Smartphone, ShieldCheck } from 'lucide-react';
 import { DemoModal } from './DemoModal';
+import { soundEffects } from '@/utils/soundEffects';
 
 export const Hero = () => {
   const [demoOpen, setDemoOpen] = useState(false);
@@ -42,6 +43,7 @@ export const Hero = () => {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
                 href="#fps-calculator"
+                onClick={() => soundEffects.playClick()}
                 className="inline-flex items-center gap-2.5 bg-[#FFD400] hover:bg-[#FFE033] text-black font-black text-base px-7 py-3.5 rounded-full shadow-[0_0_25px_rgba(255,212,0,0.4)] hover:shadow-[0_0_35px_rgba(255,212,0,0.6)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Zap className="w-5 h-5 fill-black stroke-black" />
@@ -50,8 +52,11 @@ export const Hero = () => {
               </a>
 
               <button
-                onClick={() => setDemoOpen(true)}
-                className="inline-flex items-center gap-2.5 bg-[#171D21] hover:bg-[#1F262B] text-white font-bold text-sm px-6 py-3.5 rounded-full border border-white/10 hover:border-white/20 transition-all"
+                onClick={() => {
+                  soundEffects.playClick();
+                  setDemoOpen(true);
+                }}
+                className="inline-flex items-center gap-2.5 bg-[#171D21] hover:bg-[#1F262B] text-white font-bold text-sm px-6 py-3.5 rounded-full border border-white/10 hover:border-white/20 transition-all cursor-pointer"
               >
                 <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                   <Play className="w-3 h-3 fill-white ml-0.5" />
@@ -132,7 +137,11 @@ export const Hero = () => {
               </div>
 
               {/* Decorative floating badge */}
-              <div className="absolute -bottom-2 -left-4 z-20 px-4 py-2.5 rounded-xl bg-[#171D21]/95 backdrop-blur-md border border-[#FFD400]/30 shadow-2xl flex items-center gap-3">
+              <a
+                href="#fps-calculator"
+                onClick={() => soundEffects.playClick()}
+                className="absolute -bottom-2 -left-4 z-20 px-4 py-2.5 rounded-xl bg-[#171D21]/95 backdrop-blur-md border border-[#FFD400]/30 shadow-2xl flex items-center gap-3 hover:scale-105 transition-transform"
+              >
                 <div className="w-8 h-8 rounded-lg bg-[#FFD400]/20 flex items-center justify-center text-[#FFD400]">
                   <Zap className="w-4 h-4 fill-current" />
                 </div>
@@ -140,7 +149,7 @@ export const Hero = () => {
                   <div className="text-[10px] uppercase font-bold text-gray-400">Optimal Mode</div>
                   <div className="text-xs font-black text-white">Smooth + 90 FPS</div>
                 </div>
-              </div>
+              </a>
 
             </div>
           </div>

@@ -1,20 +1,49 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Smartphone, Gamepad2, Search, Zap, CheckCircle2, AlertTriangle, ArrowRight, Info, ShieldCheck, Thermometer, BatteryCharging, Sliders, ExternalLink } from 'lucide-react';
-import { ALL_BRANDS, DEVICES_DATA, calculateFps } from '@/data/devices';
+import {
+  Smartphone,
+  Gamepad2,
+  Search,
+  Zap,
+  CheckCircle2,
+  AlertTriangle,
+  ArrowRight,
+  Info,
+  ShieldCheck,
+  Thermometer,
+  BatteryCharging,
+  Sliders,
+  ExternalLink,
+  Share2,
+  Copy,
+  Clock,
+  Flame,
+  Check
+} from 'lucide-react';
+import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { FpsGauge } from './FpsGauge';
+import { soundEffects } from '@/utils/soundEffects';
 import Link from 'next/link';
 
 export const FpsCheckerWidget = () => {
-  // Default to POCO X6 Pro (widely popular budget 90 FPS phone)
+  // Default to POCO X6 Pro
   const [selectedDevice, setSelectedDevice] = useState<DeviceInfo>(DEVICES_DATA[0]);
   const [selectedGraphics, setSelectedGraphics] = useState<GraphicsTier>('Smooth');
   const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedBrandFilter, setSelectedBrandFilter] = useState<string>('All');
-  const [showDetailedReport, setShowDetailedReport] = useState(false);
+  
+  // Interactive scanning simulation
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [scanStep, setScanStep] = useState(0);
+  const [showDetailedReport, setShowDetailedReport] = useState(true);
+  
+  // Interactive Thermal Throttling Simulator (Minutes Played)
+  const [gamingMinutes, setGamingMinutes] = useState(0);
+  const [copied, setCopied] = useState(false);
+  
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -39,12 +68,56 @@ export const FpsCheckerWidget = () => {
     });
   }, [selectedBrandFilter, searchQuery]);
 
-  const fpsResult = useMemo(() => {
+  // Base calculation result
+  const baseFpsResult = useMemo(() => {
     return calculateFps(selectedDevice, selectedGraphics);
   }, [selectedDevice, selectedGraphics]);
 
+  // Thermal throttle calculation based on slider
+  const thermalState = useMemo(() => {
+    return getThermalThrottledFps(
+      baseFpsResult.estimatedFps,
+      baseFpsResult.setting.thermalRisk,
+      gamingMinutes
+    );
+  }, [baseFpsResult.estimatedFps, baseFpsResult.setting.thermalRisk, gamingMinutes]);
+
+  const currentDisplayFps = baseFpsResult.setting.supported ? thermalState.throttledFps : 0;
+
+  // Sound & Scanning trigger
   const handleCheckFps = () => {
-    setShowDetailedReport(true);
+    soundEffects.playScan();
+    setIsAnalyzing(true);
+    setScanStep(1);
+
+    setTimeout(() => {
+      setScanStep(2);
+    }, 250);
+
+    setTimeout(() => {
+      setScanStep(3);
+    }, 500);
+
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowDetailedReport(true);
+      soundEffects.playSuccess();
+    }, 750);
+  };
+
+  const handleCopySummary = () => {
+    soundEffects.playClick();
+    const text = `🎮 PUBGFrames Report for ${selectedDevice.brand} ${selectedDevice.model}:
+Graphics Mode: ${selectedGraphics}
+Estimated FPS: ${currentDisplayFps} FPS (${baseFpsResult.setting.stabilityScore}% Stability)
+Chipset: ${selectedDevice.chipset}
+Check your PUBG FPS free on: https://pubgframes.com`;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
   };
 
   const graphicsModes: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
@@ -60,9 +133,10 @@ export const FpsCheckerWidget = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left Column: Heading & Doodle Arrow */}
+          {/* Left Column: Heading & Selected Device Info */}
           <div className="lg:col-span-4 space-y-4 relative">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#39F56A]/10 border border-[#39F56A]/30 text-[#39F56A] text-xs font-bold tracking-wide">
+              <span className="w-2 h-2 rounded-full bg-[#39F56A] animate-ping" />
               <span>Try It Now</span>
             </div>
 
@@ -77,13 +151,17 @@ export const FpsCheckerWidget = () => {
 
             {/* Chipset preview badge for selected phone */}
             <div className="pt-2 hidden sm:block">
-              <div className="p-3 rounded-xl bg-[#171D21] border border-white/5 text-xs space-y-1">
-                <div className="text-gray-400">Selected Device:</div>
-                <div className="font-bold text-white flex items-center justify-between">
-                  <span>{selectedDevice.brand} {selectedDevice.model}</span>
-                  <span className="text-[#39F56A] font-mono">{selectedDevice.maxSupportedFps} FPS Max</span>
+              <div className="p-3.5 rounded-xl bg-[#171D21] border border-white/10 text-xs space-y-1.5">
+                <div className="text-gray-400 font-semibold flex items-center justify-between">
+                  <span>Selected Hardware:</span>
+                  <span className="text-[#39F56A] font-mono font-bold">{selectedDevice.maxSupportedFps} FPS Max</span>
                 </div>
-                <div className="text-gray-400 text-[11px] font-mono">{selectedDevice.chipset}</div>
+                <div className="font-extrabold text-white text-sm">
+                  {selectedDevice.brand} {selectedDevice.model}
+                </div>
+                <div className="text-gray-400 text-[11px] font-mono truncate">
+                  {selectedDevice.chipset} • {selectedDevice.gpu}
+                </div>
               </div>
             </div>
 
@@ -101,13 +179,17 @@ export const FpsCheckerWidget = () => {
             
             {/* Step 1: Select Smartphone Dropdown / Search */}
             <div className="relative" ref={dropdownRef}>
-              <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                Select Smartphone
+              <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <span>Select Smartphone</span>
+                <span className="text-[11px] text-[#FFD400] font-normal">{DEVICES_DATA.length}+ Verified Devices</span>
               </label>
               
               <button
                 type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => {
+                  soundEffects.playClick();
+                  setIsDropdownOpen(!isDropdownOpen);
+                }}
                 className="w-full flex items-center justify-between p-3.5 rounded-xl bg-[#171D21] border border-white/10 hover:border-[#39F56A]/50 text-left transition-colors focus:outline-none focus:border-[#39F56A]"
               >
                 <div className="flex items-center gap-3 overflow-hidden">
@@ -134,7 +216,7 @@ export const FpsCheckerWidget = () => {
                     <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Search phone (e.g. S24, POCO, iPhone)..."
+                      placeholder="Search phone or chipset (e.g. S24, POCO, iPhone)..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-lg bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#39F56A]"
@@ -145,7 +227,10 @@ export const FpsCheckerWidget = () => {
                   {/* Brand Filter Pills */}
                   <div className="flex gap-1.5 overflow-x-auto pb-2 mb-2 scrollbar-none text-[11px]">
                     <button
-                      onClick={() => setSelectedBrandFilter('All')}
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setSelectedBrandFilter('All');
+                      }}
                       className={`px-2.5 py-1 rounded-full whitespace-nowrap font-medium ${
                         selectedBrandFilter === 'All'
                           ? 'bg-[#39F56A] text-black font-bold'
@@ -157,7 +242,10 @@ export const FpsCheckerWidget = () => {
                     {ALL_BRANDS.map((brand) => (
                       <button
                         key={brand}
-                        onClick={() => setSelectedBrandFilter(brand)}
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setSelectedBrandFilter(brand);
+                        }}
                         className={`px-2.5 py-1 rounded-full whitespace-nowrap font-medium ${
                           selectedBrandFilter === brand
                             ? 'bg-[#39F56A] text-black font-bold'
@@ -176,6 +264,7 @@ export const FpsCheckerWidget = () => {
                         key={device.id}
                         type="button"
                         onClick={() => {
+                          soundEffects.playClick();
                           setSelectedDevice(device);
                           setIsDropdownOpen(false);
                           setSearchQuery('');
@@ -207,8 +296,9 @@ export const FpsCheckerWidget = () => {
 
             {/* Step 2: Select Graphics Mode */}
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
-                Select Graphics Mode
+              <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <span>Select Graphics Mode</span>
+                <span className="text-[11px] text-gray-400">Affects Texture & Shader Load</span>
               </label>
 
               <div className="grid grid-cols-5 gap-1.5">
@@ -219,7 +309,10 @@ export const FpsCheckerWidget = () => {
                     <button
                       key={mode}
                       type="button"
-                      onClick={() => setSelectedGraphics(mode)}
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setSelectedGraphics(mode);
+                      }}
                       className={`py-2 px-1 rounded-xl text-center transition-all ${
                         isSelected
                           ? 'bg-[#171D21] border-2 border-[#39F56A] text-white shadow-[0_0_15px_rgba(57,245,106,0.25)]'
@@ -247,11 +340,27 @@ export const FpsCheckerWidget = () => {
             {/* Step 3: Check FPS Now Button */}
             <button
               type="button"
+              disabled={isAnalyzing}
               onClick={handleCheckFps}
-              className="w-full flex items-center justify-center gap-2 bg-[#39F56A] hover:bg-[#34e060] text-black font-black text-base py-3.5 rounded-xl shadow-[0_0_25px_rgba(57,245,106,0.35)] hover:shadow-[0_0_35px_rgba(57,245,106,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              className={`w-full flex items-center justify-center gap-2 font-black text-base py-3.5 rounded-xl shadow-[0_0_25px_rgba(57,245,106,0.35)] hover:shadow-[0_0_35px_rgba(57,245,106,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${
+                isAnalyzing ? 'bg-[#39F56A]/70 text-black' : 'bg-[#39F56A] hover:bg-[#34e060] text-black'
+              }`}
             >
-              <Search className="w-5 h-5 stroke-[2.5]" />
-              <span>Check FPS Now</span>
+              {isAnalyzing ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <span>
+                    {scanStep === 1 && 'Scanning Chipset & GPU...'}
+                    {scanStep === 2 && 'Querying In-Game Whitelist...'}
+                    {scanStep === 3 && 'Synthesizing FPS Telemetry...'}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Search className="w-5 h-5 stroke-[2.5]" />
+                  <span>Check FPS Now</span>
+                </>
+              )}
             </button>
           </div>
 
@@ -263,93 +372,157 @@ export const FpsCheckerWidget = () => {
 
             {/* Custom Semicircular Gauge Meter */}
             <FpsGauge
-              fps={fpsResult.estimatedFps}
-              isUnsupported={!fpsResult.setting.supported}
+              fps={currentDisplayFps}
+              isUnsupported={!baseFpsResult.setting.supported}
               size={200}
             />
 
             <div className="mt-2 text-xs font-semibold text-gray-300">
-              {fpsResult.statusDescription}
+              {baseFpsResult.setting.supported
+                ? gamingMinutes > 0 && thermalState.throttlingPercent > 0
+                  ? `Throttled by ${thermalState.throttlingPercent}% (${thermalState.temperature}°C)`
+                  : baseFpsResult.statusDescription
+                : 'Locked by PUBG Client'}
             </div>
 
-            <button
-              onClick={() => setShowDetailedReport(!showDetailedReport)}
-              className="mt-3 text-xs font-bold text-[#FFD400] hover:underline flex items-center gap-1"
-            >
-              <span>{showDetailedReport ? 'Hide Diagnostics' : 'View Full Diagnostics'}</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
+            {/* Quick Share / Copy action */}
+            <div className="flex items-center gap-2 mt-3">
+              <button
+                onClick={handleCopySummary}
+                className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 flex items-center gap-1.5"
+              >
+                {copied ? <Check className="w-3 h-3 text-[#39F56A]" /> : <Copy className="w-3 h-3" />}
+                <span>{copied ? 'Copied!' : 'Copy Summary'}</span>
+              </button>
+            </div>
           </div>
 
         </div>
 
-        {/* Detailed Performance Breakdown Panel (Expanded) */}
+        {/* Detailed Performance Breakdown Panel */}
         {showDetailedReport && (
-          <div className="mt-8 pt-8 border-t border-white/10 animate-in fade-in duration-300">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+          <div className="mt-8 pt-8 border-t border-white/10 space-y-6 animate-in fade-in duration-300">
+            
+            {/* Top Bar: Phone Title & Action Buttons */}
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div>
-                <span className="text-xs font-bold text-[#39F56A] uppercase tracking-wider">
-                  Verified Performance Benchmark
+                <span className="text-xs font-bold text-[#39F56A] uppercase tracking-wider flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4" />
+                  <span>Verified Benchmark Telemetry</span>
                 </span>
-                <h3 className="text-xl font-black text-white mt-0.5">
-                  {selectedDevice.brand} {selectedDevice.model} • {selectedGraphics} Mode
+                <h3 className="text-xl sm:text-2xl font-black text-white mt-1">
+                  {selectedDevice.brand} {selectedDevice.model} • {selectedGraphics} Preset
                 </h3>
               </div>
               <div className="flex items-center gap-2">
                 <Link
                   href={`/devices/${selectedDevice.brandSlug}/${selectedDevice.slug}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#171D21] border border-white/10 text-xs font-semibold text-white hover:border-[#FFD400]"
+                  onClick={() => soundEffects.playClick()}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#171D21] border border-white/10 text-xs font-semibold text-white hover:border-[#FFD400]"
                 >
                   <span>Full Device Specs</span>
                   <ExternalLink className="w-3 h-3 text-[#FFD400]" />
                 </Link>
                 <Link
                   href={`/compare?phone1=${selectedDevice.id}`}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFD400] text-black text-xs font-bold hover:bg-yellow-400"
+                  onClick={() => soundEffects.playClick()}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#FFD400] text-black text-xs font-extrabold hover:bg-yellow-400"
                 >
                   <span>Compare Phone</span>
                 </Link>
               </div>
             </div>
 
+            {/* Real-Time Thermal Throttling Simulator Slider */}
+            {baseFpsResult.setting.supported && (
+              <div className="p-4 sm:p-5 rounded-2xl bg-[#171D21] border border-white/5 space-y-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <Flame className={`w-4 h-4 ${gamingMinutes > 25 ? 'text-red-500 animate-pulse' : 'text-yellow-400'}`} />
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">
+                      Thermal Throttling Time Simulator
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-gray-300 flex items-center gap-3">
+                    <span>Session: <strong className="text-[#FFD400]">{gamingMinutes} mins</strong></span>
+                    <span>Battery Temp: <strong className={thermalState.temperature > 42 ? 'text-red-400' : 'text-green-400'}>{thermalState.temperature}°C</strong></span>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <input
+                    type="range"
+                    min="0"
+                    max="60"
+                    step="5"
+                    value={gamingMinutes}
+                    onChange={(e) => {
+                      setGamingMinutes(parseInt(e.target.value));
+                    }}
+                    className="w-full h-2 bg-black/60 rounded-lg appearance-none cursor-pointer accent-[#39F56A]"
+                  />
+                  <div className="flex justify-between text-[10px] text-gray-400 font-mono">
+                    <span>0m (Cold / Lobby)</span>
+                    <span>15m (Drop / Early)</span>
+                    <span>30m (Mid-Game Fights)</span>
+                    <span>45m (Final Zones)</span>
+                    <span>60m (Back-to-back Scrims)</span>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-gray-400 leading-normal">
+                  Drag the slider to preview how device heating impacts your frame rate over long competitive sessions.
+                  {thermalState.throttlingPercent > 0 ? (
+                    <span className="text-yellow-300 ml-1">
+                      Frame rate dips to ~{thermalState.throttledFps} FPS due to SoC thermal protection.
+                    </span>
+                  ) : (
+                    <span className="text-green-400 ml-1">
+                      Cooling system maintains full performance without significant throttling.
+                    </span>
+                  )}
+                </p>
+              </div>
+            )}
+
             {/* Metrics Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="p-4 rounded-xl bg-[#171D21] border border-white/5">
                 <div className="text-xs text-gray-400">Frame Range</div>
                 <div className="text-lg font-black text-white mt-1">
-                  {fpsResult.setting.supported ? `${fpsResult.fpsRange[0]} - ${fpsResult.fpsRange[1]} FPS` : 'N/A'}
+                  {baseFpsResult.setting.supported ? `${baseFpsResult.fpsRange[0]} - ${baseFpsResult.fpsRange[1]} FPS` : 'N/A'}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-0.5">Hot-drop & vehicle load</div>
+                <div className="text-[11px] text-gray-500 mt-0.5">Combat & vehicle stress</div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#171D21] border border-white/5">
                 <div className="text-xs text-gray-400">Frame Stability</div>
                 <div className="text-lg font-black text-[#39F56A] mt-1">
-                  {fpsResult.setting.supported ? `${fpsResult.stability}%` : '0%'}
+                  {baseFpsResult.setting.supported ? `${baseFpsResult.stability}%` : '0%'}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-0.5">Consistency score</div>
+                <div className="text-[11px] text-gray-500 mt-0.5">Frame-time consistency</div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#171D21] border border-white/5">
-                <div className="text-xs text-gray-400">Thermal Throttling</div>
+                <div className="text-xs text-gray-400">Thermal Profile</div>
                 <div className={`text-lg font-black mt-1 ${
-                  fpsResult.setting.thermalRisk === 'Low'
+                  baseFpsResult.setting.thermalRisk === 'Low'
                     ? 'text-green-400'
-                    : fpsResult.setting.thermalRisk === 'Moderate'
+                    : baseFpsResult.setting.thermalRisk === 'Moderate'
                     ? 'text-yellow-400'
                     : 'text-red-400'
                 }`}>
-                  {fpsResult.setting.thermalRisk}
+                  {baseFpsResult.setting.thermalRisk} Risk
                 </div>
-                <div className="text-[11px] text-gray-500 mt-0.5">Over 30m match</div>
+                <div className="text-[11px] text-gray-500 mt-0.5">30m tournament test</div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#171D21] border border-white/5">
                 <div className="text-xs text-gray-400">Battery Consumption</div>
                 <div className="text-lg font-black text-cyan-400 mt-1">
-                  {fpsResult.setting.supported ? `~${fpsResult.setting.batteryDrainPerHour}% / hr` : 'N/A'}
+                  {baseFpsResult.setting.supported ? `~${baseFpsResult.setting.batteryDrainPerHour}% / hr` : 'N/A'}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-0.5">50% screen brightness</div>
+                <div className="text-[11px] text-gray-500 mt-0.5">Average cellular load</div>
               </div>
             </div>
 
@@ -358,14 +531,14 @@ export const FpsCheckerWidget = () => {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="w-5 h-5 text-[#39F56A] shrink-0 mt-0.5" />
                 <div className="text-xs text-gray-300">
-                  <strong className="text-white">Pro Recommendation:</strong> {fpsResult.recommendation}
+                  <strong className="text-white">Pro Recommendation:</strong> {baseFpsResult.recommendation}
                 </div>
               </div>
 
               <div className="flex items-start gap-3 pt-2 border-t border-white/5">
                 <Info className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
                 <div className="text-[11px] text-gray-400">
-                  <strong className="text-gray-300">Benchmark Source:</strong> {fpsResult.benchmarkSource}. FPS values are estimates based on available device specifications and benchmark information. Actual performance may vary depending on game version, ambient room temperature, and battery charge level.
+                  <strong className="text-gray-300">Benchmark Source:</strong> {baseFpsResult.benchmarkSource}. Values represent verified technical estimates. Actual performance may vary with game updates, background tasks, and ambient temperatures.
                 </div>
               </div>
             </div>

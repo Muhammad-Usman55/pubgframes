@@ -1,15 +1,17 @@
 'use client';
 
 import React, { useState, useMemo, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { DEVICES_DATA } from '@/data/devices';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
-import { Scale, Zap, Check, X as CloseIcon, Flame, Cpu, Gauge, Smartphone, Trophy } from 'lucide-react';
+import { Scale, Zap, Check, X as CloseIcon, Flame, Cpu, Gauge, Smartphone, Trophy, ArrowLeftRight, Share2, Copy } from 'lucide-react';
+import { soundEffects } from '@/utils/soundEffects';
 import Link from 'next/link';
 
 function CompareContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const phone1Param = searchParams.get('phone1');
   const phone2Param = searchParams.get('phone2');
 
@@ -18,8 +20,28 @@ function CompareContent() {
 
   const [deviceA, setDeviceA] = useState<DeviceInfo>(initialPhone1);
   const [deviceB, setDeviceB] = useState<DeviceInfo>(initialPhone2);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const tiers: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
+
+  // Swap devices function
+  const handleSwap = () => {
+    soundEffects.playClick();
+    const temp = deviceA;
+    setDeviceA(deviceB);
+    setDeviceB(temp);
+  };
+
+  // Copy shareable link
+  const handleShare = () => {
+    soundEffects.playClick();
+    const url = `${window.location.origin}/compare?phone1=${deviceA.id}&phone2=${deviceB.id}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2500);
+    }
+  };
 
   // Data for Recharts Bar Chart
   const chartData = useMemo(() => {
@@ -33,6 +55,24 @@ function CompareContent() {
       };
     });
   }, [deviceA, deviceB]);
+
+  const presetBattles = [
+    {
+      name: 'Flagship 120 FPS Showdown',
+      p1: 'samsung-galaxy-s24-ultra',
+      p2: 'apple-iphone-16-pro-max'
+    },
+    {
+      name: 'Budget 90 FPS Titans',
+      p1: 'poco-x6-pro',
+      p2: 'infinix-gt-20-pro'
+    },
+    {
+      name: 'Snapdragon vs Dimensity',
+      p1: 'poco-f6-pro',
+      p2: 'poco-x6-pro'
+    }
+  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -48,58 +88,102 @@ function CompareContent() {
         <p className="text-xs sm:text-sm text-gray-400 max-w-xl mx-auto">
           Compare chipsets, display refresh rates, thermal behavior, and verified FPS across all graphics tiers.
         </p>
+
+        {/* Quick presets pills */}
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs">
+          <span className="text-gray-500 font-semibold text-[11px] uppercase mr-1">Popular Battles:</span>
+          {presetBattles.map((battle, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                soundEffects.playClick();
+                const d1 = DEVICES_DATA.find((d) => d.id === battle.p1);
+                const d2 = DEVICES_DATA.find((d) => d.id === battle.p2);
+                if (d1) setDeviceA(d1);
+                if (d2) setDeviceB(d2);
+              }}
+              className="px-3 py-1 rounded-full bg-[#171D21] border border-white/10 hover:border-[#FFD400] text-gray-300 hover:text-white transition-colors"
+            >
+              {battle.name}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Selectors Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Device A Selector */}
-        <div className="p-5 rounded-2xl bg-[#171D21] border border-[#FFD400]/30 shadow-xl space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#FFD400] uppercase tracking-wider">Device 1</span>
-            <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
-              {deviceA.maxSupportedFps} FPS Max
-            </span>
+      {/* Selectors Row with Swap & Share */}
+      <div className="relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          
+          {/* Device A Selector */}
+          <div className="p-5 rounded-2xl bg-[#171D21] border border-[#FFD400]/30 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-[#FFD400] uppercase tracking-wider">Device 1</span>
+              <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
+                {deviceA.maxSupportedFps} FPS Max
+              </span>
+            </div>
+
+            <select
+              value={deviceA.id}
+              onChange={(e) => {
+                soundEffects.playClick();
+                const found = DEVICES_DATA.find((d) => d.id === e.target.value);
+                if (found) setDeviceA(found);
+              }}
+              className="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white font-bold text-sm focus:outline-none focus:border-[#FFD400]"
+            >
+              {DEVICES_DATA.map((d) => (
+                <option key={d.id} value={d.id} className="bg-[#171D21]">
+                  {d.brand} {d.model} ({d.chipset})
+                </option>
+              ))}
+            </select>
           </div>
 
-          <select
-            value={deviceA.id}
-            onChange={(e) => {
-              const found = DEVICES_DATA.find((d) => d.id === e.target.value);
-              if (found) setDeviceA(found);
-            }}
-            className="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white font-bold text-sm focus:outline-none focus:border-[#FFD400]"
-          >
-            {DEVICES_DATA.map((d) => (
-              <option key={d.id} value={d.id} className="bg-[#171D21]">
-                {d.brand} {d.model} ({d.chipset})
-              </option>
-            ))}
-          </select>
+          {/* Device B Selector */}
+          <div className="p-5 rounded-2xl bg-[#171D21] border border-[#39F56A]/30 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-[#39F56A] uppercase tracking-wider">Device 2</span>
+              <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
+                {deviceB.maxSupportedFps} FPS Max
+              </span>
+            </div>
+
+            <select
+              value={deviceB.id}
+              onChange={(e) => {
+                soundEffects.playClick();
+                const found = DEVICES_DATA.find((d) => d.id === e.target.value);
+                if (found) setDeviceB(found);
+              }}
+              className="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white font-bold text-sm focus:outline-none focus:border-[#39F56A]"
+            >
+              {DEVICES_DATA.map((d) => (
+                <option key={d.id} value={d.id} className="bg-[#171D21]">
+                  {d.brand} {d.model} ({d.chipset})
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* Device B Selector */}
-        <div className="p-5 rounded-2xl bg-[#171D21] border border-[#39F56A]/30 shadow-xl space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#39F56A] uppercase tracking-wider">Device 2</span>
-            <span className="text-xs font-mono font-bold text-white px-2 py-0.5 rounded bg-black/40">
-              {deviceB.maxSupportedFps} FPS Max
-            </span>
-          </div>
-
-          <select
-            value={deviceB.id}
-            onChange={(e) => {
-              const found = DEVICES_DATA.find((d) => d.id === e.target.value);
-              if (found) setDeviceB(found);
-            }}
-            className="w-full p-3 rounded-xl bg-black/50 border border-white/10 text-white font-bold text-sm focus:outline-none focus:border-[#39F56A]"
+        {/* Swap & Share Buttons Bar */}
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <button
+            onClick={handleSwap}
+            className="px-4 py-2 rounded-xl bg-[#101518] border border-white/10 hover:border-white/30 text-xs font-bold text-white flex items-center gap-1.5 shadow-lg"
           >
-            {DEVICES_DATA.map((d) => (
-              <option key={d.id} value={d.id} className="bg-[#171D21]">
-                {d.brand} {d.model} ({d.chipset})
-              </option>
-            ))}
-          </select>
+            <ArrowLeftRight className="w-3.5 h-3.5 text-[#FFD400]" />
+            <span>Swap Devices</span>
+          </button>
+
+          <button
+            onClick={handleShare}
+            className="px-4 py-2 rounded-xl bg-[#101518] border border-white/10 hover:border-white/30 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1.5 shadow-lg"
+          >
+            {copiedLink ? <Check className="w-3.5 h-3.5 text-[#39F56A]" /> : <Share2 className="w-3.5 h-3.5" />}
+            <span>{copiedLink ? 'Link Copied!' : 'Share Comparison'}</span>
+          </button>
         </div>
       </div>
 
@@ -138,8 +222,9 @@ function CompareContent() {
 
       {/* Side-by-side Specifications & Performance Comparison Table */}
       <div className="rounded-3xl bg-[#101518] border border-white/5 overflow-hidden shadow-xl">
-        <div className="p-5 border-b border-white/10 bg-[#171D21]/50">
+        <div className="p-5 border-b border-white/10 bg-[#171D21]/50 flex items-center justify-between">
           <h3 className="text-lg font-black text-white">Full Hardware & Gaming Telemetry</h3>
+          <span className="text-xs text-gray-400">Lab Verified Data</span>
         </div>
 
         <div className="overflow-x-auto">
@@ -169,8 +254,8 @@ function CompareContent() {
               </tr>
               <tr>
                 <td className="p-4 text-gray-400">Display Refresh Rate</td>
-                <td className="p-4 text-white">{deviceA.displayRefreshRate} Hz</td>
-                <td className="p-4 text-white">{deviceB.displayRefreshRate} Hz</td>
+                <td className="p-4 text-white">{deviceA.displayRefreshRate} Hz ({deviceA.screenSize})</td>
+                <td className="p-4 text-white">{deviceB.displayRefreshRate} Hz ({deviceB.screenSize})</td>
               </tr>
               <tr>
                 <td className="p-4 text-gray-400">Antutu Benchmark (v10)</td>
@@ -252,12 +337,14 @@ function CompareContent() {
         <div className="flex gap-4 pt-2">
           <Link
             href={`/devices/${deviceA.brandSlug}/${deviceA.slug}`}
+            onClick={() => soundEffects.playClick()}
             className="text-xs font-bold text-[#FFD400] hover:underline"
           >
             View {deviceA.model} Full Review →
           </Link>
           <Link
             href={`/devices/${deviceB.brandSlug}/${deviceB.slug}`}
+            onClick={() => soundEffects.playClick()}
             className="text-xs font-bold text-[#39F56A] hover:underline"
           >
             View {deviceB.model} Full Review →

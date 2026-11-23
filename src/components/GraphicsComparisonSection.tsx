@@ -2,15 +2,16 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Sparkles, Eye, Zap, Shield, ArrowUpRight } from 'lucide-react';
+import { Sparkles, Eye, Zap, Shield, ArrowUpRight, Check } from 'lucide-react';
 import Link from 'next/link';
+import { soundEffects } from '@/utils/soundEffects';
 
 export const GraphicsComparisonSection = () => {
-  const [activeTab, setActiveTab] = useState<'Smooth' | 'Balanced' | 'HD' | 'Ultra HD'>('Smooth');
+  const [selectedMode, setSelectedMode] = useState<'Smooth' | 'Balanced' | 'HD' | 'Ultra HD'>('Smooth');
 
   const modes = [
     {
-      id: 'Smooth',
+      id: 'Smooth' as const,
       name: 'Smooth',
       badgeColor: '#39F56A',
       badgeBg: 'rgba(57, 245, 106, 0.15)',
@@ -18,10 +19,12 @@ export const GraphicsComparisonSection = () => {
       fpsBadgeBg: 'bg-[#101518]/90 text-white border border-[#39F56A]/50',
       image: '/gameplay/smooth.svg',
       tagline: 'Lowest Latency & Maximum Frame Rate',
+      resolution: 'Native Display Res',
+      shadows: 'Disabled for competitive visibility',
       description: 'Disables grass shadows and complex post-processing. Highly favored by 99% of competitive tournament players for maximum clarity and sub-10ms touch response.'
     },
     {
-      id: 'Balanced',
+      id: 'Balanced' as const,
       name: 'Balanced',
       badgeColor: '#28A9FF',
       badgeBg: 'rgba(40, 169, 255, 0.15)',
@@ -29,10 +32,12 @@ export const GraphicsComparisonSection = () => {
       fpsBadgeBg: 'bg-[#101518]/90 text-white border border-[#28A9FF]/50',
       image: '/gameplay/balanced.svg',
       tagline: 'Refined Visuals with Stable Frame Rates',
+      resolution: 'Balanced 1080p',
+      shadows: 'Low ambient occlusion',
       description: 'Adds ambient environmental shadows and subtle anti-aliasing without heavily dragging down the GPU. Ideal for mid-range and casual classic games.'
     },
     {
-      id: 'HD',
+      id: 'HD' as const,
       name: 'HD',
       badgeColor: '#A855F7',
       badgeBg: 'rgba(168, 85, 247, 0.15)',
@@ -40,10 +45,12 @@ export const GraphicsComparisonSection = () => {
       fpsBadgeBg: 'bg-[#101518]/90 text-white border border-[#A855F7]/50',
       image: '/gameplay/hd.svg',
       tagline: 'High Resolution Textures & HDR Depth',
+      resolution: 'High Res 1.5K',
+      shadows: 'Dynamic sun & terrain shadows',
       description: 'Crisp textures, realistic sunlight reflections, and vivid colors. Requires flagships with large vapor chambers to avoid thermal throttling after 20 minutes.'
     },
     {
-      id: 'Ultra HD',
+      id: 'Ultra HD' as const,
       name: 'Ultra HD',
       badgeColor: '#FF9A24',
       badgeBg: 'rgba(255, 154, 36, 0.15)',
@@ -51,6 +58,8 @@ export const GraphicsComparisonSection = () => {
       fpsBadgeBg: 'bg-[#101518]/90 text-white border border-[#FF9A24]/50',
       image: '/gameplay/ultrahd.svg',
       tagline: '4K Textures & Extreme Cinematic Fidelity',
+      resolution: '4K Ultra HD Pack',
+      shadows: 'Full real-time ray traced shadows',
       description: 'Extreme dynamic lighting and 4K resource pack. Demands maximum thermal and battery bandwidth, usually locked to 40 or 60 FPS by the PUBG client.'
     }
   ];
@@ -67,17 +76,27 @@ export const GraphicsComparisonSection = () => {
           <div className="w-12 h-px bg-yellow-500/40" />
         </div>
         <p className="text-xs sm:text-sm text-gray-400">
-          See how different graphics modes affect your FPS
+          See how different graphics modes affect your FPS • Click any card to preview
         </p>
       </div>
 
-      {/* 4 Cards Grid matching the mockup */}
+      {/* 4 Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {modes.map((mode) => {
+          const isSelected = selectedMode === mode.id;
+
           return (
             <div
               key={mode.id}
-              className="group rounded-2xl bg-[#171D21] border border-white/5 hover:border-white/20 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col"
+              onClick={() => {
+                soundEffects.playClick();
+                setSelectedMode(mode.id);
+              }}
+              className={`group rounded-2xl bg-[#171D21] border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl flex flex-col cursor-pointer ${
+                isSelected
+                  ? 'border-[#FFD400] shadow-[0_0_20px_rgba(255,212,0,0.25)]'
+                  : 'border-white/5 hover:border-white/20'
+              }`}
             >
               {/* Gameplay preview image box */}
               <div className="relative aspect-[16/10] overflow-hidden bg-black">
@@ -101,6 +120,13 @@ export const GraphicsComparisonSection = () => {
                 <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-md text-[11px] font-mono font-black backdrop-blur-md shadow-md ${mode.fpsBadgeBg}`}>
                   {mode.fpsTag}
                 </div>
+
+                {/* Selection indicator pill */}
+                {isSelected && (
+                  <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-[#FFD400] text-black text-[10px] font-black uppercase tracking-wider shadow">
+                    Active Preview
+                  </div>
+                )}
 
                 {/* Subtle gradient vignette */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#171D21] via-transparent to-transparent pointer-events-none" />
@@ -129,9 +155,19 @@ export const GraphicsComparisonSection = () => {
         })}
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="mt-8 text-center flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="#fps-calculator"
+          onClick={() => soundEffects.playClick()}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#171D21] border border-[#39F56A]/40 text-[#39F56A] text-xs font-bold hover:bg-[#39F56A]/10 transition-colors"
+        >
+          <Zap className="w-3.5 h-3.5" />
+          <span>Test {selectedMode} Mode on Your Smartphone Above</span>
+        </a>
+
         <Link
           href="/guides/understanding-smooth-vs-hd-graphics"
+          onClick={() => soundEffects.playClick()}
           className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FFD400] hover:underline"
         >
           <span>Read our deep-dive analysis: Why Pros Never Play on HD Graphics</span>
