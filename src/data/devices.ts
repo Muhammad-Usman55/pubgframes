@@ -2,6 +2,7 @@ import { DeviceInfo, FpsCalculationResult, GraphicsTier } from '@/types/device';
 import { SAMSUNG_DEVICES } from './samsungDevices';
 import { APPLE_DEVICES } from './appleDevices';
 import { OPPO_DEVICES } from './oppoDevices';
+import { PIXEL_DEVICES } from './pixelDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -1080,95 +1081,8 @@ export const DEVICES_DATA: DeviceInfo[] = [
     verdict: 'The purest dedicated gaming phone ever crafted. Unmatched frame consistency and ergonomic gaming features.'
   },
 
-  // --- GOOGLE PIXEL ---
-  {
-    id: 'google-pixel-8-pro',
-    brand: 'Google Pixel',
-    model: 'Pixel 8 Pro',
-    slug: 'pixel-8-pro',
-    brandSlug: 'google-pixel',
-    releaseYear: 2023,
-    chipset: 'Google Tensor G3 (4nm)',
-    gpu: 'Immortalis-G715s MC10',
-    ramOptions: ['12GB LPDDR5X'],
-    displayRefreshRate: 120,
-    screenSize: '6.7" Super Actua LTPO OLED 120Hz',
-    batteryCapacity: 5050,
-    antutuScore: 1140000,
-    gyroscope: 'Hardware Gyro',
-    coolingSystem: 'Copper vapor and graphite layer',
-    pubgOfficialPartner: false,
-    maxSupportedFps: 60,
-    overallGamingRating: 7.8,
-    popularityRank: 18,
-    benchmarkDate: '2024-08-10',
-    benchmarkSource: 'Verified Android 14 Lab Tests',
-    graphicsModes: {
-      Smooth: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 54,
-        fpsMax: 60,
-        stabilityScore: 88,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 19,
-        confidenceLevel: 'Verified',
-        notes: 'Locked to 60 FPS max in PUBG Mobile. Tensor G3 warms up after 20 minutes, yielding minor frame dips to ~53 FPS.'
-      },
-      Balanced: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 53,
-        fpsMax: 60,
-        stabilityScore: 86,
-        thermalRisk: 'Moderate',
-        batteryDrainPerHour: 20,
-        confidenceLevel: 'Verified',
-        notes: 'Good 60 FPS performance.'
-      },
-      HD: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 50,
-        fpsMax: 60,
-        stabilityScore: 82,
-        thermalRisk: 'High',
-        batteryDrainPerHour: 22,
-        confidenceLevel: 'Verified',
-        notes: 'Playable 50-60 FPS; heats up noticeably.'
-      },
-      HDR: {
-        supported: true,
-        fpsOptions: ['60 FPS (Ultra)'],
-        estimatedFps: 60,
-        fpsMin: 48,
-        fpsMax: 60,
-        stabilityScore: 80,
-        thermalRisk: 'High',
-        batteryDrainPerHour: 24,
-        confidenceLevel: 'Verified',
-        notes: 'Drops frames during artillery and smoke barrages.'
-      },
-      'Ultra HD': {
-        supported: false,
-        fpsOptions: [],
-        estimatedFps: 0,
-        fpsMin: 0,
-        fpsMax: 0,
-        stabilityScore: 0,
-        thermalRisk: 'Severe',
-        batteryDrainPerHour: 0,
-        confidenceLevel: 'Unsupported',
-        notes: 'Not supported.'
-      }
-    },
-    pros: ['Magnificent Super Actua flat display', 'Clean Android experience'],
-    cons: ['Tensor G3 throttles under sustained 3D load', 'No 90 FPS support'],
-    verdict: 'Great camera phone that can handle casual 60 FPS PUBG, but not recommended for hardcore competitive grinders.'
-  },
+  // --- GOOGLE PIXEL (GLOBAL REPOSITORY - 24+ MODELS) ---
+  ...PIXEL_DEVICES,
 
   // --- TECNO ---
   {
@@ -1279,9 +1193,14 @@ export function getDeviceBySlug(slug: string): DeviceInfo | undefined {
 }
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
-  return DEVICES_DATA.filter(
-    (d) => d.brand.toLowerCase() === brand.toLowerCase() || d.brandSlug.toLowerCase() === brand.toLowerCase()
-  );
+  const b = brand.toLowerCase();
+  return DEVICES_DATA.filter((d) => {
+    const brandLower = d.brand.toLowerCase();
+    const slugLower = d.brandSlug.toLowerCase();
+    if (brandLower === b || slugLower === b) return true;
+    if ((b === 'google' || b === 'pixel' || b === 'google-pixel') && (brandLower.includes('google') || slugLower.includes('google'))) return true;
+    return false;
+  });
 }
 
 export function searchDevices(query: string): DeviceInfo[] {
