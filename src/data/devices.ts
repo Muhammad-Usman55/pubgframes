@@ -7,6 +7,7 @@ import { HUAWEI_DEVICES } from './huaweiDevices';
 import { XIAOMI_DEVICES } from './xiaomiDevices';
 import { POCO_DEVICES } from './pocoDevices';
 import { REDMI_DEVICES } from './redmiDevices';
+import { VIVO_DEVICES } from './vivoDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -1091,6 +1092,9 @@ export const DEVICES_DATA: DeviceInfo[] = [
   // --- HUAWEI (GLOBAL REPOSITORY - 71+ MODELS) ---
   ...HUAWEI_DEVICES,
 
+  // --- VIVO (GLOBAL REPOSITORY - 35+ MODELS) ---
+  ...VIVO_DEVICES,
+
   // --- TECNO ---
   {
     id: 'tecno-camon-30-pro',
@@ -1209,6 +1213,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if ((b === 'xiaomi' || b === 'mi') && (brandLower === 'xiaomi' || slugLower === 'xiaomi')) return true;
     if (b === 'poco' && (brandLower === 'poco' || slugLower === 'poco')) return true;
     if (b === 'redmi' && (brandLower === 'redmi' || slugLower === 'redmi')) return true;
+    if (b === 'vivo' && (brandLower === 'vivo' || slugLower === 'vivo')) return true;
     return false;
   });
 }
