@@ -4,6 +4,9 @@ import { APPLE_DEVICES } from './appleDevices';
 import { OPPO_DEVICES } from './oppoDevices';
 import { PIXEL_DEVICES } from './pixelDevices';
 import { HUAWEI_DEVICES } from './huaweiDevices';
+import { XIAOMI_DEVICES } from './xiaomiDevices';
+import { POCO_DEVICES } from './pocoDevices';
+import { REDMI_DEVICES } from './redmiDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -1203,6 +1206,9 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     const slugLower = d.brandSlug.toLowerCase();
     if (brandLower === b || slugLower === b) return true;
     if ((b === 'google' || b === 'pixel' || b === 'google-pixel') && (brandLower.includes('google') || slugLower.includes('google'))) return true;
+    if ((b === 'xiaomi' || b === 'mi') && (brandLower === 'xiaomi' || slugLower === 'xiaomi')) return true;
+    if (b === 'poco' && (brandLower === 'poco' || slugLower === 'poco')) return true;
+    if (b === 'redmi' && (brandLower === 'redmi' || slugLower === 'redmi')) return true;
     return false;
   });
 }
