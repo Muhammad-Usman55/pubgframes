@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { Smartphone, Search, Zap, SlidersHorizontal, ArrowUpRight, Scale, CheckCircle2 } from 'lucide-react';
+import { AdBanner } from '@/components/AdBanner';
 
 export default function DevicesCatalogPage() {
   const [search, setSearch] = useState('');
@@ -120,6 +121,9 @@ export default function DevicesCatalogPage() {
           ))}
         </div>
       </div>
+
+      {/* In-feed Google Ad Unit */}
+      <AdBanner format="leaderboard" slot="pubgframes_devices_catalog" />
 
       {/* Device Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -37,20 +37,28 @@ export const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#080B0D]/90 backdrop-blur-md border-b border-white/5 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo */}
+        {/* Brand Logo with Tab-Matching Custom Reticle */}
         <Link
           href="/"
           onClick={() => soundEffects.playClick()}
-          className="flex items-center gap-2.5 group"
+          className="flex items-center gap-3 group"
         >
-          <div className="relative w-8 h-8 flex items-center justify-center">
-            {/* Corner brackets icon in yellow */}
-            <div className="absolute inset-0 border-2 border-[#FFD400] rounded-sm pointer-events-none group-hover:scale-105 transition-transform" />
-            <div className="w-2.5 h-2.5 bg-[#FFD400] rounded-xs" />
+          <div className="relative w-9 h-9 rounded-xl bg-[#0F141C] border border-[#FFD400]/40 flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(255,212,0,0.18)] group-hover:border-[#FFD400] transition-colors">
+            {/* Custom Reticle Vector */}
+            <svg viewBox="0 0 64 64" className="w-full h-full" fill="none">
+              <path d="M14 22v-8h8M42 14h8v8M14 42v8h8M42 50h8v-8" stroke="#FFD400" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="32" cy="32" r="10" stroke="#39F56A" strokeWidth="3" />
+              <circle cx="32" cy="32" r="3.5" fill="#FFD400" />
+            </svg>
           </div>
-          <span className="text-xl md:text-2xl font-black tracking-tight text-white flex items-center">
-            PUBG<span className="text-[#FFD400]">Frames</span>
-          </span>
+          <div className="flex flex-col">
+            <span className="text-xl md:text-2xl font-black tracking-tight text-white flex items-center leading-none">
+              PUBG<span className="text-[#FFD400]">Frames</span>
+            </span>
+            <span className="text-[10px] font-mono tracking-widest text-[#39F56A] font-bold uppercase mt-0.5">
+              628+ Devices • v3.5
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}

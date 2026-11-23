@@ -67,6 +67,19 @@ export const metadata: Metadata = {
       'Check real-time FPS estimates, compare graphics modes, and find the best gaming phones for PUBG Mobile.',
     images: ['/hero-reference.jpg']
   },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: [
+      { url: '/icon.svg', sizes: '180x180', type: 'image/svg+xml' }
+    ],
+    shortcut: ['/icon.svg']
+  },
+  other: {
+    'google-adsense-account': process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-pubgframes'
+  },
   robots: {
     index: true,
     follow: true,
@@ -95,18 +108,50 @@ export default function RootLayout({
 }>) {
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'PUBGFrames',
-    url: 'https://pubgframes.com',
-    applicationCategory: 'GameApplication',
-    operatingSystem: 'Android, iOS',
-    description:
-      'Smartphone gaming performance information platform and FPS estimator for PUBG Mobile players.',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD'
-    }
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://pubgframes.com/#website',
+        url: 'https://pubgframes.com',
+        name: 'PUBGFrames',
+        description: 'Verified PUBG Mobile FPS & Hardware Benchmark Database for 628+ Smartphones',
+        publisher: {
+          '@type': 'Organization',
+          '@id': 'https://pubgframes.com/#organization',
+          name: 'PUBGFrames Gaming Labs',
+          url: 'https://pubgframes.com',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://pubgframes.com/icon.svg',
+            width: 512,
+            height: 512
+          }
+        },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://pubgframes.com/devices?q={search_term_string}'
+          },
+          'query-input': 'required name=search_term_string'
+        }
+      },
+      {
+        '@type': 'WebApplication',
+        '@id': 'https://pubgframes.com/#webapp',
+        name: 'PUBGFrames FPS Estimator',
+        url: 'https://pubgframes.com',
+        applicationCategory: 'GameApplication',
+        operatingSystem: 'Android, iOS',
+        description:
+          'Smartphone gaming performance information platform and FPS estimator for PUBG Mobile players.',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD'
+        }
+      }
+    ]
   };
 
   return (

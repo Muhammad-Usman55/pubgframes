@@ -6,12 +6,18 @@ import { GraphicsComparisonSection } from '@/components/GraphicsComparisonSectio
 import { StatsTrustBar } from '@/components/StatsTrustBar';
 import { UserReviews } from '@/components/UserReviews';
 import { CtaBanner } from '@/components/CtaBanner';
+import { AdBanner } from '@/components/AdBanner';
 
 export default function HomePage() {
   return (
     <div className="space-y-4">
       {/* 1. Hero Section matching mockup */}
       <Hero />
+
+      {/* High-visibility Google AdSlot (Top Leaderboard) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AdBanner format="leaderboard" slot="pubgframes_home_top" />
+      </div>
 
       {/* 2. 4 Feature Cards row */}
       <FeatureCards />
@@ -22,10 +28,15 @@ export default function HomePage() {
       {/* 4. FPS in Different Settings Section */}
       <GraphicsComparisonSection />
 
+      {/* Mid-Page Sponsor / In-feed Banner */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AdBanner format="horizontal-strip" slot="pubgframes_home_mid" />
+      </div>
+
       {/* 5. Trust / Statistics Bar with Golden PUBG Level 3 Helmet */}
       <StatsTrustBar />
 
-      {/* 6. What Our Users Say */}
+      {/* 6. Leaderboard & Telemetry Benchmarks */}
       <UserReviews />
 
       {/* 7. Ready to Check Your PUBG FPS CTA Banner */}

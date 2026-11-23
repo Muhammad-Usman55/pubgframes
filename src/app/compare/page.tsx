@@ -8,6 +8,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, Cart
 import { Scale, Zap, Check, X as CloseIcon, Flame, Cpu, Gauge, Smartphone, Trophy, ArrowLeftRight, Share2, Copy } from 'lucide-react';
 import { soundEffects } from '@/utils/soundEffects';
 import Link from 'next/link';
+import { AdBanner } from '@/components/AdBanner';
 
 function CompareContent() {
   const searchParams = useSearchParams();
@@ -359,6 +360,9 @@ function CompareContent() {
           </Link>
         </div>
       </div>
+
+      {/* Ad Unit below comparison */}
+      <AdBanner format="leaderboard" slot="pubgframes_compare_bottom" />
     </div>
   );
 }

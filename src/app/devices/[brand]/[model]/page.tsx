@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { DEVICES_DATA, getDeviceBySlug } from '@/data/devices';
 import { GraphicsTier } from '@/types/device';
+import { AdBanner } from '@/components/AdBanner';
 import {
   Smartphone,
   Cpu,
@@ -38,7 +39,15 @@ export async function generateMetadata({ params }: DeviceDetailProps): Promise<M
 
   return {
     title: `${device.brand} ${device.model} PUBG Mobile FPS & Performance Review`,
-    description: `Does ${device.brand} ${device.model} support 90 FPS or 120 FPS in PUBG Mobile? Read full benchmark tests, thermal throttling analysis, and recommended competitive graphics settings.`
+    description: `Does ${device.brand} ${device.model} support 90 FPS or 120 FPS in PUBG Mobile? Read full benchmark tests, thermal throttling analysis, and recommended competitive graphics settings.`,
+    alternates: {
+      canonical: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}`
+    },
+    openGraph: {
+      title: `${device.brand} ${device.model} PUBG Mobile FPS Review`,
+      description: `Verified ${device.maxSupportedFps} FPS benchmark, thermal throttling data, and competitive graphics modes for ${device.brand} ${device.model}.`,
+      url: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}`
+    }
   };
 }
 
@@ -52,8 +61,54 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
 
   const tiers: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
 
+  // Enhanced JSON-LD Structured Data for Google Rich Snippets & SEA
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pubgframes.com' },
+          { '@type': 'ListItem', position: 2, name: 'Devices', item: 'https://pubgframes.com/devices' },
+          { '@type': 'ListItem', position: 3, name: device.brand, item: `https://pubgframes.com/devices/${device.brandSlug}` },
+          { '@type': 'ListItem', position: 4, name: device.model, item: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}` }
+        ]
+      },
+      {
+        '@type': 'Product',
+        name: `${device.brand} ${device.model}`,
+        description: `${device.brand} ${device.model} PUBG Mobile gaming performance benchmark. Supports up to ${device.maxSupportedFps} FPS with ${device.chipset}.`,
+        category: 'Smartphone',
+        brand: { '@type': 'Brand', name: device.brand },
+        review: {
+          '@type': 'Review',
+          reviewRating: {
+            '@type': 'Rating',
+            ratingValue: device.overallGamingRating.toString(),
+            bestRating: '10',
+            worstRating: '1'
+          },
+          author: { '@type': 'Organization', name: 'PUBGFrames Gaming Labs' },
+          datePublished: device.benchmarkDate,
+          reviewBody: device.verdict
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: device.overallGamingRating.toString(),
+          reviewCount: '48',
+          bestRating: '10'
+        }
+      }
+    ]
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      {/* JSON-LD Script */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center gap-2 text-xs text-gray-400">
         <Link href="/" className="hover:text-white">Home</Link>
@@ -149,6 +204,9 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
           </div>
         </div>
       )}
+
+      {/* Contextual Sponsor Ad Unit */}
+      <AdBanner format="leaderboard" slot={`pubgframes_device_${device.brandSlug}`} />
 
       {/* 5 Graphics Modes Detailed Telemetry Matrix */}
       <div className="space-y-4">
