@@ -185,6 +185,7 @@ export const Footer = () => {
             <Link href="/compare" className="hover:text-gray-300">Compare</Link>
             <Link href="/guides" className="hover:text-gray-300">Guides</Link>
             <Link href="/contact" className="hover:text-gray-300">Contact</Link>
+            <Link href="/admin" className="text-gray-500 hover:text-[#FFD400] font-semibold">Admin</Link>
           </div>
           <p>© 2026 PUBGFrames. All rights reserved.</p>
         </div>
