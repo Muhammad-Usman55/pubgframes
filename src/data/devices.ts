@@ -10,6 +10,7 @@ import { REDMI_DEVICES } from './redmiDevices';
 import { VIVO_DEVICES } from './vivoDevices';
 import { MOTOROLA_DEVICES } from './motorolaDevices';
 import { LG_DEVICES } from './lgDevices';
+import { QMOBILE_DEVICES } from './qmobileDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1203,7 +1204,10 @@ const RAW_DEVICES: DeviceInfo[] = [
   ...MOTOROLA_DEVICES,
 
   // --- LG (GLOBAL REPOSITORY - 31+ MODELS) ---
-  ...LG_DEVICES
+  ...LG_DEVICES,
+
+  // --- QMOBILE (PAKISTANI REPOSITORY - 23+ MODELS) ---
+  ...QMOBILE_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug ensuring clean uniqueness across static generation
@@ -1242,6 +1246,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if (b === 'vivo' && (brandLower === 'vivo' || slugLower === 'vivo')) return true;
     if ((b === 'motorola' || b === 'moto') && (brandLower === 'motorola' || slugLower === 'motorola')) return true;
     if (b === 'lg' && (brandLower === 'lg' || slugLower === 'lg')) return true;
+    if ((b === 'qmobile' || b === 'q-mobile' || b === 'q mobile') && (brandLower === 'qmobile' || slugLower === 'qmobile')) return true;
     return false;
   });
 }
