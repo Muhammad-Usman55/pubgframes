@@ -1,6 +1,7 @@
 import { DeviceInfo, FpsCalculationResult, GraphicsTier } from '@/types/device';
 import { SAMSUNG_DEVICES } from './samsungDevices';
 import { APPLE_DEVICES } from './appleDevices';
+import { OPPO_DEVICES } from './oppoDevices';
 
 export const DEVICES_DATA: DeviceInfo[] = [
   // --- POCO ---
@@ -1257,7 +1258,10 @@ export const DEVICES_DATA: DeviceInfo[] = [
     pros: ['Dimensity 8200 Ultimate at an affordable price', 'Fast 144Hz AMOLED screen', 'Official 90 FPS support'],
     cons: ['HiOS software notifications need tuning'],
     verdict: 'A sleeper hit budget gaming smartphone running PUBG at 90 FPS with surprising consistency.'
-  }
+  },
+
+  // --- OPPO (GLOBAL REPOSITORY - 37+ MODELS) ---
+  ...OPPO_DEVICES
 ];
 
 export const ALL_BRANDS = Array.from(new Set(DEVICES_DATA.map((d) => d.brand))).sort();
