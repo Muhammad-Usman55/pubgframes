@@ -9,6 +9,7 @@ import { POCO_DEVICES } from './pocoDevices';
 import { REDMI_DEVICES } from './redmiDevices';
 import { VIVO_DEVICES } from './vivoDevices';
 import { MOTOROLA_DEVICES } from './motorolaDevices';
+import { LG_DEVICES } from './lgDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1199,7 +1200,10 @@ const RAW_DEVICES: DeviceInfo[] = [
   ...REDMI_DEVICES,
 
   // --- MOTOROLA (GLOBAL REPOSITORY - 28+ MODELS) ---
-  ...MOTOROLA_DEVICES
+  ...MOTOROLA_DEVICES,
+
+  // --- LG (GLOBAL REPOSITORY - 31+ MODELS) ---
+  ...LG_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug ensuring clean uniqueness across static generation
@@ -1237,6 +1241,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if (b === 'redmi' && (brandLower === 'redmi' || slugLower === 'redmi')) return true;
     if (b === 'vivo' && (brandLower === 'vivo' || slugLower === 'vivo')) return true;
     if ((b === 'motorola' || b === 'moto') && (brandLower === 'motorola' || slugLower === 'motorola')) return true;
+    if (b === 'lg' && (brandLower === 'lg' || slugLower === 'lg')) return true;
     return false;
   });
 }
