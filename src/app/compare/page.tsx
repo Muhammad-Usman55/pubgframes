@@ -2,12 +2,12 @@
 
 import React, { useState, useMemo, Suspense, useRef, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { DEVICES_DATA } from '@/data/devices';
+import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
-import { ArrowLeftRight, Share2, Check, Search } from 'lucide-react';
+import { ArrowLeftRight, Share2, Check, Search, Smartphone, X } from 'lucide-react';
 import { soundEffects } from '@/utils/soundEffects';
 import Link from 'next/link';
 import { AdBanner } from '@/components/AdBanner';
@@ -16,16 +16,20 @@ function SearchableDeviceSelect({
   label,
   selected,
   onSelect,
-  accentColor
+  accentColor,
+  inputId
 }: {
   label: string;
   selected: DeviceInfo;
   onSelect: (d: DeviceInfo) => void;
   accentColor: string;
+  inputId: string;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [brandFilter, setBrandFilter] = useState('All');
   const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -36,78 +40,172 @@ function SearchableDeviceSelect({
   }, []);
 
   const matches = useMemo(
-    () => searchDevicesWithFuzzy(DEVICES_DATA, query, { limit: 60 }),
-    [query]
+    () => searchDevicesWithFuzzy(DEVICES_DATA, query, { brandFilter, limit: 120 }),
+    [query, brandFilter]
   );
 
   return (
-    <div ref={ref} data-ui="compare-picker" className="relative p-5 rounded-lg bg-[#ffffff] border border-[#e2e5ea] space-y-3">
-      <div className="flex items-center justify-between">
-        <span className="text-[14px] font-semibold" style={{ color: accentColor }}>
-          {label}
-        </span>
-        <span className="text-[13px] font-semibold tabular-nums px-2.5 py-0.5 rounded bg-[#eef0f3] text-[#0b0c0e]">
+    <div ref={ref} data-ui="compare-picker" className="relative p-4 sm:p-5 rounded-lg bg-[#ffffff] space-y-3">
+      <div className="flex items-center justify-between gap-2">
+        <label htmlFor={inputId} className="text-sm font-semibold" style={{ color: accentColor }}>
+          {label} ({DEVICES_DATA.length.toLocaleString()} devices)
+        </label>
+        <span className="text-sm font-semibold tabular-nums px-2.5 py-0.5 rounded bg-[#eef0f3] text-[#0b0c0e]">
           {selected.maxSupportedFps === 0 ? 'Unsupported' : `${selected.maxSupportedFps} FPS Max`}
         </span>
       </div>
 
-      <button
-        type="button"
-        onClick={() => {
-          soundEffects.playClick();
-          setOpen(!open);
-        }}
-        className="w-full p-3 rounded-md bg-[#f6f7f9] border border-[#d6dbe3] hover:border-[#0b0c0e] text-left flex items-center justify-between transition-colors duration-150 cursor-pointer"
-      >
-        <div className="truncate">
-          <div className="text-base font-semibold text-[#0b0c0e] truncate">
-            {formatDeviceName(selected.brand, selected.model)}
-          </div>
-          <div className="text-sm text-[#3d4350] truncate">{selected.chipset}</div>
-        </div>
-        <span className="text-sm font-medium text-[#3d4350] ml-3 shrink-0">
-          {open ? 'Close' : 'Change'}
-        </span>
-      </button>
+      {/* Direct Search Input ABOVE Selected Device */}
+      <div className="relative">
+        <Search className="w-4 h-4 text-[#3d4350] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+        <input
+          ref={inputRef}
+          id={inputId}
+          type="text"
+          placeholder={`Search ${label.toLowerCase()} (e.g. note 12, s24, poco)...`}
+          value={query}
+          onFocus={() => setOpen(true)}
+          onClick={() => setOpen(true)}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setOpen(true);
+          }}
+          className="w-full pl-10 pr-10 py-2.5 text-base rounded-md bg-[#eef0f3] text-[#0b0c0e] placeholder-[#3d4350] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
+          autoComplete="off"
+        />
+        {query && (
+          <button
+            type="button"
+            onClick={() => {
+              setQuery('');
+              inputRef.current?.focus();
+            }}
+            aria-label={`Clear ${label} search`}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#3d4350] hover:text-[#0b0c0e] p-1 cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
 
-      {open && (
-        <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-[#ffffff] rounded-lg shadow-xl p-3 max-h-80 overflow-y-auto ring-1 ring-[#c5cbd4]"> {/* taste-skill-ignore */}
-          <div className="relative mb-2">
-            <Search className="w-4 h-4 text-[#3d4350] absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search model or typo (e.g. note 12, s24, poco)..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2.5 text-base rounded-md bg-[#eef0f3] border border-[#d6dbe3] text-[#0b0c0e] focus:outline-none focus:border-[#1f2de6]"
-              autoFocus
-            />
-          </div>
-          <div className="space-y-1">
-            {matches.map((d) => (
+        {/* Live Dropdown below Search Input */}
+        {open && (
+          <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-[#ffffff] rounded-lg shadow-xl p-3 max-h-80 overflow-y-auto ring-1 ring-[#c5cbd4]"> {/* taste-skill-ignore */}
+            <div className="flex items-center justify-between gap-2 pb-2 mb-2">
+              <span className="text-sm font-medium text-[#3d4350]">
+                {query.trim()
+                  ? `${matches.length} matching phone${matches.length === 1 ? '' : 's'}`
+                  : 'Filter by brand or select a phone'}
+              </span>
               <button
-                key={d.id}
+                type="button"
+                onClick={() => setOpen(false)}
+                className="text-sm font-medium text-[#0b0c0e] hover:text-[#1f2de6] px-2 py-0.5 rounded cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="flex gap-1.5 overflow-x-auto pb-2 mb-2 no-scrollbar">
+              <button
                 type="button"
                 onClick={() => {
                   soundEffects.playClick();
-                  onSelect(d);
-                  setOpen(false);
-                  setQuery('');
+                  setBrandFilter('All');
                 }}
-                className="w-full flex items-center justify-between p-2 rounded hover:bg-[#eef0f3] text-left text-sm cursor-pointer"
+                className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
+                  brandFilter === 'All'
+                    ? 'bg-[#0b0c0e] text-white'
+                    : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
+                }`}
               >
-                <div className="truncate">
-                  <div className="font-medium text-[#0b0c0e] truncate">{formatDeviceName(d.brand, d.model)}</div>
-                  <div className="text-sm text-[#3d4350] truncate">{d.chipset}</div>
-                </div>
-                <span className="text-sm font-medium tabular-nums text-[#3d4350] ml-2 shrink-0">
-                  {d.maxSupportedFps} FPS
-                </span>
+                All brands
               </button>
-            ))}
+              {ALL_BRANDS.map((brand) => (
+                <button
+                  key={brand}
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setBrandFilter(brand);
+                  }}
+                  className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
+                    brandFilter === brand
+                      ? 'bg-[#0b0c0e] text-white'
+                      : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
+                  }`}
+                >
+                  {brand}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-1">
+              {matches.map((d) => (
+                <button
+                  key={`${d.id}-${d.slug}`}
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    onSelect(d);
+                    setOpen(false);
+                    setQuery('');
+                  }}
+                  className={`w-full flex items-center justify-between p-2 rounded text-left text-sm cursor-pointer ${
+                    selected.id === d.id
+                      ? 'bg-[#1f2de6]/10 text-[#0b0c0e]'
+                      : 'hover:bg-[#eef0f3] text-[#0b0c0e]'
+                  }`}
+                >
+                  <div className="truncate">
+                    <div className="font-medium text-[#0b0c0e] truncate">
+                      {formatDeviceName(d.brand, d.model)}
+                    </div>
+                    <div className="text-sm text-[#3d4350] truncate">{d.chipset}</div>
+                  </div>
+                  <span
+                    className={`text-sm font-medium tabular-nums px-2 py-0.5 rounded ml-2 shrink-0 ${
+                      d.maxSupportedFps === 0
+                        ? 'bg-[#fee2e2] text-[#b91c1c]'
+                        : 'bg-[#e2e5ea] text-[#0b0c0e]'
+                    }`}
+                  >
+                    {d.maxSupportedFps === 0 ? 'Unsupported' : `${d.maxSupportedFps} FPS`}
+                  </span>
+                </button>
+              ))}
+              {matches.length === 0 && (
+                <div className="p-4 text-center text-sm text-[#3d4350]">
+                  No phones matched &ldquo;{query}&rdquo;. Try checking the model name or clearing brand filter.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Currently Selected Device Card BELOW Search Input */}
+      <div
+        onClick={() => {
+          setOpen(!open);
+          inputRef.current?.focus();
+        }}
+        className="w-full p-3 rounded-md bg-[#eef0f3] hover:bg-[#e2e5ea] text-left flex items-center justify-between transition-colors duration-150 cursor-pointer"
+      >
+        <div className="flex items-center gap-2.5 overflow-hidden">
+          <Smartphone className="w-4 h-4 shrink-0" style={{ color: accentColor }} />
+          <div className="truncate">
+            <div className="text-base font-semibold text-[#0b0c0e] truncate">
+              {formatDeviceName(selected.brand, selected.model)}
+            </div>
+            <div className="text-sm text-[#3d4350] truncate">
+              {selected.chipset} &middot; {selected.displayRefreshRate}Hz
+            </div>
           </div>
         </div>
-      )}
+        <span className="text-sm font-medium text-[#1f2de6] ml-3 shrink-0 px-2.5 py-1 rounded bg-[#ffffff]">
+          {open ? 'Close' : 'Browse'}
+        </span>
+      </div>
     </div>
   );
 }
@@ -117,8 +215,10 @@ function CompareContent() {
   const phone1Param = searchParams.get('phone1');
   const phone2Param = searchParams.get('phone2');
 
-  const initialPhone1 = DEVICES_DATA.find((d) => d.id === phone1Param) || DEVICES_DATA[0];
-  const initialPhone2 = DEVICES_DATA.find((d) => d.id === phone2Param) || DEVICES_DATA[1];
+  const initialPhone1 =
+    DEVICES_DATA.find((d) => d.id === phone1Param || d.slug === phone1Param) || DEVICES_DATA[0];
+  const initialPhone2 =
+    DEVICES_DATA.find((d) => d.id === phone2Param || d.slug === phone2Param) || DEVICES_DATA[1];
 
   const [deviceA, setDeviceA] = useState<DeviceInfo>(initialPhone1);
   const [deviceB, setDeviceB] = useState<DeviceInfo>(initialPhone2);
@@ -156,11 +256,10 @@ function CompareContent() {
       const fpsB = deviceB.graphicsModes[tier]?.supported ? deviceB.graphicsModes[tier].estimatedFps : 0;
       return {
         mode: tier,
-        [deviceA.model]: fpsA,
-        [deviceB.model]: fpsB
+        deviceA: fpsA,
+        deviceB: fpsB
       };
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deviceA, deviceB]);
 
   const presetBattles = [
@@ -205,12 +304,14 @@ function CompareContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <SearchableDeviceSelect
             label="Device 1"
+            inputId="compare-search-1"
             selected={deviceA}
             onSelect={setDeviceA}
             accentColor="#1f2de6"
           />
           <SearchableDeviceSelect
             label="Device 2"
+            inputId="compare-search-2"
             selected={deviceB}
             onSelect={setDeviceB}
             accentColor="#166534"
@@ -261,8 +362,18 @@ function CompareContent() {
                 }}
               />
               <Legend wrapperStyle={{ fontSize: '13px', paddingTop: '10px' }} />
-              <Bar dataKey={deviceA.model} fill="#1f2de6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey={deviceB.model} fill="#166534" radius={[4, 4, 0, 0]} />
+              <Bar
+                dataKey="deviceA"
+                name={formatDeviceName(deviceA.brand, deviceA.model)}
+                fill="#1f2de6"
+                radius={[4, 4, 0, 0]}
+              />
+              <Bar
+                dataKey="deviceB"
+                name={formatDeviceName(deviceB.brand, deviceB.model)}
+                fill="#166534"
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
