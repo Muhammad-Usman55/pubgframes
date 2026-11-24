@@ -1,6 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseUrl =
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  'https://irsndncadjwtztrltnyt.supabase.co';
+
 const serviceRoleKey =
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
   process.env.SUPABASE_SECRET_KEY;
@@ -11,8 +14,8 @@ const serviceRoleKey =
  * Bypasses Row Level Security (RLS).
  */
 export const createAdminClient = () => {
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error('Missing Supabase URL or Service Role Secret Key in environment variables.');
+  if (!serviceRoleKey) {
+    throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY in environment variables.');
   }
 
   return createClient(supabaseUrl, serviceRoleKey, {

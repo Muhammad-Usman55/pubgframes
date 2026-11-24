@@ -5,10 +5,20 @@ import Link from 'next/link';
 import { Database, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 async function TodosList() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  let todos: any[] | null = null;
+  let error: { message: string } | null = null;
 
-  const { data: todos, error } = await supabase.from('todos').select('*');
+  try {
+    const cookieStore = await cookies();
+    const supabase = createClient(cookieStore);
+    const res = await supabase.from('todos').select('*');
+    todos = res.data;
+    if (res.error) {
+      error = res.error;
+    }
+  } catch (err: any) {
+    error = { message: err?.message || 'Database connection unreachable during build' };
+  }
 
   if (error) {
     return (

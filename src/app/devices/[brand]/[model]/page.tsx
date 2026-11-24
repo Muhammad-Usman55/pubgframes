@@ -26,7 +26,8 @@ interface DeviceDetailProps {
 }
 
 export async function generateStaticParams() {
-  return DEVICES_DATA.map((device) => ({
+  // Prerender top popular flagship devices at build time; remaining are generated on-demand via ISR
+  return DEVICES_DATA.slice(0, 100).map((device) => ({
     brand: device.brandSlug,
     model: device.slug
   }));
