@@ -1345,7 +1345,9 @@ export function searchDevices(query: string): DeviceInfo[] {
   const terms = clean.split(/\s+/).filter(Boolean);
 
   return DEVICES_DATA.filter((d) => {
-    const fullText = `${d.brand} ${d.model} ${d.chipset} ${d.slug} ${d.gpu} ${d.isUnsupportedHardware ? 'unsupported incompatible' : ''}`.toLowerCase();
+    const isXiaomiEcosystem = d.brandSlug === 'xiaomi' || d.brandSlug === 'redmi' || d.brandSlug === 'poco' || d.brandSlug === 'black-shark';
+    const ecosystemTags = isXiaomiEcosystem ? 'xiaomi mi ecosystem' : '';
+    const fullText = `${d.brand} ${d.model} ${d.chipset} ${d.slug} ${d.gpu} ${ecosystemTags} ${d.isUnsupportedHardware ? 'unsupported incompatible' : ''}`.toLowerCase();
     return terms.every((term) => fullText.includes(term));
   });
 }
