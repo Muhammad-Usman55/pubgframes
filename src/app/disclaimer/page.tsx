@@ -2,7 +2,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Fair Use & Benchmark Disclaimer — PUBGFrames',
-  description: 'Official legal disclaimer, trademark notices, and benchmark accuracy statements for PUBGFrames.'
+  description: 'Official legal disclaimer, trademark notices, and benchmark accuracy statements for PUBGFrames.',
+  alternates: {
+    canonical: '/disclaimer'
+  }
 };
 
 export default function DisclaimerPage() {

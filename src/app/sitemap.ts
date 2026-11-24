@@ -84,12 +84,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7
   }));
 
-  const deviceRoutes: MetadataRoute.Sitemap = DEVICES_DATA.map((d) => ({
-    url: `${baseUrl}/devices/${d.brandSlug}/${d.slug}`,
-    lastModified: new Date(d.benchmarkDate),
-    changeFrequency: 'weekly',
-    priority: 0.8
-  }));
+  const deviceRoutes: MetadataRoute.Sitemap = DEVICES_DATA.map((d) => {
+    const parsedDate = new Date(d.benchmarkDate);
+    return {
+      url: `${baseUrl}/devices/${d.brandSlug}/${d.slug}`,
+      lastModified: Number.isNaN(parsedDate.getTime()) ? new Date('2026-02-01') : parsedDate,
+      changeFrequency: 'weekly',
+      priority: 0.8
+    };
+  });
 
   const guideRoutes: MetadataRoute.Sitemap = GUIDES_DATA.map((g) => ({
     url: `${baseUrl}/guides/${g.slug}`,

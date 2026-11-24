@@ -20,6 +20,9 @@ export async function generateMetadata({ params }: GuideArticleProps): Promise<M
   return {
     title: `${guide.title} — PUBGFrames`,
     description: guide.excerpt,
+    alternates: {
+      canonical: `/guides/${guide.slug}`
+    },
     openGraph: {
       title: guide.title,
       description: guide.excerpt,

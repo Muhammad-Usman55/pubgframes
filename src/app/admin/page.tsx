@@ -61,6 +61,12 @@ interface AdminUserRow {
   role: string;
 }
 
+interface GoogleIntegrationsStatus {
+  searchConsoleConfigured: boolean;
+  ga4Configured: boolean;
+  adSenseConfigured: boolean;
+}
+
 const COMPLETE_SQL_SCHEMA = `-- PUBGFrames Production Schema (Zero Dummy Data)
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -220,6 +226,11 @@ export default function AdminDashboardPage() {
   const [tablesReady, setTablesReady] = useState(false);
   const [messages, setMessages] = useState<ContactMessageRow[]>([]);
   const [adminUsers, setAdminUsers] = useState<AdminUserRow[]>([]);
+  const [googleStatus, setGoogleStatus] = useState<GoogleIntegrationsStatus>({
+    searchConsoleConfigured: false,
+    ga4Configured: false,
+    adSenseConfigured: false
+  });
   const [loadingStats, setLoadingStats] = useState(false);
   const [copiedSql, setCopiedSql] = useState(false);
   const sqlCopyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -240,6 +251,7 @@ export default function AdminDashboardPage() {
           analytics: RealAnalyticsData;
           messages: ContactMessageRow[];
           adminUsers: AdminUserRow[];
+          googleIntegrations?: GoogleIntegrationsStatus;
         };
 
         setSupabaseConfigured(payload.supabaseConfigured);
@@ -247,6 +259,7 @@ export default function AdminDashboardPage() {
         setTablesStatus(payload.tablesStatus || []);
         setMessages(payload.messages || []);
         setAdminUsers(payload.adminUsers || []);
+        if (payload.googleIntegrations) setGoogleStatus(payload.googleIntegrations);
 
         const analyticsReady =
           payload.tablesStatus?.find((t) => t.name === 'analytics_page_views')?.ready ?? false;
@@ -1227,6 +1240,49 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
+            {/* Google Search Console, GA4 & AdSense Status */}
+            <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
+              <h2 className="text-base font-semibold text-[#0b0c0e]">Google Search Console, Analytics &amp; AdSense</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  {
+                    title: 'Google Search Console',
+                    envKey: 'NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION',
+                    ready: googleStatus.searchConsoleConfigured
+                  },
+                  {
+                    title: 'Google Analytics 4',
+                    envKey: 'NEXT_PUBLIC_GA_MEASUREMENT_ID',
+                    ready: googleStatus.ga4Configured
+                  },
+                  {
+                    title: 'Google AdSense',
+                    envKey: 'NEXT_PUBLIC_ADSENSE_CLIENT_ID',
+                    ready: googleStatus.adSenseConfigured
+                  }
+                ].map((item) => (
+                  <div
+                    key={item.envKey}
+                    className="p-3.5 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] space-y-1.5"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-medium text-[#0b0c0e]">{item.title}</span>
+                      <span
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${
+                          item.ready
+                            ? 'bg-[#dcfce7] text-[#166534]'
+                            : 'bg-[#fef3c7] text-[#92400e]'
+                        }`}
+                      >
+                        {item.ready ? 'Configured' : 'Add Env Key'}
+                      </span>
+                    </div>
+                    <div className="font-mono text-xs text-[#525866] break-all">{item.envKey}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Vercel Env Checklist */}
             <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-3">
               <h2 className="text-base font-semibold text-[#0b0c0e]">Vercel environment variables</h2>
@@ -1239,6 +1295,8 @@ export default function AdminDashboardPage() {
                 <li className="p-2.5 rounded bg-[#eef0f3]">SUPABASE_SERVICE_ROLE_KEY</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_EMAIL &amp; ADMIN_PASSWORD</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_SESSION_SECRET</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_GA_MEASUREMENT_ID</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_ADSENSE_CLIENT_ID</li>
               </ul>
             </div>

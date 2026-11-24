@@ -6,7 +6,10 @@ import { Clock } from 'lucide-react';
 export const metadata: Metadata = {
   title: 'PUBG Mobile Gaming Performance Guides & FPS Tutorials',
   description:
-    'Learn how to maximize PUBG Mobile frame rates, configure optimal competitive graphics settings, reduce thermal throttling, and choose capable gaming phones.'
+    'Learn how to maximize PUBG Mobile frame rates, configure optimal competitive graphics settings, reduce thermal throttling, and choose capable gaming phones.',
+  alternates: {
+    canonical: '/guides'
+  }
 };
 
 export default function GuidesPage() {

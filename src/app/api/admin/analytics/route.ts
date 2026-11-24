@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import { getVerifiedAdminSession } from '@/lib/adminServerAuth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { aggregateAnalyticsEvents, EMPTY_ANALYTICS } from '@/lib/analytics';
+import {
+  getAdSenseClientId,
+  getGaMeasurementId,
+  getGoogleSiteVerification
+} from '@/lib/siteConfig';
 
 const REQUIRED_TABLES = [
   'devices',
@@ -18,6 +23,12 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const googleIntegrations = {
+    searchConsoleConfigured: Boolean(getGoogleSiteVerification()),
+    ga4Configured: Boolean(getGaMeasurementId()),
+    adSenseConfigured: Boolean(getAdSenseClientId())
+  };
+
   const sb = createAdminClient();
   if (!sb) {
     return NextResponse.json({
@@ -26,7 +37,8 @@ export async function GET() {
       tablesStatus: REQUIRED_TABLES.map((name) => ({ name, ready: false, count: 0 })),
       analytics: EMPTY_ANALYTICS,
       messages: [],
-      adminUsers: [{ email: session.email, role: session.role }]
+      adminUsers: [{ email: session.email, role: session.role }],
+      googleIntegrations
     });
   }
 
@@ -89,7 +101,8 @@ export async function GET() {
     adminUsers:
       (adminUsersRes.data && adminUsersRes.data.length > 0
         ? adminUsersRes.data
-        : [{ email: session.email, role: session.role }])
+        : [{ email: session.email, role: session.role }]),
+    googleIntegrations
   });
 }
 

@@ -49,16 +49,36 @@ export function PrivacyPolicyContent() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-semibold text-[#0b0c0e]">3. Log data &amp; aggregated analytics</h2>
+          <h2 className="text-lg font-semibold text-[#0b0c0e]">3. Google Analytics 4 (GA4) &amp; site telemetry</h2>
           <p>
-            To keep pages fast and maintain device coverage accuracy, PUBGFrames records non-personal aggregated telemetry such as visited page paths, coarse country region, device viewport class (mobile or desktop), and searched smartphone model terms. We do not sell personal user data to third-party data brokers.
+            We use Google Analytics 4 (with IP anonymization enabled) and lightweight first-party telemetry to understand aggregate traffic patterns, searched device models, and Core Web Vitals performance. Google Analytics uses measurement cookies such as <code className="px-1 py-0.5 rounded bg-[#eef0f3] text-xs">_ga</code> to distinguish visits and compile statistical reports without selling personal data.
+          </p>
+          <p>
+            Learn more about{' '}
+            <a
+              href="https://policies.google.com/technologies/partner-sites"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#1f2de6] hover:underline font-medium"
+            >
+              how Google uses data when you use partner sites
+            </a>
+            , or opt out across browsers using the official{' '}
+            <a
+              href="https://tools.google.com/dlpage/gaoptout"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#1f2de6] hover:underline font-medium"
+            >
+              Google Analytics Opt-out Browser Add-on
+            </a>.
           </p>
         </section>
 
         <section className="space-y-2">
           <h2 className="text-lg font-semibold text-[#0b0c0e]">4. Your GDPR &amp; CCPA privacy rights</h2>
           <p>
-            Depending on your jurisdiction (including the European Economic Area under GDPR and California under CCPA/CPRA), you have the right to request access to, correction of, or deletion of personal contact inquiries you have submitted, as well as the right to decline non-essential advertising cookies through our{' '}
+            Depending on your jurisdiction (including the European Economic Area under GDPR and California under CCPA/CPRA), you have the right to request access to, correction of, or deletion of personal contact inquiries you have submitted, as well as the right to decline non-essential cookies through our{' '}
             <Link href="/cookie-policy" className="text-[#1f2de6] hover:underline font-medium">
               Cookie Policy
             </Link>{' '}

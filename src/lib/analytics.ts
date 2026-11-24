@@ -260,4 +260,18 @@ export function trackSearchQuery(query: string, resultCount = 0, selectedDeviceI
     }),
     keepalive: true
   }).catch(() => {});
+
+  const w = window as Window & { gtag?: (...args: unknown[]) => void };
+  if (typeof w.gtag === 'function') {
+    w.gtag('event', 'search', {
+      search_term: clean.toLowerCase(),
+      results_count: resultCount
+    });
+    if (selectedDeviceId) {
+      w.gtag('event', 'select_content', {
+        content_type: 'device',
+        item_id: selectedDeviceId
+      });
+    }
+  }
 }

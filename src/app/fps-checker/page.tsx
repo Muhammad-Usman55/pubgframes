@@ -6,7 +6,10 @@ export const metadata: Metadata = {
   title: 'PUBG Mobile FPS Checker & Calculator (60, 90, 120 FPS)',
   description:
     'Calculate and test estimated PUBG Mobile frame rates for any smartphone. Check thermal throttling, battery drain, and verified graphics capabilities.',
-  keywords: ['PUBG FPS Calculator', 'PUBG Mobile FPS Checker', 'Test PUBG FPS', 'Can my phone run 90 FPS PUBG']
+  keywords: ['PUBG FPS Calculator', 'PUBG Mobile FPS Checker', 'Test PUBG FPS', 'Can my phone run 90 FPS PUBG'],
+  alternates: {
+    canonical: '/fps-checker'
+  }
 };
 
 export default function FpsCheckerPage() {

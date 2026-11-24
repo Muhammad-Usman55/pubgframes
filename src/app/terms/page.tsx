@@ -4,7 +4,10 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Terms of Service — PUBGFrames',
   description:
-    'Terms of Service governing access to PUBGFrames smartphone benchmark tools, guides, intellectual property, and acceptable use.'
+    'Terms of Service governing access to PUBGFrames smartphone benchmark tools, guides, intellectual property, and acceptable use.',
+  alternates: {
+    canonical: '/terms'
+  }
 };
 
 export default function TermsPage() {

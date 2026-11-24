@@ -20,7 +20,10 @@ export async function generateMetadata({ params }: BrandPageProps): Promise<Meta
 
   return {
     title: `Best ${brandName} Phones for PUBG Mobile (60, 90 & 120 FPS)`,
-    description: `Complete list of ${brandName} smartphones tested for PUBG Mobile gaming performance. Check real-world FPS, thermal stability, and recommended graphics modes.`
+    description: `Complete list of ${brandName} smartphones tested for PUBG Mobile gaming performance. Check real-world FPS, thermal stability, and recommended graphics modes.`,
+    alternates: {
+      canonical: `/devices/${brand}`
+    }
   };
 }
 

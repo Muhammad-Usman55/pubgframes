@@ -5,7 +5,10 @@ import { DEVICES_DATA } from '@/data/devices';
 export const metadata: Metadata = {
   title: 'About PUBGFrames — Smartphone Gaming Performance Reference',
   description:
-    'Learn how PUBGFrames tests and documents PUBG Mobile FPS estimates, thermal throttling, editorial standards, and hardware benchmarks across 1,630+ smartphones.'
+    'Learn how PUBGFrames tests and documents PUBG Mobile FPS estimates, thermal throttling, editorial standards, and hardware benchmarks across 1,630+ smartphones.',
+  alternates: {
+    canonical: '/about'
+  }
 };
 
 export default function AboutPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Hero } from '@/components/Hero';
 import { FpsCheckerWidget } from '@/components/FpsCheckerWidget';
 import { FeatureCards } from '@/components/FeatureCards';
@@ -6,6 +7,12 @@ import { StatsTrustBar } from '@/components/StatsTrustBar';
 import { UserReviews } from '@/components/UserReviews';
 import { CtaBanner } from '@/components/CtaBanner';
 import { AdBanner } from '@/components/AdBanner';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/'
+  }
+};
 
 export default function HomePage() {
   return (

@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Suspense } from 'react';
 import Script from 'next/script';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
@@ -7,7 +8,13 @@ import { Footer } from '@/components/Footer';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { MotionObserver } from '@/components/MotionObserver';
 import { TelemetryTracker } from '@/components/TelemetryTracker';
-import { getAdSenseClientId, getSiteUrl } from '@/lib/siteConfig';
+import { GoogleAnalyticsTracker } from '@/components/GoogleAnalyticsTracker';
+import {
+  getAdSenseClientId,
+  getGaMeasurementId,
+  getGoogleSiteVerification,
+  getSiteUrl
+} from '@/lib/siteConfig';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -18,6 +25,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 const siteUrl = getSiteUrl();
 const adSenseClientId = getAdSenseClientId();
+const gaMeasurementId = getGaMeasurementId();
+const googleVerification = getGoogleSiteVerification();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -77,6 +86,13 @@ export const metadata: Metadata = {
     apple: [{ url: '/icon.svg', sizes: '180x180', type: 'image/svg+xml' }],
     shortcut: ['/icon.svg']
   },
+  ...(googleVerification
+    ? {
+        verification: {
+          google: googleVerification
+        }
+      }
+    : {}),
   ...(adSenseClientId
     ? {
         other: {
@@ -183,6 +199,9 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         )}
+        <Suspense fallback={null}>
+          <GoogleAnalyticsTracker gaId={gaMeasurementId} />
+        </Suspense>
         <TelemetryTracker />
         <MotionObserver />
         <Navbar />
