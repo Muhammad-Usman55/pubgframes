@@ -27,29 +27,29 @@ export const StatsTrustBar = () => {
   ];
 
   return (
-    <section className="w-full bg-[#111317] text-[#eef0f3] py-14 sm:py-20">
+    <section className="w-full bg-[#111317] text-[#eef0f3] py-10 sm:py-20">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left: Ledger Figures */}
-          <div className="lg:col-span-8 space-y-8">
+          <div className="lg:col-span-8 space-y-6 sm:space-y-8">
             <h2 className="reveal-on-scroll text-[28px] sm:text-[36px] font-semibold tracking-[-0.025em] text-white leading-tight max-w-[24ch]">
               Measured across {DEVICES_DATA.length.toLocaleString()} smartphones and tablets.
             </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-2 gap-x-5 sm:gap-x-8 gap-y-6">
               {verifiedMetrics.map((stat, idx) => (
                 <div
                   key={idx}
                   className="reveal-on-scroll space-y-1"
                   style={{ transitionDelay: `${idx * 70}ms` }}
                 >
-                  <div className="text-[36px] font-semibold text-white tabular-nums leading-none">
+                  <div className="text-[28px] sm:text-[36px] font-semibold text-white tabular-nums leading-none">
                     {stat.figure}
                   </div>
-                  <div className="text-base font-medium text-white pt-1">
+                  <div className="text-sm sm:text-base font-medium text-white pt-1">
                     {stat.label}
                   </div>
-                  <p className="text-base text-[#c5cbd4]">
+                  <p className="text-sm sm:text-base text-[#c5cbd4]">
                     {stat.detail}
                   </p>
                 </div>

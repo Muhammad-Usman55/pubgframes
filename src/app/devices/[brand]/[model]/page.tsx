@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { DEVICES_DATA, getDeviceBySlug } from '@/data/devices';
-import { formatDeviceName } from '@/utils/formatDeviceName';
 import { GraphicsTier } from '@/types/device';
 import { AdBanner } from '@/components/AdBanner';
 import { Check, X as CloseIcon, ChevronRight, AlertTriangle } from 'lucide-react';
@@ -108,19 +107,18 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
       </nav>
 
       {/* Hero Summary Card */}
-      <div className="rounded-lg bg-[#ffffff] border border-[#e2e5ea] p-6 sm:p-10">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+      <div className="rounded-lg bg-[#ffffff] border border-[#e2e5ea] p-4 sm:p-10">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 sm:gap-8">
           <div className="space-y-3 max-w-[60ch]">
-            <div className="flex flex-wrap items-center gap-2 text-[13px] font-semibold">
+            <div className="flex flex-wrap items-center gap-2 text-xs sm:text-[13px] font-semibold">
               <span className="px-2.5 py-1 rounded bg-[#eef0f3] text-[#0b0c0e]">{device.brand}</span>
               <span
-                className={`px-2.5 py-1 rounded tabular-nums ${
-                  isUnsupported
-                    ? 'bg-[#fee2e2] text-[#b91c1c]'
-                    : device.maxSupportedFps >= 120
+                className={`px-2.5 py-1 rounded tabular-nums ${isUnsupported
+                  ? 'bg-[#fee2e2] text-[#b91c1c]'
+                  : device.maxSupportedFps >= 120
                     ? 'bg-[#e0e7ff] text-[#1f2de6]'
-                    : 'bg-[#dcfce7] text-[#15803d]'
-                }`}
+                    : 'bg-[#dcfce7] text-[#166534]'
+                  }`}
               >
                 {isUnsupported ? 'Unsupported Hardware' : `${device.maxSupportedFps} FPS Max`}
               </span>
@@ -131,20 +129,20 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
               )}
             </div>
 
-            <h1 className="text-[32px] sm:text-[48px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
-              {formatDeviceName(device.brand, device.model)}
+            <h1 className="text-[28px] sm:text-[48px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
+              {device.brand} {device.model}
             </h1>
 
-            <p className="text-[16px] text-[#525866] font-medium">
+            <p className="text-sm sm:text-base text-[#3d4350] font-medium">
               {device.chipset} &middot; {device.gpu}
             </p>
 
-            <p className="text-[16px] text-[#0b0c0e] leading-relaxed pt-1">
+            <p className="text-base text-[#0b0c0e] leading-relaxed pt-1">
               {device.verdict}
             </p>
           </div>
 
-          <div className="w-full lg:w-auto flex sm:flex-col items-center justify-between gap-4 p-6 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] shrink-0">
+          <div className="w-full lg:w-auto flex flex-wrap sm:flex-col items-center justify-between gap-4 p-4 sm:p-6 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] shrink-0">
             <div className="text-left sm:text-center">
               <div className="text-[13px] font-medium text-[#525866]">Gaming Rating</div>
               <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums mt-0.5">
@@ -202,19 +200,17 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
             return (
               <div
                 key={mode}
-                className={`p-5 rounded-lg border flex flex-col justify-between space-y-4 ${
-                  isSupported
-                    ? 'bg-[#ffffff] border-[#e2e5ea]'
-                    : 'bg-[#f6f7f9] border-[#e2e5ea] opacity-75'
-                }`}
+                className={`p-5 rounded-lg border flex flex-col justify-between space-y-4 ${isSupported
+                  ? 'bg-[#ffffff] border-[#e2e5ea]'
+                  : 'bg-[#f6f7f9] border-[#e2e5ea] opacity-75'
+                  }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[15px] font-semibold text-[#0b0c0e]">{mode}</span>
                     <span
-                      className={`text-[13px] font-medium px-2 py-0.5 rounded ${
-                        isSupported ? 'bg-[#dcfce7] text-[#15803d]' : 'bg-[#fee2e2] text-[#b91c1c]'
-                      }`}
+                      className={`text-[13px] font-medium px-2 py-0.5 rounded ${isSupported ? 'bg-[#dcfce7] text-[#15803d]' : 'bg-[#fee2e2] text-[#b91c1c]'
+                        }`}
                     >
                       {isSupported ? perf.confidenceLevel : 'Locked'}
                     </span>
@@ -240,13 +236,12 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
                       <div className="flex justify-between">
                         <span className="text-[#525866]">Thermal</span>
                         <span
-                          className={`font-medium ${
-                            perf.thermalRisk === 'Low'
-                              ? 'text-[#15803d]'
-                              : perf.thermalRisk === 'Moderate'
+                          className={`font-medium ${perf.thermalRisk === 'Low'
+                            ? 'text-[#15803d]'
+                            : perf.thermalRisk === 'Moderate'
                               ? 'text-[#b45309]'
                               : 'text-[#b91c1c]'
-                          }`}
+                            }`}
                         >
                           {perf.thermalRisk}
                         </span>

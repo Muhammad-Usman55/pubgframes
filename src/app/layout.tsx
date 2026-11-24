@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { MotionObserver } from '@/components/MotionObserver';
 
 const jakarta = Plus_Jakarta_Sans({
@@ -169,6 +170,7 @@ export default function RootLayout({
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <MobileBottomNav />
       </body>
     </html>
   );

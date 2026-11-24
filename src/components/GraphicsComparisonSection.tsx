@@ -63,7 +63,7 @@ export const GraphicsComparisonSection = () => {
   };
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-12 sm:py-20 space-y-10">
+    <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-20 space-y-6 sm:space-y-10">
       {/* Header Row */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-end reveal-on-scroll">
         <div className="lg:col-span-7 space-y-2">
@@ -79,14 +79,15 @@ export const GraphicsComparisonSection = () => {
       </div>
 
       {/* Interactive Split-Screen Slider */}
-      <div className="rounded-lg bg-[#ffffff] p-4 sm:p-6 space-y-4 reveal-on-scroll">
-        <div className="flex flex-wrap items-center justify-between gap-4 text-base text-[#3d4350]">
-          <span>Left side: <strong className="text-[#0b0c0e] font-medium">Smooth (120 FPS)</strong></span>
-          <span>Right side: <strong className="text-[#0b0c0e] font-medium">Ultra HD (45–60 FPS)</strong></span>
+      <div className="rounded-lg bg-[#ffffff] p-4 sm:p-6 space-y-3 sm:space-y-4 reveal-on-scroll">
+        <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4 text-sm sm:text-base text-[#3d4350]">
+          <span>Left: <strong className="text-[#0b0c0e] font-medium">Smooth (120 FPS)</strong></span>
+          <span>Right: <strong className="text-[#0b0c0e] font-medium">Ultra HD (45–60 FPS)</strong></span>
         </div>
 
         <div
-          className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-md overflow-hidden cursor-ew-resize select-none bg-[#111317]"
+          style={{ containerType: 'inline-size' }}
+          className="relative w-full aspect-[16/10] sm:aspect-[21/9] rounded-md overflow-hidden cursor-ew-resize select-none touch-none bg-[#111317]"
           onMouseDown={(e) => {
             isDragging.current = true;
             handleSliderMove(e.clientX, e.currentTarget.getBoundingClientRect());
@@ -98,6 +99,11 @@ export const GraphicsComparisonSection = () => {
           }}
           onMouseUp={() => { isDragging.current = false; }}
           onMouseLeave={() => { isDragging.current = false; }}
+          onTouchStart={(e) => {
+            if (e.touches[0]) {
+              handleSliderMove(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
+            }
+          }}
           onTouchMove={(e) => {
             if (e.touches[0]) {
               handleSliderMove(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
@@ -111,7 +117,7 @@ export const GraphicsComparisonSection = () => {
               fill
               className="object-cover"
             />
-            <div className="absolute top-3 right-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
+            <div className="hidden sm:block absolute top-3 right-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
               Ultra HD &middot; 45–60 FPS
             </div>
           </div>
@@ -120,7 +126,7 @@ export const GraphicsComparisonSection = () => {
             className="absolute inset-0 overflow-hidden"
             style={{ width: `${sliderPosition}%` }}
           >
-            <div className="relative w-full h-full min-w-[300px]" style={{ width: '100cqw' }}>
+            <div className="relative w-full h-full" style={{ width: '100cqw' }}>
               <Image
                 src="/gameplay/smooth-real.jpg"
                 alt="Smooth 120 FPS PUBG Mobile visual comparison"
@@ -128,7 +134,7 @@ export const GraphicsComparisonSection = () => {
                 className="object-cover"
               />
             </div>
-            <div className="absolute top-3 left-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
+            <div className="hidden sm:block absolute top-3 left-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
               Smooth &middot; 120 FPS
             </div>
           </div>

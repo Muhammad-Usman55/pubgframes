@@ -63,9 +63,9 @@ function SearchableDeviceSelect({
           <div className="text-base font-semibold text-[#0b0c0e] truncate">
             {formatDeviceName(selected.brand, selected.model)}
           </div>
-          <div className="text-[13px] text-[#525866] truncate">{selected.chipset}</div>
+          <div className="text-sm text-[#3d4350] truncate">{selected.chipset}</div>
         </div>
-        <span className="text-[13px] font-medium text-[#525866] ml-3 shrink-0">
+        <span className="text-sm font-medium text-[#3d4350] ml-3 shrink-0">
           {open ? 'Close' : 'Change'}
         </span>
       </button>
@@ -73,13 +73,13 @@ function SearchableDeviceSelect({
       {open && (
         <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-[#ffffff] rounded-lg shadow-xl p-3 max-h-80 overflow-y-auto ring-1 ring-[#c5cbd4]"> {/* taste-skill-ignore */}
           <div className="relative mb-2">
-            <Search className="w-4 h-4 text-[#525866] absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-[#3d4350] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search model or typo (e.g. note 12, s24, poco)..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm rounded-md bg-[#eef0f3] border border-[#d6dbe3] text-[#0b0c0e] focus:outline-none focus:border-[#1f2de6]"
+              className="w-full pl-9 pr-3 py-2.5 text-base rounded-md bg-[#eef0f3] border border-[#d6dbe3] text-[#0b0c0e] focus:outline-none focus:border-[#1f2de6]"
               autoFocus
             />
           </div>
@@ -97,10 +97,10 @@ function SearchableDeviceSelect({
                 className="w-full flex items-center justify-between p-2 rounded hover:bg-[#eef0f3] text-left text-sm cursor-pointer"
               >
                 <div className="truncate">
-                  <div className="font-medium text-[#0b0c0e]">{formatDeviceName(d.brand, d.model)}</div>
-                  <div className="text-[13px] text-[#525866] truncate">{d.chipset}</div>
+                  <div className="font-medium text-[#0b0c0e] truncate">{formatDeviceName(d.brand, d.model)}</div>
+                  <div className="text-sm text-[#3d4350] truncate">{d.chipset}</div>
                 </div>
-                <span className="text-[13px] font-medium tabular-nums text-[#525866] ml-2 shrink-0">
+                <span className="text-sm font-medium tabular-nums text-[#3d4350] ml-2 shrink-0">
                   {d.maxSupportedFps} FPS
                 </span>
               </button>
@@ -175,12 +175,12 @@ function CompareContent() {
         <h1 className="text-[32px] sm:text-[48px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
           Compare PUBG Mobile Gaming Performance
         </h1>
-        <p className="text-[16px] sm:text-[18px] text-[#525866] max-w-[54ch]">
+        <p className="text-base sm:text-xl text-[#3d4350] max-w-[54ch]">
           Put any two smartphones or tablets side by side across graphics presets, chipsets, thermal stability, and battery draw.
         </p>
 
-        <div className="flex flex-wrap items-center gap-2 pt-2 text-[14px]">
-          <span className="text-[#525866] font-medium mr-1">Quick matchups:</span>
+        <div className="flex flex-wrap items-center gap-2 pt-2 text-sm">
+          <span className="text-[#3d4350] font-medium mr-1">Quick matchups:</span>
           {presetBattles.map((battle, idx) => (
             <button
               key={idx}
@@ -213,7 +213,7 @@ function CompareContent() {
             label="Device 2"
             selected={deviceB}
             onSelect={setDeviceB}
-            accentColor="#15803d"
+            accentColor="#166534"
           />
         </div>
 
@@ -221,7 +221,7 @@ function CompareContent() {
           <button
             type="button"
             onClick={handleSwap}
-            className="px-4 py-2 rounded-md bg-[#ffffff] border border-[#d6dbe3] hover:border-[#0b0c0e] text-[14px] font-medium text-[#0b0c0e] inline-flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2 rounded-md bg-[#ffffff] hover:bg-[#e2e5ea] text-sm font-medium text-[#0b0c0e] inline-flex items-center gap-2 transition-colors duration-150 cursor-pointer"
           >
             <ArrowLeftRight className="w-4 h-4" />
             <span>Swap devices</span>
@@ -230,27 +230,27 @@ function CompareContent() {
           <button
             type="button"
             onClick={handleShare}
-            className="px-4 py-2 rounded-md bg-[#ffffff] border border-[#d6dbe3] hover:border-[#0b0c0e] text-[14px] font-medium text-[#0b0c0e] inline-flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2 rounded-md bg-[#ffffff] hover:bg-[#e2e5ea] text-sm font-medium text-[#0b0c0e] inline-flex items-center gap-2 transition-colors duration-150 cursor-pointer"
           >
-            {copiedLink ? <Check className="w-4 h-4 text-[#15803d]" /> : <Share2 className="w-4 h-4" />}
+            {copiedLink ? <Check className="w-4 h-4 text-[#166534]" /> : <Share2 className="w-4 h-4" />}
             <span>{copiedLink ? 'Comparison link copied' : 'Share comparison link'}</span>
           </button>
         </div>
       </div>
 
       {/* FPS Bar Chart */}
-      <div className="p-6 rounded-lg bg-[#ffffff] border border-[#e2e5ea] space-y-4">
+      <div className="p-4 sm:p-6 rounded-lg bg-[#ffffff] space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-[#0b0c0e]">FPS by graphics preset</h2>
-          <span className="text-[13px] text-[#525866]">Higher is smoother</span>
+          <span className="text-sm text-[#3d4350]">Higher is smoother</span>
         </div>
 
-        <div className="h-72 w-full pt-2">
+        <div className="h-60 sm:h-72 w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 10, left: -16, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e5ea" />
-              <XAxis dataKey="mode" stroke="#525866" tick={{ fill: '#525866', fontSize: 13 }} />
-              <YAxis stroke="#525866" tick={{ fill: '#525866', fontSize: 13 }} domain={[0, 120]} />
+              <XAxis dataKey="mode" interval={0} stroke="#3d4350" tick={{ fill: '#3d4350', fontSize: 13 }} />
+              <YAxis stroke="#3d4350" tick={{ fill: '#3d4350', fontSize: 13 }} domain={[0, 120]} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#ffffff',
@@ -262,51 +262,55 @@ function CompareContent() {
               />
               <Legend wrapperStyle={{ fontSize: '13px', paddingTop: '10px' }} />
               <Bar dataKey={deviceA.model} fill="#1f2de6" radius={[4, 4, 0, 0]} />
-              <Bar dataKey={deviceB.model} fill="#15803d" radius={[4, 4, 0, 0]} />
+              <Bar dataKey={deviceB.model} fill="#166534" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
 
       {/* Comparison Table */}
-      <div className="rounded-lg bg-[#ffffff] overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-[15px]">
+      <div className="space-y-2">
+        <p className="sm:hidden text-sm font-medium text-[#3d4350]">
+          Swipe table sideways to compare full specs &rarr;
+        </p>
+        <div className="rounded-lg bg-[#ffffff] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[540px] text-left text-base">
             <thead>
               <tr className="bg-[#e2e5ea]/60">
-                <th className="p-4 text-[#525866] font-medium w-1/3">Specification</th>
+                <th className="p-4 text-[#3d4350] font-medium w-1/3">Specification</th>
                 <th className="p-4 text-[#1f2de6] font-semibold w-1/3">{formatDeviceName(deviceA.brand, deviceA.model)}</th>
-                <th className="p-4 text-[#15803d] font-semibold w-1/3">{formatDeviceName(deviceB.brand, deviceB.model)}</th>
+                <th className="p-4 text-[#166534] font-semibold w-1/3">{formatDeviceName(deviceB.brand, deviceB.model)}</th>
               </tr>
             </thead>
             <tbody className="tabular-nums">
               <tr>
-                <td className="p-4 text-[#525866]">Processor</td>
+                <td className="p-4 text-[#3d4350]">Processor</td>
                 <td className="p-4 text-[#0b0c0e] font-medium">{deviceA.chipset}</td>
                 <td className="p-4 text-[#0b0c0e] font-medium">{deviceB.chipset}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">GPU</td>
+                <td className="p-4 text-[#3d4350]">GPU</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceA.gpu}</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceB.gpu}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Max supported FPS</td>
+                <td className="p-4 text-[#3d4350]">Max supported FPS</td>
                 <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.maxSupportedFps === 0 ? 'Unsupported' : `${deviceA.maxSupportedFps} FPS`}</td>
-                <td className="p-4 font-semibold text-[#15803d]">{deviceB.maxSupportedFps === 0 ? 'Unsupported' : `${deviceB.maxSupportedFps} FPS`}</td>
+                <td className="p-4 font-semibold text-[#166534]">{deviceB.maxSupportedFps === 0 ? 'Unsupported' : `${deviceB.maxSupportedFps} FPS`}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Display</td>
+                <td className="p-4 text-[#3d4350]">Display</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceA.displayRefreshRate} Hz ({deviceA.screenSize})</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceB.displayRefreshRate} Hz ({deviceB.screenSize})</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">AnTuTu score</td>
+                <td className="p-4 text-[#3d4350]">AnTuTu score</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceA.antutuScore?.toLocaleString() || 'N/A'}</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceB.antutuScore?.toLocaleString() || 'N/A'}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Smooth FPS & stability</td>
+                <td className="p-4 text-[#3d4350]">Smooth FPS & stability</td>
                 <td className="p-4 font-medium text-[#0b0c0e]">
                   {deviceA.graphicsModes.Smooth.supported ? `${deviceA.graphicsModes.Smooth.estimatedFps} FPS (${deviceA.graphicsModes.Smooth.stabilityScore}%)` : 'Unsupported'}
                 </td>
@@ -315,47 +319,48 @@ function CompareContent() {
                 </td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Cooling hardware</td>
-                <td className="p-4 text-[#525866]">{deviceA.coolingSystem}</td>
-                <td className="p-4 text-[#525866]">{deviceB.coolingSystem}</td>
+                <td className="p-4 text-[#3d4350]">Cooling hardware</td>
+                <td className="p-4 text-[#3d4350]">{deviceA.coolingSystem}</td>
+                <td className="p-4 text-[#3d4350]">{deviceB.coolingSystem}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Gyroscope</td>
+                <td className="p-4 text-[#3d4350]">Gyroscope</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceA.gyroscope}</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceB.gyroscope}</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Battery & drain</td>
+                <td className="p-4 text-[#3d4350]">Battery & drain</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceA.batteryCapacity} mAh (~{deviceA.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
                 <td className="p-4 text-[#0b0c0e]">{deviceB.batteryCapacity} mAh (~{deviceB.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
               </tr>
               <tr>
-                <td className="p-4 text-[#525866]">Gaming score</td>
+                <td className="p-4 text-[#3d4350]">Gaming score</td>
                 <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.overallGamingRating} / 10</td>
-                <td className="p-4 font-semibold text-[#15803d]">{deviceB.overallGamingRating} / 10</td>
+                <td className="p-4 font-semibold text-[#166534]">{deviceB.overallGamingRating} / 10</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      </div>
 
       {/* Verdict */}
-      <div className="p-6 sm:p-8 rounded-lg bg-[#e2e5ea] space-y-3">
+      <div className="p-5 sm:p-8 rounded-lg bg-[#e2e5ea] space-y-3">
         <h3 className="text-xl font-semibold text-[#0b0c0e]">Comparison summary</h3>
-        <p className="text-[16px] text-[#0b0c0e] leading-relaxed">
+        <p className="text-base text-[#0b0c0e] leading-relaxed">
           {deviceA.overallGamingRating > deviceB.overallGamingRating
-            ? `${deviceA.brand} ${deviceA.model} leads with ${deviceA.maxSupportedFps} FPS support and stronger sustained performance (${deviceA.overallGamingRating}/10 vs ${deviceB.overallGamingRating}/10). ${deviceA.verdict}`
+            ? `${formatDeviceName(deviceA.brand, deviceA.model)} leads with ${deviceA.maxSupportedFps} FPS support and stronger sustained performance (${deviceA.overallGamingRating}/10 vs ${deviceB.overallGamingRating}/10). ${deviceA.verdict}`
             : deviceB.overallGamingRating > deviceA.overallGamingRating
-            ? `${deviceB.brand} ${deviceB.model} takes the win with ${deviceB.maxSupportedFps} FPS capability and better sustained stability (${deviceB.overallGamingRating}/10 vs ${deviceA.overallGamingRating}/10). ${deviceB.verdict}`
-            : `Both devices are closely matched with an identical ${deviceA.overallGamingRating}/10 rating. Pick based on display size, ergonomics, and battery capacity.`}
+              ? `${formatDeviceName(deviceB.brand, deviceB.model)} takes the win with ${deviceB.maxSupportedFps} FPS capability and better sustained stability (${deviceB.overallGamingRating}/10 vs ${deviceA.overallGamingRating}/10). ${deviceB.verdict}`
+              : `Both devices are closely matched with an identical ${deviceA.overallGamingRating}/10 rating. Pick based on display size, ergonomics, and battery capacity.`}
         </p>
 
-        <div className="flex flex-wrap gap-5 pt-2 text-[14px]">
+        <div className="flex flex-wrap gap-5 pt-2 text-sm">
           <Link href={`/devices/${deviceA.brandSlug}/${deviceA.slug}`} className="font-medium text-[#1f2de6] hover:underline">
-            Read {deviceA.model} review
+            Read {formatDeviceName(deviceA.brand, deviceA.model)} review
           </Link>
-          <Link href={`/devices/${deviceB.brandSlug}/${deviceB.slug}`} className="font-medium text-[#15803d] hover:underline">
-            Read {deviceB.model} review
+          <Link href={`/devices/${deviceB.brandSlug}/${deviceB.slug}`} className="font-medium text-[#14532d] hover:underline">
+            Read {formatDeviceName(deviceB.brand, deviceB.model)} review
           </Link>
         </div>
       </div>

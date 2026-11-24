@@ -34,9 +34,9 @@ export const FeatureCards = () => {
   ];
 
   return (
-    <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-4 space-y-2.5 reveal-on-scroll">
+    <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-16">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        <div className="lg:col-span-4 space-y-2 reveal-on-scroll">
           <h2 className="text-[28px] sm:text-[36px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
             What every benchmark covers
           </h2>
@@ -45,7 +45,7 @@ export const FeatureCards = () => {
           </p>
         </div>
 
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-6 sm:space-y-8">
           {pillars.map((item, idx) => (
             <div
               key={idx}

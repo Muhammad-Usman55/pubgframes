@@ -43,7 +43,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
   return (
     <aside
       aria-label="Advertisement"
-      className={`relative w-full rounded-lg bg-[#e2e5ea] px-5 py-4 flex flex-col justify-center ${formatStyles} ${className}`}
+      className={`relative w-full rounded-lg bg-[#e2e5ea] p-4 sm:px-6 sm:py-4 flex flex-col justify-center ${formatStyles} ${className}`}
     >
       {isProductionAd ? (
         <ins
@@ -66,7 +66,7 @@ export const AdBanner: React.FC<AdBannerProps> = ({
           </div>
           <Link
             href="/guides/best-smartphones-for-pubg-mobile"
-            className="shrink-0 text-sm font-medium text-[#0b0c0e] bg-[#ffffff] hover:bg-[#f6f7f9] px-4 py-2 rounded-md transition-colors duration-150"
+            className="w-full sm:w-auto text-center shrink-0 text-sm font-medium text-[#0b0c0e] bg-[#ffffff] hover:bg-[#f6f7f9] px-4 py-2.5 sm:py-2 rounded-md transition-colors duration-150"
           >
             Read cooling guide
           </Link>

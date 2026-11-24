@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Smartphone, Search, ShieldCheck, AlertTriangle, Copy, Check, ArrowUpRight, Flame } from 'lucide-react';
+import { Smartphone, Search, ShieldCheck, AlertTriangle, Copy, Check, ArrowUpRight, Flame, X } from 'lucide-react';
 import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
 import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
@@ -92,20 +92,20 @@ Check yours at https://pubgframes.com`;
   const graphicsModes: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
 
   return (
-    <section id="fps-calculator" className="max-w-[1440px] mx-auto px-4 sm:px-8 py-6 scroll-mt-24">
-      <div className="rounded-lg bg-[#ffffff] p-5 sm:p-8 lg:p-10 space-y-8">
+    <section id="fps-calculator" className="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 sm:py-6 scroll-mt-12">
+      <div className="rounded-lg bg-[#ffffff] p-4 sm:p-8 lg:p-10 space-y-6 sm:space-y-8">
         {/* Top Row: Heading & Quick Picks */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-2">
-          <div className="space-y-1.5 reveal-on-scroll">
-            <h2 className="text-[28px] sm:text-[36px] font-semibold tracking-[-0.02em] text-[#0b0c0e]">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-1 sm:pb-2">
+          <div className="space-y-1.5">
+            <h2 className="text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-[#0b0c0e]">
               Check PUBG FPS on your mobile
             </h2>
-            <p className="text-base text-[#0b0c0e] max-w-[54ch]">
+            <p className="text-[15px] text-[#525866]">
               Type any model name (partial names or typos work) and switch graphics modes for instant results.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 reveal-on-scroll">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 reveal-on-scroll">
             <span className="text-sm font-medium text-[#3d4350] mr-1">Popular:</span>
             {quickPicks.map((dev) => (
               <button
@@ -116,7 +116,7 @@ Check yours at https://pubgframes.com`;
                   setSelectedDevice(dev);
                   setGamingMinutes(0);
                 }}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer ${
                   selectedDevice.id === dev.id
                     ? 'bg-[#1f2de6] text-white'
                     : 'bg-[#eef0f3] text-[#0b0c0e] hover:bg-[#e2e5ea]'
@@ -129,9 +129,10 @@ Check yours at https://pubgframes.com`;
         </div>
 
         {/* Main Interactive Calculator Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left / Middle Controls (data-ui fragment) */}
-          <div data-ui="fps-controls" className="lg:col-span-7 space-y-6 reveal-on-scroll">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+          {/* Left / Middle Controls */}
+          <div data-ui="fps-controls" className="lg:col-span-7 space-y-6">
+            {/* Phone Search & Selector */}
             <div className="relative" ref={dropdownRef}>
               <label
                 htmlFor="device-picker-trigger"
@@ -165,20 +166,32 @@ Check yours at https://pubgframes.com`;
                 </span>
               </button>
 
+              {/* Search Dropdown Panel (floating overlay menu) */}
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-[#ffffff] rounded-lg shadow-xl p-3 max-h-96 overflow-y-auto ring-1 ring-[#c5cbd4]"> {/* taste-skill-ignore */}
                   <div className="relative mb-3">
-                    <Search className="w-4 h-4 text-[#3d4350] absolute left-3 top-1/2 -translate-y-1/2" />
+                    <Search className="w-4 h-4 text-[#525866] absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Type any model or typo (e.g. note 12, edmi note 12, s24, poco x6)..."
+                      placeholder="Type any model or typo (e.g. note 12, s24)..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-9 pr-3 py-2.5 text-base rounded-md bg-[#eef0f3] text-[#0b0c0e] placeholder-[#3d4350] focus:outline-none"
+                      className="w-full pl-9 pr-9 py-2.5 text-base rounded-md bg-[#eef0f3] text-[#0b0c0e] placeholder-[#3d4350] focus:outline-none"
                       autoFocus
                     />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        aria-label="Clear search query"
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#3d4350] hover:text-[#0b0c0e] p-1 cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
 
+                  {/* Brand Filter Bar */}
                   <div className="flex gap-1.5 overflow-x-auto pb-2 mb-2 no-scrollbar">
                     <button
                       type="button"
@@ -186,11 +199,10 @@ Check yours at https://pubgframes.com`;
                         soundEffects.playClick();
                         setSelectedBrandFilter('All');
                       }}
-                      className={`px-3 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
-                        selectedBrandFilter === 'All'
-                          ? 'bg-[#0b0c0e] text-white'
-                          : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
-                      }`}
+                      className={`px-3 py-1 rounded-md whitespace-nowrap text-[13px] font-medium cursor-pointer ${selectedBrandFilter === 'All'
+                        ? 'bg-[#0b0c0e] text-white'
+                        : 'bg-[#eef0f3] text-[#525866] hover:text-[#0b0c0e]'
+                        }`}
                     >
                       All brands
                     </button>
@@ -202,17 +214,17 @@ Check yours at https://pubgframes.com`;
                           soundEffects.playClick();
                           setSelectedBrandFilter(brand);
                         }}
-                        className={`px-3 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
-                          selectedBrandFilter === brand
-                            ? 'bg-[#0b0c0e] text-white'
-                            : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
-                        }`}
+                        className={`px-3 py-1 rounded-md whitespace-nowrap text-[13px] font-medium cursor-pointer ${selectedBrandFilter === brand
+                          ? 'bg-[#0b0c0e] text-white'
+                          : 'bg-[#eef0f3] text-[#525866] hover:text-[#0b0c0e]'
+                          }`}
                       >
                         {brand}
                       </button>
                     ))}
                   </div>
 
+                  {/* Matching Results */}
                   <div className="space-y-1">
                     {filteredDevices.map((device) => (
                       <button
@@ -224,31 +236,29 @@ Check yours at https://pubgframes.com`;
                           setIsDropdownOpen(false);
                           setSearchQuery('');
                         }}
-                        className={`w-full flex items-center justify-between p-2.5 rounded-md text-left text-base transition-colors duration-150 cursor-pointer ${
-                          selectedDevice.id === device.id
-                            ? 'bg-[#1f2de6]/10 text-[#0b0c0e]'
-                            : 'hover:bg-[#eef0f3] text-[#0b0c0e]'
-                        }`}
+                        className={`w-full flex items-center justify-between p-2.5 rounded-md text-left text-sm transition-colors duration-150 cursor-pointer ${selectedDevice.id === device.id
+                          ? 'bg-[#1f2de6]/10 text-[#0b0c0e]'
+                          : 'hover:bg-[#eef0f3] text-[#0b0c0e]'
+                          }`}
                       >
                         <div className="truncate">
-                          <div className="font-medium text-[#0b0c0e]">
+                          <div className="font-medium text-[#0b0c0e] truncate">
                             {formatDeviceName(device.brand, device.model)}
                           </div>
                           <div className="text-sm text-[#3d4350] truncate">{device.chipset}</div>
                         </div>
                         <span
-                          className={`text-sm font-semibold tabular-nums px-2 py-0.5 rounded ml-2 shrink-0 ${
-                            device.maxSupportedFps === 0
-                              ? 'bg-[#fee2e2] text-[#b91c1c]'
-                              : 'bg-[#e2e5ea] text-[#0b0c0e]'
-                          }`}
+                          className={`text-sm font-semibold tabular-nums px-2 py-0.5 rounded ml-2 shrink-0 ${device.maxSupportedFps === 0
+                            ? 'bg-[#fee2e2] text-[#b91c1c]'
+                            : 'bg-[#e2e5ea] text-[#0b0c0e]'
+                            }`}
                         >
                           {device.maxSupportedFps === 0 ? 'Unsupported' : `${device.maxSupportedFps} FPS`}
                         </span>
                       </button>
                     ))}
                     {filteredDevices.length === 0 && (
-                      <div className="p-4 text-center text-base text-[#3d4350]">
+                      <div className="p-4 text-center text-sm text-[#3d4350]">
                         No phones matched &ldquo;{searchQuery}&rdquo;. Try checking the model number or clearing brand filter.
                       </div>
                     )}
@@ -257,6 +267,7 @@ Check yours at https://pubgframes.com`;
               )}
             </div>
 
+            {/* Graphics Mode Segmented Selector */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-[#0b0c0e]">Graphics preset</span>
@@ -275,23 +286,22 @@ Check yours at https://pubgframes.com`;
                         soundEffects.playClick();
                         setSelectedGraphics(mode);
                       }}
-                      className={`py-2.5 px-3 rounded-md text-left transition-colors duration-150 cursor-pointer ${
+                      className={`py-2.5 px-3 rounded-md text-left last:col-span-2 sm:last:col-span-1 transition-colors duration-150 cursor-pointer ${
                         isSelected
                           ? 'bg-[#1f2de6] text-white'
                           : isSupported
                           ? 'bg-[#eef0f3] text-[#0b0c0e] hover:bg-[#e2e5ea]'
                           : 'bg-[#f6f7f9] text-[#3d4350] opacity-75'
-                      }`}
+                        }`}
                     >
                       <div className="text-base font-medium leading-tight">{mode}</div>
                       <div
-                        className={`text-sm tabular-nums mt-0.5 ${
-                          isSelected
-                            ? 'text-white/90'
-                            : isSupported
+                        className={`text-sm tabular-nums mt-0.5 ${isSelected
+                          ? 'text-white/90'
+                          : isSupported
                             ? 'text-[#3d4350]'
                             : 'text-[#b91c1c]'
-                        }`}
+                          }`}
                       >
                         {isSupported
                           ? `${selectedDevice.graphicsModes[mode].estimatedFps} FPS`
@@ -303,6 +313,7 @@ Check yours at https://pubgframes.com`;
               </div>
             </div>
 
+            {/* Match Duration / Heat Simulator Slider */}
             {baseFpsResult.setting.supported && (
               <div className="p-4 rounded-md bg-[#eef0f3] space-y-2.5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -340,8 +351,8 @@ Check yours at https://pubgframes.com`;
             )}
           </div>
 
-          {/* Right Panel: Instant Live Readout (data-ui fragment) */}
-          <div data-ui="fps-readout" className="lg:col-span-5 rounded-lg bg-[#eef0f3] p-6 space-y-5 reveal-on-scroll">
+          {/* Right Panel: Instant Live Readout */}
+          <div data-ui="fps-readout" className="lg:col-span-5 rounded-lg bg-[#eef0f3] p-5 sm:p-6 space-y-5">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-[#3d4350]">Estimated live framerate</span>
               <button
@@ -364,12 +375,13 @@ Check yours at https://pubgframes.com`;
               {selectedDevice.maxSupportedFps === 0
                 ? 'Insufficient hardware (Game unsupported)'
                 : baseFpsResult.setting.supported
-                ? gamingMinutes > 0 && thermalState.throttlingPercent > 0
-                  ? `Heat throttling drops FPS by ${thermalState.throttlingPercent}% at ${gamingMinutes}m`
-                  : baseFpsResult.statusDescription
-                : 'Locked by PUBG Mobile client for this chipset'}
+                  ? gamingMinutes > 0 && thermalState.throttlingPercent > 0
+                    ? `Heat throttling drops FPS by ${thermalState.throttlingPercent}% at ${gamingMinutes}m`
+                    : baseFpsResult.statusDescription
+                  : 'Locked by PUBG Mobile client for this chipset'}
             </div>
 
+            {/* 4 Key Live Numbers */}
             <div className="grid grid-cols-2 gap-3 pt-1">
               <div className="p-3.5 rounded-md bg-[#ffffff]">
                 <div className="text-sm text-[#3d4350]">Combat range</div>
@@ -388,13 +400,12 @@ Check yours at https://pubgframes.com`;
               <div className="p-3.5 rounded-md bg-[#ffffff]">
                 <div className="text-sm text-[#3d4350]">Thermal risk</div>
                 <div
-                  className={`text-base font-semibold mt-0.5 ${
-                    baseFpsResult.setting.thermalRisk === 'Low'
-                      ? 'text-[#166534]'
-                      : baseFpsResult.setting.thermalRisk === 'Moderate'
+                  className={`text-base font-semibold mt-0.5 ${baseFpsResult.setting.thermalRisk === 'Low'
+                    ? 'text-[#166534]'
+                    : baseFpsResult.setting.thermalRisk === 'Moderate'
                       ? 'text-[#b45309]'
                       : 'text-[#b91c1c]'
-                  }`}
+                    }`}
                 >
                   {baseFpsResult.setting.thermalRisk}
                 </div>
@@ -409,6 +420,7 @@ Check yours at https://pubgframes.com`;
               </div>
             </div>
 
+            {/* Hardware Alerts / Recommendation */}
             {(selectedDevice.maxSupportedFps === 0 || selectedDevice.isUnsupportedHardware) ? (
               <div className="p-3.5 rounded-md bg-[#fee2e2] text-[#991b1b] text-base flex items-start gap-2.5">
                 <AlertTriangle className="w-4 h-4 shrink-0 mt-1" />
@@ -437,7 +449,7 @@ Check yours at https://pubgframes.com`;
               <Link
                 href={`/compare?phone1=${selectedDevice.id}`}
                 onClick={() => soundEffects.playClick()}
-                className="text-sm font-medium text-[#0b0c0e] bg-[#ffffff] hover:bg-[#e2e5ea] px-3.5 py-1.5 rounded-md transition-colors duration-150"
+                className="text-sm font-medium text-[#0b0c0e] bg-[#ffffff] hover:bg-[#e2e5ea] px-3.5 py-2 rounded-md transition-colors duration-150"
               >
                 Compare against another phone
               </Link>
