@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
 import { DEVICES_DATA } from '@/data/devices';
 import { GUIDES_DATA } from '@/data/guides';
+import { getSiteUrl } from '@/lib/siteConfig';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://pubgframes.com';
+  const baseUrl = getSiteUrl();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -58,13 +59,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/privacy-policy`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.3
+      priority: 0.4
+    },
+    {
+      url: `${baseUrl}/cookie-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.4
     },
     {
       url: `${baseUrl}/terms`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.3
+      priority: 0.4
     }
   ];
 

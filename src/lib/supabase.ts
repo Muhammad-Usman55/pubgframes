@@ -1,17 +1,12 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Retrieve credentials from environment or localStorage (for dynamic browser config)
 export function getSupabaseCredentials() {
-  const envUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const envKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-  if (typeof window !== 'undefined') {
-    const localUrl = localStorage.getItem('pubgframes_supabase_url');
-    const localKey = localStorage.getItem('pubgframes_supabase_key');
-    if (localUrl && localKey) {
-      return { url: localUrl, key: localKey, source: 'localStorage' as const };
-    }
-  }
+  const envUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
+  const envKey = (
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    ''
+  ).trim();
 
   if (envUrl && envKey) {
     return { url: envUrl, key: envKey, source: 'env' as const };
@@ -35,10 +30,6 @@ export function getSupabase(): SupabaseClient | null {
     }
   }
   return supabaseInstance;
-}
-
-export function resetSupabaseInstance() {
-  supabaseInstance = null;
 }
 
 export function isSupabaseConnected(): boolean {

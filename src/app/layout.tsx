@@ -1,10 +1,13 @@
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { MobileBottomNav } from '@/components/MobileBottomNav';
 import { MotionObserver } from '@/components/MotionObserver';
+import { TelemetryTracker } from '@/components/TelemetryTracker';
+import { getAdSenseClientId, getSiteUrl } from '@/lib/siteConfig';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -13,8 +16,11 @@ const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta'
 });
 
+const siteUrl = getSiteUrl();
+const adSenseClientId = getAdSenseClientId();
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://pubgframes.com'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'PUBGFrames — Check Your Phone’s PUBG Frame Rate',
     template: '%s | PUBGFrames'
@@ -42,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://pubgframes.com',
+    url: siteUrl,
     siteName: 'PUBGFrames',
     title: 'PUBGFrames — Check Your Phone’s PUBG Frame Rate',
     description:
@@ -68,14 +74,16 @@ export const metadata: Metadata = {
       { url: '/icon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico', sizes: 'any' }
     ],
-    apple: [
-      { url: '/icon.svg', sizes: '180x180', type: 'image/svg+xml' }
-    ],
+    apple: [{ url: '/icon.svg', sizes: '180x180', type: 'image/svg+xml' }],
     shortcut: ['/icon.svg']
   },
-  other: {
-    'google-adsense-account': process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-pubgframes'
-  },
+  ...(adSenseClientId
+    ? {
+        other: {
+          'google-adsense-account': adSenseClientId
+        }
+      }
+    : {}),
   robots: {
     index: true,
     follow: true,
@@ -107,18 +115,19 @@ export default function RootLayout({
     '@graph': [
       {
         '@type': 'WebSite',
-        '@id': 'https://pubgframes.com/#website',
-        url: 'https://pubgframes.com',
+        '@id': `${siteUrl}/#website`,
+        url: siteUrl,
         name: 'PUBGFrames',
-        description: 'PUBG Mobile frame rate and smartphone gaming hardware database for 1,630+ phones and tablets',
+        description:
+          'PUBG Mobile frame rate and smartphone gaming hardware database for 1,630+ phones and tablets',
         publisher: {
           '@type': 'Organization',
-          '@id': 'https://pubgframes.com/#organization',
+          '@id': `${siteUrl}/#organization`,
           name: 'PUBGFrames',
-          url: 'https://pubgframes.com',
+          url: siteUrl,
           logo: {
             '@type': 'ImageObject',
-            url: 'https://pubgframes.com/icon.svg',
+            url: `${siteUrl}/icon.svg`,
             width: 512,
             height: 512
           }
@@ -127,16 +136,16 @@ export default function RootLayout({
           '@type': 'SearchAction',
           target: {
             '@type': 'EntryPoint',
-            urlTemplate: 'https://pubgframes.com/devices?q={search_term_string}'
+            urlTemplate: `${siteUrl}/devices?q={search_term_string}`
           },
           'query-input': 'required name=search_term_string'
         }
       },
       {
         '@type': 'WebApplication',
-        '@id': 'https://pubgframes.com/#webapp',
+        '@id': `${siteUrl}/#webapp`,
         name: 'PUBGFrames FPS Checker',
-        url: 'https://pubgframes.com',
+        url: siteUrl,
         applicationCategory: 'GameApplication',
         operatingSystem: 'Android, iOS',
         description:
@@ -166,6 +175,15 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#eef0f3] text-[#0b0c0e] antialiased min-h-dvh flex flex-col font-sans selection:bg-[#1f2de6] selection:text-white">
+        {adSenseClientId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
+        <TelemetryTracker />
         <MotionObserver />
         <Navbar />
         <main className="flex-1">{children}</main>

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { scoreDeviceRelevance } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
+import { trackSearchQuery } from '@/lib/analytics';
 import { Search, X } from 'lucide-react';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -64,6 +65,15 @@ export default function DevicesCatalogPage() {
   }, [search, selectedBrand, selectedFpsFilter, onlyGamingPhones, sortBy]);
 
   const displayedDevices = filteredDevices.slice(0, visibleCount);
+
+  useEffect(() => {
+    const clean = search.trim();
+    if (clean.length < 2) return;
+    const timer = setTimeout(() => {
+      trackSearchQuery(clean, filteredDevices.length);
+    }, 900);
+    return () => clearTimeout(timer);
+  }, [search, filteredDevices.length]);
 
   return (
     <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-6 sm:py-12 space-y-6 sm:space-y-8">

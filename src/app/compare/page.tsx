@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
+import { trackSearchQuery } from '@/lib/analytics';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
 import { ArrowLeftRight, Share2, Check, Search, Smartphone, X } from 'lucide-react';
@@ -114,11 +115,10 @@ function SearchableDeviceSelect({
                   soundEffects.playClick();
                   setBrandFilter('All');
                 }}
-                className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
-                  brandFilter === 'All'
-                    ? 'bg-[#0b0c0e] text-white'
-                    : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
-                }`}
+                className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${brandFilter === 'All'
+                  ? 'bg-[#0b0c0e] text-white'
+                  : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
+                  }`}
               >
                 All brands
               </button>
@@ -130,11 +130,10 @@ function SearchableDeviceSelect({
                     soundEffects.playClick();
                     setBrandFilter(brand);
                   }}
-                  className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${
-                    brandFilter === brand
-                      ? 'bg-[#0b0c0e] text-white'
-                      : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
-                  }`}
+                  className={`px-2.5 py-1 rounded-md whitespace-nowrap text-sm font-medium cursor-pointer ${brandFilter === brand
+                    ? 'bg-[#0b0c0e] text-white'
+                    : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
+                    }`}
                 >
                   {brand}
                 </button>
@@ -148,15 +147,15 @@ function SearchableDeviceSelect({
                   type="button"
                   onClick={() => {
                     soundEffects.playClick();
+                    trackSearchQuery(formatDeviceName(d.brand, d.model), matches.length, d.id);
                     onSelect(d);
                     setOpen(false);
                     setQuery('');
                   }}
-                  className={`w-full flex items-center justify-between p-2 rounded text-left text-sm cursor-pointer ${
-                    selected.id === d.id
-                      ? 'bg-[#1f2de6]/10 text-[#0b0c0e]'
-                      : 'hover:bg-[#eef0f3] text-[#0b0c0e]'
-                  }`}
+                  className={`w-full flex items-center justify-between p-2 rounded text-left text-sm cursor-pointer ${selected.id === d.id
+                    ? 'bg-[#1f2de6]/10 text-[#0b0c0e]'
+                    : 'hover:bg-[#eef0f3] text-[#0b0c0e]'
+                    }`}
                 >
                   <div className="truncate">
                     <div className="font-medium text-[#0b0c0e] truncate">
@@ -165,11 +164,10 @@ function SearchableDeviceSelect({
                     <div className="text-sm text-[#3d4350] truncate">{d.chipset}</div>
                   </div>
                   <span
-                    className={`text-sm font-medium tabular-nums px-2 py-0.5 rounded ml-2 shrink-0 ${
-                      d.maxSupportedFps === 0
-                        ? 'bg-[#fee2e2] text-[#b91c1c]'
-                        : 'bg-[#e2e5ea] text-[#0b0c0e]'
-                    }`}
+                    className={`text-sm font-medium tabular-nums px-2 py-0.5 rounded ml-2 shrink-0 ${d.maxSupportedFps === 0
+                      ? 'bg-[#fee2e2] text-[#b91c1c]'
+                      : 'bg-[#e2e5ea] text-[#0b0c0e]'
+                      }`}
                   >
                     {d.maxSupportedFps === 0 ? 'Unsupported' : `${d.maxSupportedFps} FPS`}
                   </span>
@@ -387,72 +385,72 @@ function CompareContent() {
         <div className="rounded-lg bg-[#ffffff] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[540px] text-left text-base">
-            <thead>
-              <tr className="bg-[#e2e5ea]/60">
-                <th className="p-4 text-[#3d4350] font-medium w-1/3">Specification</th>
-                <th className="p-4 text-[#1f2de6] font-semibold w-1/3">{formatDeviceName(deviceA.brand, deviceA.model)}</th>
-                <th className="p-4 text-[#166534] font-semibold w-1/3">{formatDeviceName(deviceB.brand, deviceB.model)}</th>
-              </tr>
-            </thead>
-            <tbody className="tabular-nums">
-              <tr>
-                <td className="p-4 text-[#3d4350]">Processor</td>
-                <td className="p-4 text-[#0b0c0e] font-medium">{deviceA.chipset}</td>
-                <td className="p-4 text-[#0b0c0e] font-medium">{deviceB.chipset}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">GPU</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceA.gpu}</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceB.gpu}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Max supported FPS</td>
-                <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.maxSupportedFps === 0 ? 'Unsupported' : `${deviceA.maxSupportedFps} FPS`}</td>
-                <td className="p-4 font-semibold text-[#166534]">{deviceB.maxSupportedFps === 0 ? 'Unsupported' : `${deviceB.maxSupportedFps} FPS`}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Display</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceA.displayRefreshRate} Hz ({deviceA.screenSize})</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceB.displayRefreshRate} Hz ({deviceB.screenSize})</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">AnTuTu score</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceA.antutuScore?.toLocaleString() || 'N/A'}</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceB.antutuScore?.toLocaleString() || 'N/A'}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Smooth FPS & stability</td>
-                <td className="p-4 font-medium text-[#0b0c0e]">
-                  {deviceA.graphicsModes.Smooth.supported ? `${deviceA.graphicsModes.Smooth.estimatedFps} FPS (${deviceA.graphicsModes.Smooth.stabilityScore}%)` : 'Unsupported'}
-                </td>
-                <td className="p-4 font-medium text-[#0b0c0e]">
-                  {deviceB.graphicsModes.Smooth.supported ? `${deviceB.graphicsModes.Smooth.estimatedFps} FPS (${deviceB.graphicsModes.Smooth.stabilityScore}%)` : 'Unsupported'}
-                </td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Cooling hardware</td>
-                <td className="p-4 text-[#3d4350]">{deviceA.coolingSystem}</td>
-                <td className="p-4 text-[#3d4350]">{deviceB.coolingSystem}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Gyroscope</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceA.gyroscope}</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceB.gyroscope}</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Battery & drain</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceA.batteryCapacity} mAh (~{deviceA.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
-                <td className="p-4 text-[#0b0c0e]">{deviceB.batteryCapacity} mAh (~{deviceB.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
-              </tr>
-              <tr>
-                <td className="p-4 text-[#3d4350]">Gaming score</td>
-                <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.overallGamingRating} / 10</td>
-                <td className="p-4 font-semibold text-[#166534]">{deviceB.overallGamingRating} / 10</td>
-              </tr>
-            </tbody>
-          </table>
+              <thead>
+                <tr className="bg-[#e2e5ea]/60">
+                  <th className="p-4 text-[#3d4350] font-medium w-1/3">Specification</th>
+                  <th className="p-4 text-[#1f2de6] font-semibold w-1/3">{formatDeviceName(deviceA.brand, deviceA.model)}</th>
+                  <th className="p-4 text-[#166534] font-semibold w-1/3">{formatDeviceName(deviceB.brand, deviceB.model)}</th>
+                </tr>
+              </thead>
+              <tbody className="tabular-nums">
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Processor</td>
+                  <td className="p-4 text-[#0b0c0e] font-medium">{deviceA.chipset}</td>
+                  <td className="p-4 text-[#0b0c0e] font-medium">{deviceB.chipset}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">GPU</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceA.gpu}</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceB.gpu}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Max supported FPS</td>
+                  <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.maxSupportedFps === 0 ? 'Unsupported' : `${deviceA.maxSupportedFps} FPS`}</td>
+                  <td className="p-4 font-semibold text-[#166534]">{deviceB.maxSupportedFps === 0 ? 'Unsupported' : `${deviceB.maxSupportedFps} FPS`}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Display</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceA.displayRefreshRate} Hz ({deviceA.screenSize})</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceB.displayRefreshRate} Hz ({deviceB.screenSize})</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">AnTuTu score</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceA.antutuScore?.toLocaleString() || 'N/A'}</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceB.antutuScore?.toLocaleString() || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Smooth FPS & stability</td>
+                  <td className="p-4 font-medium text-[#0b0c0e]">
+                    {deviceA.graphicsModes.Smooth.supported ? `${deviceA.graphicsModes.Smooth.estimatedFps} FPS (${deviceA.graphicsModes.Smooth.stabilityScore}%)` : 'Unsupported'}
+                  </td>
+                  <td className="p-4 font-medium text-[#0b0c0e]">
+                    {deviceB.graphicsModes.Smooth.supported ? `${deviceB.graphicsModes.Smooth.estimatedFps} FPS (${deviceB.graphicsModes.Smooth.stabilityScore}%)` : 'Unsupported'}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Cooling hardware</td>
+                  <td className="p-4 text-[#3d4350]">{deviceA.coolingSystem}</td>
+                  <td className="p-4 text-[#3d4350]">{deviceB.coolingSystem}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Gyroscope</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceA.gyroscope}</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceB.gyroscope}</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Battery & drain</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceA.batteryCapacity} mAh (~{deviceA.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
+                  <td className="p-4 text-[#0b0c0e]">{deviceB.batteryCapacity} mAh (~{deviceB.graphicsModes.Smooth.batteryDrainPerHour}%/hr)</td>
+                </tr>
+                <tr>
+                  <td className="p-4 text-[#3d4350]">Gaming score</td>
+                  <td className="p-4 font-semibold text-[#1f2de6]">{deviceA.overallGamingRating} / 10</td>
+                  <td className="p-4 font-semibold text-[#166534]">{deviceB.overallGamingRating} / 10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
       </div>
 
       {/* Verdict */}

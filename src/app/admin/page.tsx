@@ -1,16 +1,24 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback, FormEvent, DragEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { DeviceInfo } from '@/types/device';
+import { formatDeviceName } from '@/utils/formatDeviceName';
 import {
-  Shield,
+  EMPTY_ANALYTICS,
+  RealAnalyticsData,
+  getBrowserFallbackAnalytics,
+  clearBrowserFallbackAnalytics
+} from '@/lib/analytics';
+import {
+  ShieldCheck,
   LayoutDashboard,
   Smartphone,
   UploadCloud,
-  Settings,
+  Database,
+  Mail,
   TrendingUp,
   Users,
   Search,
@@ -24,396 +32,46 @@ import {
   LogOut,
   ExternalLink,
   RefreshCw,
-  FileText,
-  Image as ImageIcon,
   Zap,
+  AlertCircle,
   X
 } from 'lucide-react';
-import { getSupabaseCredentials, isSupabaseConnected, resetSupabaseInstance } from '@/lib/supabase';
-import { getRealAnalytics, resetAnalyticsData, RealAnalyticsData, DEFAULT_ANALYTICS } from '@/lib/analytics';
-import { getAdminSession, clearAdminSession } from '@/lib/adminAuth';
 
-export default function AdminDashboardPage() {
-  const router = useRouter();
+interface TableStatus {
+  name: string;
+  ready: boolean;
+  count: number;
+  error?: string;
+}
 
-  // Auth Protection
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [adminUser, setAdminUser] = useState<string>('usmanshahidhnd2108@gmail.com');
+interface ContactMessageRow {
+  id: string;
+  name: string;
+  email: string;
+  topic: string;
+  device_model?: string | null;
+  message: string;
+  status: string;
+  created_at: string;
+}
 
-  // Navigation Tab State
-  const [activeTab, setActiveTab] = useState<'analytics' | 'devices' | 'dragdrop' | 'settings'>('analytics');
+interface AdminUserRow {
+  id?: string;
+  email: string;
+  role: string;
+}
 
-  // Devices State (combining static data with local/supabase added devices)
-  const [customDevices, setCustomDevices] = useState<DeviceInfo[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [brandFilter, setBrandFilter] = useState('All');
-  const [fpsFilter, setFpsFilter] = useState('All');
+const COMPLETE_SQL_SCHEMA = `-- PUBGFrames Production Schema (Zero Dummy Data)
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-  // Add / Edit Modal State
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingDevice, setEditingDevice] = useState<DeviceInfo | null>(null);
-
-  // Drag and Drop State
-  const [dragActive, setDragActive] = useState(false);
-  const [droppedFilesStatus, setDroppedFilesStatus] = useState<string>('');
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>('');
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Settings / Supabase State
-  const [supabaseUrl, setSupabaseUrl] = useState('');
-  const [supabaseKey, setSupabaseKey] = useState('');
-  const [connectionStatus, setConnectionStatus] = useState<'connected' | 'local'>('local');
-  const [copiedSql, setCopiedSql] = useState(false);
-  const sqlCopyTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (sqlCopyTimerRef.current) clearTimeout(sqlCopyTimerRef.current);
-    };
-  }, []);
-
-  // Form State for Adding / Editing Smartphone
-  const [formData, setFormData] = useState({
-    brand: '',
-    model: '',
-    slug: '',
-    chipset: '',
-    gpu: '',
-    ram: '8GB LPDDR5X',
-    refreshRate: 120,
-    screenSize: '6.7" AMOLED 120Hz',
-    batteryCapacity: 5000,
-    antutuScore: 1200000,
-    gyroscope: 'Ultra Fast Hardware Gyro' as DeviceInfo['gyroscope'],
-    coolingSystem: 'Vapor Chamber Cooling',
-    pubgPartner: false,
-    maxFps: 120,
-    overallRating: 9.0,
-    smoothFps: 120,
-    hdrFps: 60,
-    pros: 'Consistent 120 FPS; Cool running temperature; Low latency touch response',
-    cons: 'Plastic side frame',
-    verdict: 'Excellent competitive gaming performance with stable frame delivery.'
-  });
-
-  // Verify Auth on mount via session validation
-  useEffect(() => {
-    const session = getAdminSession();
-    if (!session) {
-      router.push('/admin/login');
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setIsAuthenticated(true);
-      setAdminUser(session.user);
-
-      // Load custom devices from localStorage
-      const saved = localStorage.getItem('pubgframes_custom_devices');
-      if (saved) {
-        try {
-          setCustomDevices(JSON.parse(saved));
-        } catch (e) {
-          console.error('Error loading custom devices', e);
-        }
-      }
-
-      // Load Supabase credentials
-      const creds = getSupabaseCredentials();
-      if (creds.url) setSupabaseUrl(creds.url);
-      if (creds.key) setSupabaseKey(creds.key);
-      setConnectionStatus(isSupabaseConnected() ? 'connected' : 'local');
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, [router]);
-
-  const handleLogout = () => {
-    clearAdminSession();
-    router.push('/admin/login');
-  };
-
-  // Combine static and custom devices
-  const allDevicesList = useMemo(() => {
-    return [...customDevices, ...DEVICES_DATA];
-  }, [customDevices]);
-
-  // Filtered devices for Devices Tab
-  const filteredDevices = useMemo(() => {
-    return allDevicesList.filter((d) => {
-      const matchBrand = brandFilter === 'All' || d.brand.toLowerCase() === brandFilter.toLowerCase();
-      const matchFps = fpsFilter === 'All' || d.maxSupportedFps.toString() === fpsFilter;
-      const matchQuery =
-        !searchQuery ||
-        `${d.brand} ${d.model} ${d.chipset} ${d.slug}`.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchBrand && matchFps && matchQuery;
-    });
-  }, [allDevicesList, brandFilter, fpsFilter, searchQuery]);
-
-  // Real Analytics Dynamic Tracking (Dummy Data Completely Removed)
-  const [realStats, setRealStats] = useState<RealAnalyticsData>(DEFAULT_ANALYTICS);
-
-  const refreshAnalytics = () => {
-    setRealStats(getRealAnalytics());
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setRealStats(getRealAnalytics());
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [allDevicesList.length]);
-
-  const analyticsData = useMemo(() => {
-    const totalDevices = allDevicesList.length;
-    const stats = realStats || DEFAULT_ANALYTICS;
-
-    return {
-      totalDevices,
-      totalViews: stats.totalViews,
-      todayViews: stats.todayViews,
-      activeVisitors: stats.activeVisitors,
-      totalSearches: stats.totalSearches,
-      topSearched: stats.topSearched,
-      geoDistribution: stats.geoDistribution,
-      trafficHistory: stats.trafficHistory
-    };
-  }, [allDevicesList.length, realStats]);
-
-  const handleClearAnalytics = () => {
-    if (confirm('Are you sure you want to reset all tracked analytics counters to zero?')) {
-      resetAnalyticsData();
-      refreshAnalytics();
-    }
-  };
-
-  // Handle Form Submission (Add or Update device)
-  const handleSaveDevice = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const slug = formData.slug || `${formData.brand}-${formData.model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    const brandSlug = formData.brand.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
-    const newDevice: DeviceInfo = {
-      id: editingDevice?.id || slug,
-      brand: formData.brand,
-      model: formData.model,
-      slug,
-      brandSlug,
-      releaseYear: 2024,
-      chipset: formData.chipset,
-      gpu: formData.gpu,
-      ramOptions: [formData.ram],
-      displayRefreshRate: Number(formData.refreshRate),
-      screenSize: formData.screenSize,
-      batteryCapacity: Number(formData.batteryCapacity),
-      antutuScore: Number(formData.antutuScore),
-      gyroscope: formData.gyroscope,
-      coolingSystem: formData.coolingSystem,
-      pubgOfficialPartner: formData.pubgPartner,
-      maxSupportedFps: (Number(formData.maxFps) || 60) as (0 | 20 | 25 | 30 | 40 | 60 | 90 | 120),
-      overallGamingRating: Number(formData.overallRating),
-      popularityRank: editingDevice?.popularityRank || allDevicesList.length + 1,
-      benchmarkDate: new Date().toISOString().split('T')[0],
-      benchmarkSource: 'PUBGFrames Admin Verified Benchmark',
-      graphicsModes: {
-        Smooth: {
-          supported: true,
-          fpsOptions: formData.maxFps >= 120 ? ['90 FPS (Extreme)', '120 FPS (Extreme+)'] : formData.maxFps >= 90 ? ['60 FPS (Ultra)', '90 FPS (Extreme)'] : ['60 FPS (Ultra)'],
-          estimatedFps: Number(formData.smoothFps),
-          fpsMin: Math.max(Number(formData.smoothFps) - 5, 20),
-          fpsMax: Number(formData.smoothFps),
-          stabilityScore: 95,
-          thermalRisk: 'Low',
-          batteryDrainPerHour: 16,
-          confidenceLevel: 'Verified',
-          notes: `Native ${formData.smoothFps} FPS verified on Smooth graphics.`
-        },
-        Balanced: {
-          supported: true,
-          fpsOptions: ['60 FPS (Ultra)'],
-          estimatedFps: Math.min(Number(formData.smoothFps), 60),
-          fpsMin: Math.min(Number(formData.smoothFps) - 4, 56),
-          fpsMax: Math.min(Number(formData.smoothFps), 60),
-          stabilityScore: 94,
-          thermalRisk: 'Low',
-          batteryDrainPerHour: 17,
-          confidenceLevel: 'Verified',
-          notes: 'Balanced mode delivers high clarity.'
-        },
-        HD: {
-          supported: true,
-          fpsOptions: ['60 FPS (Ultra)'],
-          estimatedFps: Math.min(Number(formData.smoothFps), 60),
-          fpsMin: Math.min(Number(formData.smoothFps) - 5, 55),
-          fpsMax: Math.min(Number(formData.smoothFps), 60),
-          stabilityScore: 92,
-          thermalRisk: 'Moderate',
-          batteryDrainPerHour: 18,
-          confidenceLevel: 'Verified',
-          notes: 'Smooth in HD.'
-        },
-        HDR: {
-          supported: Number(formData.hdrFps) > 0,
-          fpsOptions: Number(formData.hdrFps) >= 60 ? ['60 FPS (Ultra)'] : ['40 FPS (High)'],
-          estimatedFps: Number(formData.hdrFps),
-          fpsMin: Math.max(Number(formData.hdrFps) - 4, 30),
-          fpsMax: Number(formData.hdrFps),
-          stabilityScore: 90,
-          thermalRisk: 'Moderate',
-          batteryDrainPerHour: 20,
-          confidenceLevel: 'Verified',
-          notes: 'Tested in HDR mode.'
-        },
-        'Ultra HD': {
-          supported: false,
-          fpsOptions: [],
-          estimatedFps: 0,
-          fpsMin: 0,
-          fpsMax: 0,
-          stabilityScore: 0,
-          thermalRisk: 'Severe',
-          batteryDrainPerHour: 0,
-          confidenceLevel: 'Unsupported',
-          notes: 'Ultra HD setting unsupported.'
-        }
-      },
-      pros: formData.pros.split(';').map((s) => s.trim()).filter(Boolean),
-      cons: formData.cons.split(';').map((s) => s.trim()).filter(Boolean),
-      verdict: formData.verdict
-    };
-
-    let updated: DeviceInfo[];
-    if (editingDevice) {
-      updated = customDevices.map((d) => (d.id === editingDevice.id ? newDevice : d));
-      // If editing a static device, add it to customDevices as override
-      if (!customDevices.some((d) => d.id === editingDevice.id)) {
-        updated = [newDevice, ...customDevices];
-      }
-    } else {
-      updated = [newDevice, ...customDevices];
-    }
-
-    setCustomDevices(updated);
-    localStorage.setItem('pubgframes_custom_devices', JSON.stringify(updated));
-
-    setIsModalOpen(false);
-    setEditingDevice(null);
-  };
-
-  const handleEditClick = (device: DeviceInfo) => {
-    setEditingDevice(device);
-    setFormData({
-      brand: device.brand,
-      model: device.model,
-      slug: device.slug,
-      chipset: device.chipset,
-      gpu: device.gpu,
-      ram: device.ramOptions[0] || '8GB LPDDR5X',
-      refreshRate: device.displayRefreshRate,
-      screenSize: device.screenSize,
-      batteryCapacity: device.batteryCapacity,
-      antutuScore: device.antutuScore || 0,
-      gyroscope: device.gyroscope,
-      coolingSystem: device.coolingSystem,
-      pubgPartner: !!device.pubgOfficialPartner,
-      maxFps: device.maxSupportedFps,
-      overallRating: device.overallGamingRating,
-      smoothFps: device.graphicsModes.Smooth?.estimatedFps || 60,
-      hdrFps: device.graphicsModes.HDR?.estimatedFps || 40,
-      pros: device.pros.join('; '),
-      cons: device.cons.join('; '),
-      verdict: device.verdict
-    });
-    setIsModalOpen(true);
-  };
-
-  const handleDeleteDevice = (id: string) => {
-    if (confirm('Are you sure you want to delete this custom device?')) {
-      const updated = customDevices.filter((d) => d.id !== id);
-      setCustomDevices(updated);
-      localStorage.setItem('pubgframes_custom_devices', JSON.stringify(updated));
-    }
-  };
-
-  // Drag and Drop Handling (JSON or Image)
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
-  };
-
-  const processFile = (file: File) => {
-    if (file.name.endsWith('.json')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const content = JSON.parse(e.target?.result as string);
-          const devicesArray = Array.isArray(content) ? content : [content];
-          const updated = [...devicesArray, ...customDevices];
-          setCustomDevices(updated);
-          localStorage.setItem('pubgframes_custom_devices', JSON.stringify(updated));
-          setDroppedFilesStatus(`Successfully imported ${devicesArray.length} smartphones from ${file.name}!`);
-        } catch (err) {
-          setDroppedFilesStatus(`Error parsing JSON file: ${(err as Error).message}`);
-        }
-      };
-      reader.readAsText(file);
-    } else if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImageUrl(e.target?.result as string);
-        setDroppedFilesStatus(`Image "${file.name}" uploaded successfully!`);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setDroppedFilesStatus(`Unsupported file type: ${file.name}. Please drop JSON or Image files.`);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFile(e.dataTransfer.files[0]);
-    }
-  };
-
-  // Export Database as JSON
-  const handleExportJson = () => {
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(allDevicesList, null, 2));
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute('href', dataStr);
-    downloadAnchor.setAttribute('download', `pubgframes_devices_${new Date().toISOString().split('T')[0]}.json`);
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
-  };
-
-  // Save Supabase Settings
-  const handleSaveSupabaseConfig = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem('pubgframes_supabase_url', supabaseUrl.trim());
-    localStorage.setItem('pubgframes_supabase_key', supabaseKey.trim());
-    resetSupabaseInstance();
-    setConnectionStatus(supabaseUrl && supabaseKey ? 'connected' : 'local');
-    alert('Supabase credentials saved successfully in browser storage!');
-  };
-
-  const copySqlSchema = () => {
-    const sqlScript = `-- Execute in Supabase SQL Editor:
 CREATE TABLE IF NOT EXISTS public.devices (
     id TEXT PRIMARY KEY,
     brand TEXT NOT NULL,
     model TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
     brand_slug TEXT NOT NULL,
-    release_year INTEGER DEFAULT 2024,
+    release_year INTEGER DEFAULT 2025,
     chipset TEXT NOT NULL,
     gpu TEXT NOT NULL,
     ram_options JSONB DEFAULT '[]'::jsonb,
@@ -426,264 +84,757 @@ CREATE TABLE IF NOT EXISTS public.devices (
     pubg_official_partner BOOLEAN DEFAULT false,
     max_supported_fps INTEGER DEFAULT 60,
     overall_gaming_rating NUMERIC(3, 1) DEFAULT 8.0,
+    popularity_rank INTEGER DEFAULT 100,
+    benchmark_date DATE DEFAULT CURRENT_DATE,
+    benchmark_source TEXT DEFAULT 'PUBGFrames Admin Verified Benchmark',
     graphics_modes JSONB DEFAULT '{}'::jsonb,
     pros JSONB DEFAULT '[]'::jsonb,
     cons JSONB DEFAULT '[]'::jsonb,
-    verdict TEXT
+    verdict TEXT,
+    is_unsupported_hardware BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS idx_devices_brand ON public.devices (brand_slug);
+CREATE INDEX IF NOT EXISTS idx_devices_slug ON public.devices (slug);
+CREATE INDEX IF NOT EXISTS idx_devices_fps ON public.devices (max_supported_fps);
+
+CREATE TABLE IF NOT EXISTS public.analytics_page_views (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    path TEXT NOT NULL,
+    user_agent TEXT,
+    device_type TEXT DEFAULT 'mobile',
+    country TEXT DEFAULT 'Global',
+    referrer TEXT,
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_page_views_timestamp ON public.analytics_page_views (timestamp DESC);
+
+CREATE TABLE IF NOT EXISTS public.search_queries (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    query TEXT NOT NULL,
+    result_count INTEGER DEFAULT 0,
+    selected_device_id TEXT,
+    timestamp TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_search_queries_timestamp ON public.search_queries (timestamp DESC);
+
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    topic TEXT DEFAULT 'Benchmark Submission',
+    device_model TEXT,
+    message TEXT NOT NULL,
+    status TEXT DEFAULT 'new',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.admin_users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email TEXT UNIQUE NOT NULL,
+    role TEXT DEFAULT 'super_admin' CHECK (role = 'super_admin'),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.todos (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    is_complete BOOLEAN DEFAULT false,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 ALTER TABLE public.devices ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public read" ON public.devices FOR SELECT USING (true);
-CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (true);`;
-    navigator.clipboard.writeText(sqlScript);
+ALTER TABLE public.analytics_page_views ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.search_queries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.todos ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow public read access to devices" ON public.devices;
+DROP POLICY IF EXISTS "Allow write access to devices" ON public.devices;
+DROP POLICY IF EXISTS "Allow public insert of analytics" ON public.analytics_page_views;
+DROP POLICY IF EXISTS "Allow public read of analytics" ON public.analytics_page_views;
+DROP POLICY IF EXISTS "Allow public insert of search queries" ON public.search_queries;
+CREATE POLICY "Allow public read access to devices" ON public.devices FOR SELECT USING (true);
+CREATE POLICY "Allow public read todos" ON public.todos FOR SELECT USING (true);
+CREATE POLICY "Allow public insert of analytics" ON public.analytics_page_views FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public insert of search queries" ON public.search_queries FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow public insert contact messages" ON public.contact_messages FOR INSERT WITH CHECK (true);
+
+DELETE FROM public.admin_users WHERE lower(email) <> 'usmanshahidhnd2108@gmail.com';
+INSERT INTO public.admin_users (email, role)
+VALUES ('usmanshahidhnd2108@gmail.com', 'super_admin')
+ON CONFLICT (email) DO UPDATE SET role = 'super_admin';`;
+
+const EMPTY_DEVICE_FORM = {
+  brand: '',
+  model: '',
+  slug: '',
+  chipset: '',
+  gpu: '',
+  ram: '',
+  refreshRate: 120,
+  screenSize: '',
+  batteryCapacity: 5000,
+  antutuScore: '',
+  gyroscope: 'Ultra Fast Hardware Gyro' as DeviceInfo['gyroscope'],
+  coolingSystem: '',
+  pubgPartner: false,
+  maxFps: 90,
+  overallRating: 8.5,
+  smoothFps: 90,
+  hdrFps: 60,
+  pros: '',
+  cons: '',
+  verdict: ''
+};
+
+export default function AdminDashboardPage() {
+  const router = useRouter();
+
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [adminUser, setAdminUser] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'devices' | 'import' | 'messages' | 'supabase'>('analytics');
+
+  const [customDevices, setCustomDevices] = useState<DeviceInfo[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [brandFilter, setBrandFilter] = useState('All');
+  const [fpsFilter, setFpsFilter] = useState('All');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingDevice, setEditingDevice] = useState<DeviceInfo | null>(null);
+  const [formData, setFormData] = useState(EMPTY_DEVICE_FORM);
+  const [savingDevice, setSavingDevice] = useState(false);
+
+  const [dragActive, setDragActive] = useState(false);
+  const [importStatus, setImportStatus] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [realStats, setRealStats] = useState<RealAnalyticsData>(EMPTY_ANALYTICS);
+  const [tablesStatus, setTablesStatus] = useState<TableStatus[]>([]);
+  const [supabaseConfigured, setSupabaseConfigured] = useState(false);
+  const [tablesReady, setTablesReady] = useState(false);
+  const [messages, setMessages] = useState<ContactMessageRow[]>([]);
+  const [adminUsers, setAdminUsers] = useState<AdminUserRow[]>([]);
+  const [loadingStats, setLoadingStats] = useState(false);
+  const [copiedSql, setCopiedSql] = useState(false);
+  const sqlCopyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const loadDashboardData = useCallback(async () => {
+    setLoadingStats(true);
+    try {
+      const [analyticsRes, devicesRes] = await Promise.all([
+        fetch('/api/admin/analytics', { cache: 'no-store' }),
+        fetch('/api/admin/devices', { cache: 'no-store' })
+      ]);
+
+      if (analyticsRes.ok) {
+        const payload = (await analyticsRes.json()) as {
+          supabaseConfigured: boolean;
+          tablesReady: boolean;
+          tablesStatus: TableStatus[];
+          analytics: RealAnalyticsData;
+          messages: ContactMessageRow[];
+          adminUsers: AdminUserRow[];
+        };
+
+        setSupabaseConfigured(payload.supabaseConfigured);
+        setTablesReady(payload.tablesReady);
+        setTablesStatus(payload.tablesStatus || []);
+        setMessages(payload.messages || []);
+        setAdminUsers(payload.adminUsers || []);
+
+        const analyticsReady =
+          payload.tablesStatus?.find((t) => t.name === 'analytics_page_views')?.ready ?? false;
+        setRealStats(analyticsReady ? payload.analytics : getBrowserFallbackAnalytics());
+      }
+
+      if (devicesRes.ok) {
+        const devData = (await devicesRes.json()) as {
+          devices: DeviceInfo[];
+          tableReady: boolean;
+        };
+        if (devData.tableReady && Array.isArray(devData.devices)) {
+          setCustomDevices(devData.devices);
+        } else {
+          const saved = localStorage.getItem('pubgframes_custom_devices');
+          if (saved) {
+            try {
+              setCustomDevices(JSON.parse(saved) as DeviceInfo[]);
+            } catch {
+              setCustomDevices([]);
+            }
+          }
+        }
+      }
+    } finally {
+      setLoadingStats(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch('/api/admin/session', { cache: 'no-store' })
+      .then(async (res) => {
+        if (!res.ok) {
+          if (active) router.replace('/admin/login');
+          return;
+        }
+        const data = (await res.json()) as { authenticated: boolean; user?: { email: string } };
+        if (!active) return;
+
+        setIsAuthenticated(true);
+        setAdminUser(data.user?.email || '');
+        void loadDashboardData();
+      })
+      .catch(() => {
+        if (active) router.replace('/admin/login');
+      });
+
+    return () => {
+      active = false;
+      if (sqlCopyTimerRef.current) clearTimeout(sqlCopyTimerRef.current);
+    };
+  }, [router, loadDashboardData]);
+
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.replace('/admin/login');
+  };
+
+  const allDevicesList = useMemo(() => {
+    const customIds = new Set(customDevices.map((d) => d.id));
+    return [...customDevices, ...DEVICES_DATA.filter((d) => !customIds.has(d.id))];
+  }, [customDevices]);
+
+  const filteredDevices = useMemo(() => {
+    return allDevicesList.filter((d) => {
+      const matchBrand = brandFilter === 'All' || d.brand.toLowerCase() === brandFilter.toLowerCase();
+      const matchFps = fpsFilter === 'All' || d.maxSupportedFps.toString() === fpsFilter;
+      const matchQuery =
+        !searchQuery ||
+        `${d.brand} ${d.model} ${d.chipset} ${d.slug}`.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchBrand && matchFps && matchQuery;
+    });
+  }, [allDevicesList, brandFilter, fpsFilter, searchQuery]);
+
+  const handleClearAnalytics = async () => {
+    if (!confirm('Reset all tracked analytics events to zero?')) return;
+    clearBrowserFallbackAnalytics();
+    await fetch('/api/admin/analytics', { method: 'DELETE' });
+    await loadDashboardData();
+  };
+
+  const persistDevices = async (devicesToSave: DeviceInfo[]) => {
+    const res = await fetch('/api/admin/devices', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ devices: devicesToSave })
+    });
+    const data = (await res.json()) as { persisted?: string };
+    return data.persisted === 'supabase';
+  };
+
+  const handleSaveDevice = async (e: FormEvent) => {
+    e.preventDefault();
+    setSavingDevice(true);
+
+    const slug =
+      formData.slug.trim() ||
+      `${formData.brand}-${formData.model}`
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+    const brandSlug = formData.brand
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+
+    const smoothFps = Number(formData.smoothFps) || 60;
+    const hdrFps = Number(formData.hdrFps) || 0;
+    const maxFps = (Number(formData.maxFps) || 60) as DeviceInfo['maxSupportedFps'];
+
+    const newDevice: DeviceInfo = {
+      id: editingDevice?.id || slug,
+      brand: formData.brand.trim(),
+      model: formData.model.trim(),
+      slug,
+      brandSlug,
+      releaseYear: new Date().getFullYear(),
+      chipset: formData.chipset.trim(),
+      gpu: formData.gpu.trim(),
+      ramOptions: formData.ram
+        .split(',')
+        .map((r) => r.trim())
+        .filter(Boolean),
+      displayRefreshRate: Number(formData.refreshRate) || 60,
+      screenSize: formData.screenSize.trim() || '6.7" Display',
+      batteryCapacity: Number(formData.batteryCapacity) || 5000,
+      antutuScore: formData.antutuScore ? Number(formData.antutuScore) : undefined,
+      gyroscope: formData.gyroscope,
+      coolingSystem: formData.coolingSystem.trim() || 'Standard Thermal Dissipation',
+      pubgOfficialPartner: formData.pubgPartner,
+      maxSupportedFps: maxFps,
+      overallGamingRating: Number(formData.overallRating) || 8.0,
+      popularityRank: editingDevice?.popularityRank || allDevicesList.length + 1,
+      benchmarkDate: new Date().toISOString().split('T')[0],
+      benchmarkSource: 'PUBGFrames Admin Verified Benchmark',
+      graphicsModes: {
+        Smooth: {
+          supported: smoothFps > 0,
+          fpsOptions:
+            maxFps >= 120
+              ? ['90 FPS (Extreme)', '120 FPS (Extreme+)']
+              : maxFps >= 90
+                ? ['60 FPS (Ultra)', '90 FPS (Extreme)']
+                : ['60 FPS (Ultra)'],
+          estimatedFps: smoothFps,
+          fpsMin: Math.max(smoothFps - 4, 20),
+          fpsMax: smoothFps,
+          stabilityScore: 94,
+          thermalRisk: 'Low',
+          batteryDrainPerHour: 16,
+          confidenceLevel: 'Verified',
+          notes: `${smoothFps} FPS target on Smooth preset.`
+        },
+        Balanced: {
+          supported: smoothFps > 0,
+          fpsOptions: ['60 FPS (Ultra)'],
+          estimatedFps: Math.min(smoothFps, 60),
+          fpsMin: Math.max(Math.min(smoothFps, 60) - 4, 20),
+          fpsMax: Math.min(smoothFps, 60),
+          stabilityScore: 92,
+          thermalRisk: 'Low',
+          batteryDrainPerHour: 17,
+          confidenceLevel: 'Verified'
+        },
+        HD: {
+          supported: smoothFps > 0,
+          fpsOptions: ['60 FPS (Ultra)'],
+          estimatedFps: Math.min(smoothFps, 60),
+          fpsMin: Math.max(Math.min(smoothFps, 60) - 5, 20),
+          fpsMax: Math.min(smoothFps, 60),
+          stabilityScore: 90,
+          thermalRisk: 'Moderate',
+          batteryDrainPerHour: 19,
+          confidenceLevel: 'Verified'
+        },
+        HDR: {
+          supported: hdrFps > 0,
+          fpsOptions: hdrFps >= 60 ? ['60 FPS (Ultra)'] : ['40 FPS (High)'],
+          estimatedFps: hdrFps,
+          fpsMin: Math.max(hdrFps - 4, 20),
+          fpsMax: hdrFps,
+          stabilityScore: 88,
+          thermalRisk: 'Moderate',
+          batteryDrainPerHour: 21,
+          confidenceLevel: hdrFps > 0 ? 'Verified' : 'Unsupported'
+        },
+        'Ultra HD': {
+          supported: false,
+          fpsOptions: [],
+          estimatedFps: 0,
+          fpsMin: 0,
+          fpsMax: 0,
+          stabilityScore: 0,
+          thermalRisk: 'Severe',
+          batteryDrainPerHour: 0,
+          confidenceLevel: 'Unsupported'
+        }
+      },
+      pros: formData.pros
+        .split(';')
+        .map((s) => s.trim())
+        .filter(Boolean),
+      cons: formData.cons
+        .split(';')
+        .map((s) => s.trim())
+        .filter(Boolean),
+      verdict: formData.verdict.trim()
+    };
+
+    const updated = customDevices.some((d) => d.id === newDevice.id)
+      ? customDevices.map((d) => (d.id === newDevice.id ? newDevice : d))
+      : [newDevice, ...customDevices];
+
+    setCustomDevices(updated);
+    localStorage.setItem('pubgframes_custom_devices', JSON.stringify(updated));
+    await persistDevices([newDevice]);
+
+    setSavingDevice(false);
+    setIsModalOpen(false);
+    setEditingDevice(null);
+  };
+
+  const handleEditClick = (device: DeviceInfo) => {
+    setEditingDevice(device);
+    setFormData({
+      brand: device.brand,
+      model: device.model,
+      slug: device.slug,
+      chipset: device.chipset,
+      gpu: device.gpu,
+      ram: device.ramOptions.join(', '),
+      refreshRate: device.displayRefreshRate,
+      screenSize: device.screenSize,
+      batteryCapacity: device.batteryCapacity,
+      antutuScore: device.antutuScore ? String(device.antutuScore) : '',
+      gyroscope: device.gyroscope,
+      coolingSystem: device.coolingSystem,
+      pubgPartner: Boolean(device.pubgOfficialPartner),
+      maxFps: device.maxSupportedFps,
+      overallRating: device.overallGamingRating,
+      smoothFps: device.graphicsModes.Smooth?.estimatedFps || 60,
+      hdrFps: device.graphicsModes.HDR?.estimatedFps || 40,
+      pros: device.pros.join('; '),
+      cons: device.cons.join('; '),
+      verdict: device.verdict
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteDevice = async (id: string) => {
+    if (!confirm('Remove this custom device record?')) return;
+    const updated = customDevices.filter((d) => d.id !== id);
+    setCustomDevices(updated);
+    localStorage.setItem('pubgframes_custom_devices', JSON.stringify(updated));
+    await fetch(`/api/admin/devices?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+  };
+
+  const handleDrag = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(e.type === 'dragenter' || e.type === 'dragover');
+  };
+
+  const processJsonFile = (file: File) => {
+    if (!file.name.endsWith('.json')) {
+      setImportStatus(`Unsupported file "${file.name}". Please upload a valid .json device dataset.`);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try {
+        const parsed = JSON.parse(String(ev.target?.result || '[]')) as DeviceInfo | DeviceInfo[];
+        const incoming = Array.isArray(parsed) ? parsed : [parsed];
+        const valid = incoming.filter((d) => d && d.brand && d.model && d.chipset);
+
+        if (valid.length === 0) {
+          setImportStatus('No valid device objects found in JSON file.');
+          return;
+        }
+
+        const merged = [...valid, ...customDevices];
+        setCustomDevices(merged);
+        localStorage.setItem('pubgframes_custom_devices', JSON.stringify(merged));
+        const synced = await persistDevices(valid);
+        setImportStatus(
+          `Imported ${valid.length} device record(s) ${synced ? 'and synced to Supabase' : '(saved locally; run SQL schema to sync cloud DB)'}.`
+        );
+      } catch (err) {
+        setImportStatus(`Invalid JSON: ${(err as Error).message}`);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleDrop = (e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files?.[0]) {
+      processJsonFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleExportJson = () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(allDevicesList, null, 2));
+    const anchor = document.createElement('a');
+    anchor.setAttribute('href', dataStr);
+    anchor.setAttribute('download', `pubgframes_devices_${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+  };
+
+  const copySqlSchema = () => {
+    navigator.clipboard.writeText(COMPLETE_SQL_SCHEMA);
     setCopiedSql(true);
     if (sqlCopyTimerRef.current) clearTimeout(sqlCopyTimerRef.current);
-    sqlCopyTimerRef.current = setTimeout(() => setCopiedSql(false), 2000);
+    sqlCopyTimerRef.current = setTimeout(() => setCopiedSql(false), 2500);
   };
 
   if (isAuthenticated === null) {
-    return <div className="min-h-screen bg-[#080B0D]" />;
+    return (
+      <div className="min-h-[70vh] bg-[#eef0f3] flex items-center justify-center text-sm text-[#525866]">
+        Verifying admin session...
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-[#080B0D] text-white">
-      {/* Admin Top Bar */}
-      <header className="sticky top-0 z-40 bg-[#101518]/90 backdrop-blur-md border-b border-white/10 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 flex items-center justify-center text-[#FFD400]">
-            <Shield className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-black text-sm tracking-tight text-white">PUBGFrames</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#FFD400]/20 text-[#FFD400] text-[10px] font-black uppercase">
-                Admin Console
-              </span>
+    <div className="min-h-screen bg-[#eef0f3] text-[#0b0c0e]">
+      {/* Top Bar */}
+      <header className="sticky top-0 z-40 bg-[#ffffff] border-b border-[#e2e5ea]">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 rounded-lg bg-[#111317] text-white flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5" />
             </div>
-            <div className="text-[11px] text-gray-400">Signed in as: {adminUser}</div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Supabase status badge */}
-          <div
-            className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
-              connectionStatus === 'connected'
-                ? 'bg-[#39F56A]/10 border-[#39F56A]/30 text-[#39F56A]'
-                : 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400'
-            }`}
-          >
-            <div className={`w-2 h-2 rounded-full animate-pulse ${connectionStatus === 'connected' ? 'bg-[#39F56A]' : 'bg-yellow-400'}`} />
-            <span>{connectionStatus === 'connected' ? 'Supabase Active' : 'Local Storage Mode'}</span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-base text-[#0b0c0e]">PUBGFrames Admin</span>
+                <span className="px-2 py-0.5 rounded bg-[#eef0f3] text-[#0b0c0e] text-xs font-medium">
+                  Superuser
+                </span>
+              </div>
+              <div className="text-xs text-[#525866] truncate">{adminUser}</div>
+            </div>
           </div>
 
-          <Link
-            href="/"
-            target="_blank"
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-1.5 transition-colors"
-          >
-            <ExternalLink className="w-4 h-4" />
-            <span className="hidden sm:inline">View Site</span>
-          </Link>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <span
+              className={`hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium ${
+                tablesReady
+                  ? 'bg-[#dcfce7] text-[#166534]'
+                  : 'bg-[#fef3c7] text-[#92400e]'
+              }`}
+            >
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  tablesReady ? 'bg-[#166534]' : 'bg-[#d97706]'
+                }`}
+              />
+              {tablesReady
+                ? 'Supabase Connected'
+                : supabaseConfigured
+                  ? 'SQL Tables Pending'
+                  : 'Env Setup Needed'}
+            </span>
 
-          <button
-            onClick={handleLogout}
-            className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-xs font-bold text-red-400 flex items-center gap-1.5 transition-colors cursor-pointer"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Logout</span>
-          </button>
+            <Link
+              href="/"
+              target="_blank"
+              className="px-3 py-2 rounded-md bg-[#eef0f3] hover:bg-[#e2e5ea] text-sm font-medium text-[#0b0c0e] inline-flex items-center gap-1.5 transition-colors"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span className="hidden sm:inline">View Site</span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="px-3 py-2 rounded-md bg-[#fee2e2] hover:bg-[#fecaca] text-sm font-medium text-[#991b1b] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sign out</span>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Main Admin Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
+        {/* Pending SQL Banner */}
+        {!tablesReady && (
+          <div className="p-4 sm:p-5 rounded-xl bg-[#ffffff] border border-[#f59e0b]/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-[#b45309] shrink-0 mt-0.5" />
+              <div className="space-y-1 text-sm">
+                <p className="font-semibold text-[#0b0c0e]">
+                  Supabase tables need one-time SQL initialization
+                </p>
+                <p className="text-[#3d4350]">
+                  Auth superuser is active, and keys are configured. Copy the schema script and run it once in Supabase Dashboard &rarr; SQL Editor to enable global PostgreSQL telemetry &amp; device writes.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={copySqlSchema}
+                className="px-3.5 py-2 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white text-sm font-medium inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                {copiedSql ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                <span>{copiedSql ? 'SQL Copied' : 'Copy SQL Schema'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('supabase')}
+                className="px-3.5 py-2 rounded-md bg-[#eef0f3] hover:bg-[#e2e5ea] text-[#0b0c0e] text-sm font-medium cursor-pointer"
+              >
+                Check Status
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 border-b border-white/10 overflow-x-auto pb-px">
-          <button
-            onClick={() => setActiveTab('analytics')}
-            className={`px-4 py-3 rounded-t-xl text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'analytics'
-                ? 'border-[#FFD400] text-[#FFD400] bg-[#FFD400]/5'
-                : 'border-transparent text-gray-400 hover:text-white'
-            }`}
-          >
-            <LayoutDashboard className="w-4 h-4" />
-            <span>Traffic & Visitor Analytics</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('devices')}
-            className={`px-4 py-3 rounded-t-xl text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'devices'
-                ? 'border-[#39F56A] text-[#39F56A] bg-[#39F56A]/5'
-                : 'border-transparent text-gray-400 hover:text-white'
-            }`}
-          >
-            <Smartphone className="w-4 h-4" />
-            <span>Smartphone Database ({allDevicesList.length})</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('dragdrop')}
-            className={`px-4 py-3 rounded-t-xl text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'dragdrop'
-                ? 'border-[#28A9FF] text-[#28A9FF] bg-[#28A9FF]/5'
-                : 'border-transparent text-gray-400 hover:text-white'
-            }`}
-          >
-            <UploadCloud className="w-4 h-4" />
-            <span>Drag & Drop Importer</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`px-4 py-3 rounded-t-xl text-xs sm:text-sm font-bold flex items-center gap-2 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-              activeTab === 'settings'
-                ? 'border-purple-400 text-purple-400 bg-purple-400/5'
-                : 'border-transparent text-gray-400 hover:text-white'
-            }`}
-          >
-            <Settings className="w-4 h-4" />
-            <span>Supabase Sync & Config</span>
-          </button>
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          {[
+            { id: 'analytics', label: 'Analytics', icon: LayoutDashboard },
+            { id: 'devices', label: `Devices (${allDevicesList.length})`, icon: Smartphone },
+            { id: 'import', label: 'Import & Export', icon: UploadCloud },
+            { id: 'messages', label: `Messages (${messages.length})`, icon: Mail },
+            { id: 'supabase', label: 'Supabase & Access', icon: Database }
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const active = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                className={`px-4 py-2.5 rounded-lg text-sm font-medium inline-flex items-center gap-2 whitespace-nowrap transition-colors cursor-pointer ${
+                  active
+                    ? 'bg-[#111317] text-white'
+                    : 'bg-[#ffffff] text-[#3d4350] hover:text-[#0b0c0e] border border-[#e2e5ea]'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* ============================================================== */}
-        {/* TAB 1: ANALYTICS & VISITOR METRICS (REAL LIVE DATA)            */}
-        {/* ============================================================== */}
+        {/* TAB 1: ANALYTICS */}
         {activeTab === 'analytics' && (
           <div className="space-y-6">
-            {/* Real Analytics Header & Actions */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-white/5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <span>Live Production Telemetry & Visitor Tracking</span>
-                  <span className="w-2 h-2 rounded-full bg-[#39F56A] animate-pulse" />
-                </h2>
-                <p className="text-xs text-gray-400">
-                  Real visitor events, searches, and device queries logged in production. (Zero dummy data).
+                <h1 className="text-2xl font-semibold text-[#0b0c0e]">Visitor & search telemetry</h1>
+                <p className="text-sm text-[#3d4350]">
+                  Real recorded page views and device lookups with zero simulated figures.
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={refreshAnalytics}
-                  className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors"
+                  onClick={() => void loadDashboardData()}
+                  disabled={loadingStats}
+                  className="px-3.5 py-2 rounded-md bg-[#ffffff] border border-[#d6dbe3] hover:border-[#0b0c0e] text-sm font-medium text-[#0b0c0e] inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Refresh Stats</span>
+                  <RefreshCw className={`w-4 h-4 ${loadingStats ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
                 </button>
                 <button
                   type="button"
-                  onClick={handleClearAnalytics}
-                  className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-semibold text-red-400 flex items-center gap-1.5 cursor-pointer transition-colors"
+                  onClick={() => void handleClearAnalytics()}
+                  className="px-3.5 py-2 rounded-md bg-[#fee2e2] hover:bg-[#fecaca] text-sm font-medium text-[#991b1b] inline-flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Reset Counters</span>
+                  <Trash2 className="w-4 h-4" />
+                  <span>Reset</span>
                 </button>
               </div>
             </div>
 
-            {/* Top KPI Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
-                <div className="flex items-center justify-between text-gray-400 text-xs">
-                  <span>Total Page Views</span>
-                  <div className="w-2 h-2 rounded-full bg-[#39F56A] animate-ping" />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
+                <div className="flex items-center justify-between text-sm text-[#525866]">
+                  <span>Total views</span>
+                  <TrendingUp className="w-4 h-4 text-[#166534]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.totalViews.toLocaleString()}</div>
-                <div className="text-[11px] text-gray-400 flex items-center gap-1">
-                  Verified real site visits
+                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
+                  {realStats.totalViews.toLocaleString()}
+                </div>
+                <div className="text-xs text-[#525866]">Recorded visits</div>
+              </div>
+
+              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
+                <div className="flex items-center justify-between text-sm text-[#525866]">
+                  <span>Today</span>
+                  <Users className="w-4 h-4 text-[#1f2de6]" />
+                </div>
+                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
+                  {realStats.todayViews.toLocaleString()}
+                </div>
+                <div className="text-xs text-[#525866] tabular-nums">
+                  Active (15m): {realStats.activeVisitors}
                 </div>
               </div>
 
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
-                <div className="flex items-center justify-between text-gray-400 text-xs">
-                  <span>Today&apos;s Visitors</span>
-                  <Users className="w-4 h-4 text-[#28A9FF]" />
+              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
+                <div className="flex items-center justify-between text-sm text-[#525866]">
+                  <span>Search queries</span>
+                  <Zap className="w-4 h-4 text-[#b45309]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.todayViews.toLocaleString()}</div>
-                <div className="text-[11px] text-gray-400 font-bold">Active Right Now: <span className="text-[#39F56A]">{analyticsData.activeVisitors}</span></div>
+                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
+                  {realStats.totalSearches.toLocaleString()}
+                </div>
+                <div className="text-xs text-[#525866]">Real phone lookups</div>
               </div>
 
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
-                <div className="flex items-center justify-between text-gray-400 text-xs">
-                  <span>User Search Queries</span>
-                  <Zap className="w-4 h-4 text-[#FFD400]" />
+              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
+                <div className="flex items-center justify-between text-sm text-[#525866]">
+                  <span>Catalog devices</span>
+                  <Smartphone className="w-4 h-4 text-[#0b0c0e]" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.totalSearches.toLocaleString()}</div>
-                <div className="text-[11px] text-gray-400">Total FPS queries</div>
-              </div>
-
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
-                <div className="flex items-center justify-between text-gray-400 text-xs">
-                  <span>Smartphones in DB</span>
-                  <Smartphone className="w-4 h-4 text-purple-400" />
+                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
+                  {allDevicesList.length.toLocaleString()}
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.totalDevices}</div>
-                <div className="text-[11px] text-purple-400 font-bold">Covering {ALL_BRANDS.length} Global Brands</div>
+                <div className="text-xs text-[#525866] tabular-nums">{ALL_BRANDS.length} brands indexed</div>
               </div>
             </div>
 
-            {/* 7-Day Traffic Graph & Geographic Breakdown */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Traffic Chart */}
-              <div className="lg:col-span-2 p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
+              <div className="lg:col-span-2 p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-[#39F56A]" />
-                    <span>7-Day Visitor Trend</span>
-                  </h3>
-                  <span className="text-[11px] text-gray-400">Logged real traffic</span>
+                  <h2 className="text-base font-semibold text-[#0b0c0e]">Weekly traffic distribution</h2>
+                  <span className="text-xs text-[#525866]">Visits by day</span>
                 </div>
 
-                {/* Visual Responsive Bar Representation */}
-                <div className="h-48 flex items-end justify-between gap-2 sm:gap-4 pt-6 px-2">
-                  {analyticsData.trafficHistory.map((item) => {
-                    const maxCount = Math.max(...analyticsData.trafficHistory.map((h) => h.visitors), 10);
-                    const heightPercent = item.visitors > 0 ? Math.max(Math.round((item.visitors / maxCount) * 100), 8) : 4;
+                <div className="h-48 flex items-end justify-between gap-2 sm:gap-4 pt-6">
+                  {realStats.trafficHistory.map((item) => {
+                    const maxCount = Math.max(...realStats.trafficHistory.map((h) => h.visitors), 1);
+                    const heightPercent =
+                      item.visitors > 0 ? Math.max(Math.round((item.visitors / maxCount) * 100), 10) : 4;
                     return (
-                      <div key={item.day} className="flex-1 flex flex-col items-center gap-2 group">
-                        <div className="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {item.visitors}
+                      <div key={item.day} className="flex-1 flex flex-col items-center gap-2">
+                        <span className="text-xs text-[#525866] tabular-nums">{item.visitors}</span>
+                        <div className="w-full h-32 flex items-end justify-center">
+                          <div
+                            style={{ height: `${heightPercent}%` }}
+                            className={`w-full max-w-[38px] rounded-t-md transition-all ${
+                              item.visitors > 0 ? 'bg-[#1f2de6]' : 'bg-[#e2e5ea]'
+                            }`}
+                          />
                         </div>
-                        <div
-                          style={{ height: `${heightPercent}%` }}
-                          className={`w-full max-w-[40px] rounded-t-lg transition-colors relative ${
-                            item.visitors > 0
-                              ? 'bg-gradient-to-t from-[#39F56A]/20 to-[#39F56A] group-hover:to-[#FFD400]'
-                              : 'bg-white/5'
-                          }`}
-                        />
-                        <span className="text-xs font-bold text-gray-400">{item.day}</span>
+                        <span className="text-xs font-medium text-[#3d4350]">{item.day}</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Geographic Country Distribution */}
-              <div className="p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-[#28A9FF]" />
-                  <span>Audience by Country</span>
-                </h3>
-                {analyticsData.geoDistribution.length === 0 ? (
-                  <div className="py-12 text-center text-xs text-gray-500 font-mono">
-                    No visitor sessions logged yet. Live visitor countries will appear here.
-                  </div>
+              <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
+                <h2 className="text-base font-semibold text-[#0b0c0e] flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#1f2de6]" />
+                  <span>Visitor regions</span>
+                </h2>
+                {realStats.geoDistribution.length === 0 ? (
+                  <p className="text-sm text-[#525866] py-8 text-center">
+                    No visitor sessions recorded yet.
+                  </p>
                 ) : (
                   <div className="space-y-3">
-                    {analyticsData.geoDistribution.map((geo) => (
+                    {realStats.geoDistribution.map((geo) => (
                       <div key={geo.country} className="space-y-1">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-gray-300 font-semibold">{geo.country}</span>
-                          <span className="text-gray-400 font-mono">{geo.percentage}% ({geo.visits})</span>
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium text-[#0b0c0e]">{geo.country}</span>
+                          <span className="text-[#525866] tabular-nums">
+                            {geo.percentage}% ({geo.visits})
+                          </span>
                         </div>
-                        <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                        <div className="w-full h-1.5 rounded-full bg-[#eef0f3] overflow-hidden">
                           <div
-                            style={{ width: `${geo.percentage || 5}%` }}
-                            className="h-full rounded-full bg-[#28A9FF]"
+                            style={{ width: `${Math.max(geo.percentage, 4)}%` }}
+                            className="h-full rounded-full bg-[#1f2de6]"
                           />
                         </div>
                       </div>
@@ -693,32 +844,27 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
               </div>
             </div>
 
-            {/* Top Searched Smartphones */}
-            <div className="p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
+            <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Smartphone className="w-4 h-4 text-[#FFD400]" />
-                  <span>Real User Search Queries</span>
-                </h3>
-                <span className="text-xs text-gray-400">Tracked queries</span>
+                <h2 className="text-base font-semibold text-[#0b0c0e]">Top real search queries</h2>
+                <span className="text-xs text-[#525866]">Live user lookups</span>
               </div>
-
-              {analyticsData.topSearched.length === 0 ? (
-                <div className="py-8 text-center text-xs text-gray-500 font-mono">
-                  No search queries logged yet. Queries typed into the website search bar will appear here in real-time.
-                </div>
+              {realStats.topSearched.length === 0 ? (
+                <p className="text-sm text-[#525866] py-6 text-center">
+                  No searches recorded yet. Queries entered in the site search bar appear here automatically.
+                </p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                  {analyticsData.topSearched.map((phone, idx) => (
-                    <div key={phone.name} className="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-gray-500 font-mono font-bold">#{idx + 1}</span>
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-[#FFD400]/10 text-[#FFD400]">
-                          Live
-                        </span>
+                  {realStats.topSearched.map((item, idx) => (
+                    <div key={item.name} className="p-3.5 rounded-lg bg-[#eef0f3] space-y-1">
+                      <div className="flex items-center justify-between text-xs text-[#525866] tabular-nums">
+                        <span>#{idx + 1}</span>
+                        <span>{item.fps !== null ? `${item.fps} FPS` : item.brand}</span>
                       </div>
-                      <div className="text-xs font-bold text-white truncate">{phone.name}</div>
-                      <div className="text-[11px] text-gray-400">{phone.count.toLocaleString()} searches</div>
+                      <div className="text-sm font-semibold text-[#0b0c0e] truncate">{item.name}</div>
+                      <div className="text-xs text-[#3d4350] tabular-nums">
+                        {item.count.toLocaleString()} lookup{item.count === 1 ? '' : 's'}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -727,83 +873,62 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
           </div>
         )}
 
-        {/* ============================================================== */}
-        {/* TAB 2: SMARTPHONE DATABASE MANAGER (CRUD)                      */}
-        {/* ============================================================== */}
+        {/* TAB 2: DEVICES MANAGER */}
         {activeTab === 'devices' && (
-          <div className="space-y-6">
-            {/* Header & Add Button */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-bold text-white">Smartphones Management</h2>
-                <p className="text-xs text-gray-400">
-                  Search, add, edit specifications, or delete devices in the PUBGFrames catalog.
+                <h1 className="text-2xl font-semibold text-[#0b0c0e]">Device database</h1>
+                <p className="text-sm text-[#3d4350]">
+                  Add custom smartphones or override FPS specs in the live catalog.
                 </p>
               </div>
-
               <button
+                type="button"
                 onClick={() => {
                   setEditingDevice(null);
-                  setFormData({
-                    brand: '',
-                    model: '',
-                    slug: '',
-                    chipset: '',
-                    gpu: '',
-                    ram: '8GB LPDDR5X',
-                    refreshRate: 120,
-                    screenSize: '6.7" AMOLED 120Hz',
-                    batteryCapacity: 5000,
-                    antutuScore: 1200000,
-                    gyroscope: 'Ultra Fast Hardware Gyro',
-                    coolingSystem: 'Vapor Chamber Liquid Cooling',
-                    pubgPartner: false,
-                    maxFps: 120,
-                    overallRating: 9.0,
-                    smoothFps: 120,
-                    hdrFps: 60,
-                    pros: 'Smooth 120 FPS; Fast touch response',
-                    cons: 'Plastic frame',
-                    verdict: 'Excellent gaming performance.'
-                  });
+                  setFormData(EMPTY_DEVICE_FORM);
                   setIsModalOpen(true);
                 }}
-                className="py-2.5 px-4 rounded-xl bg-[#39F56A] hover:bg-[#32dc5e] text-black font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-[#39F56A]/20 transition-all cursor-pointer"
+                className="px-4 py-2.5 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white text-sm font-medium inline-flex items-center gap-2 cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                <span>Add New Smartphone</span>
+                <span>Add smartphone</span>
               </button>
             </div>
 
-            {/* Filter & Search Bar */}
-            <div className="p-4 rounded-2xl bg-[#101518] border border-white/5 flex flex-col sm:flex-row items-center gap-3">
-              <div className="relative w-full sm:flex-1">
-                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="p-4 rounded-xl bg-[#ffffff] border border-[#e2e5ea] flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-[#525866] absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search model, brand or chipset..."
+                  placeholder="Search model, brand, or chipset..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#39F56A]"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[#eef0f3] text-sm text-[#0b0c0e] placeholder-[#525866] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
                 />
               </div>
 
-              <div className="w-full sm:w-auto flex items-center gap-2">
+              <div className="grid grid-cols-2 sm:flex items-center gap-2">
                 <select
+                  aria-label="Filter by brand"
                   value={brandFilter}
                   onChange={(e) => setBrandFilter(e.target.value)}
-                  className="w-1/2 sm:w-44 py-2.5 px-3 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                  className="px-3 py-2.5 rounded-md bg-[#eef0f3] text-sm text-[#0b0c0e] font-medium focus:outline-none"
                 >
                   <option value="All">All Brands ({ALL_BRANDS.length})</option>
                   {ALL_BRANDS.map((b) => (
-                    <option key={b} value={b}>{b}</option>
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
                   ))}
                 </select>
 
                 <select
+                  aria-label="Filter by max FPS"
                   value={fpsFilter}
                   onChange={(e) => setFpsFilter(e.target.value)}
-                  className="w-1/2 sm:w-36 py-2.5 px-3 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                  className="px-3 py-2.5 rounded-md bg-[#eef0f3] text-sm text-[#0b0c0e] font-medium focus:outline-none"
                 >
                   <option value="All">All FPS</option>
                   <option value="120">120 FPS</option>
@@ -811,416 +936,436 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                   <option value="60">60 FPS</option>
                   <option value="40">40 FPS</option>
                   <option value="30">30 FPS</option>
-                  <option value="0">0 FPS (Unsupported)</option>
+                  <option value="0">Unsupported</option>
                 </select>
               </div>
             </div>
 
-            {/* Devices Table / Card List */}
-            <div className="rounded-2xl bg-[#101518] border border-white/5 overflow-hidden">
+            <div className="rounded-xl bg-[#ffffff] border border-[#e2e5ea] overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-black/40 text-gray-400 uppercase font-bold text-[10px] tracking-wider border-b border-white/5">
-                    <tr>
-                      <th className="py-3 px-4">Device Model</th>
-                      <th className="py-3 px-4">Chipset & GPU</th>
-                      <th className="py-3 px-4">Max PUBG FPS</th>
-                      <th className="py-3 px-4">Refresh Rate</th>
+                <table className="w-full min-w-[640px] text-left text-sm">
+                  <thead>
+                    <tr className="bg-[#f6f7f9] border-b border-[#e2e5ea] text-[#3d4350] text-xs font-semibold uppercase tracking-wide">
+                      <th className="py-3 px-4">Device</th>
+                      <th className="py-3 px-4">Chipset &amp; GPU</th>
+                      <th className="py-3 px-4">Max FPS</th>
+                      <th className="py-3 px-4">Display</th>
                       <th className="py-3 px-4">Battery</th>
                       <th className="py-3 px-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {filteredDevices.slice(0, 50).map((device) => (
-                      <tr key={device.id} className="hover:bg-white/[0.02] transition-colors">
-                        <td className="py-3 px-4">
-                          <div className="font-bold text-white text-xs">{device.model}</div>
-                          <div className="text-[10px] text-gray-500 font-mono">{device.brand} • {device.slug}</div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="text-gray-300 font-medium truncate max-w-[200px]">{device.chipset}</div>
-                          <div className="text-[10px] text-gray-500">{device.gpu}</div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <span
-                            className={`px-2 py-0.5 rounded text-[11px] font-black ${
-                              device.maxSupportedFps >= 120
-                                ? 'bg-[#FFD400]/10 text-[#FFD400]'
-                                : device.maxSupportedFps >= 90
-                                ? 'bg-[#39F56A]/10 text-[#39F56A]'
-                                : device.maxSupportedFps >= 60
-                                ? 'bg-[#28A9FF]/10 text-[#28A9FF]'
-                                : device.maxSupportedFps === 0
-                                ? 'bg-red-500/10 text-red-400'
-                                : 'bg-gray-500/10 text-gray-300'
-                            }`}
-                          >
-                            {device.maxSupportedFps === 0 ? 'Unsupported' : `${device.maxSupportedFps} FPS`}
-                          </span>
-                        </td>
-                        <td className="py-3 px-4 text-gray-300 font-mono">{device.displayRefreshRate}Hz</td>
-                        <td className="py-3 px-4 text-gray-300 font-mono">{device.batteryCapacity}mAh</td>
-                        <td className="py-3 px-4 text-right">
-                          <div className="flex items-center justify-end gap-1.5">
-                            <Link
-                              href={`/devices/${device.brandSlug}/${device.slug}`}
-                              target="_blank"
-                              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-                              title="View page"
+                  <tbody className="divide-y divide-[#e2e5ea] tabular-nums">
+                    {filteredDevices.slice(0, 50).map((device) => {
+                      const isCustom = customDevices.some((d) => d.id === device.id);
+                      return (
+                        <tr key={device.id} className="hover:bg-[#f6f7f9]">
+                          <td className="py-3 px-4">
+                            <div className="font-semibold text-[#0b0c0e]">
+                              {formatDeviceName(device.brand, device.model)}
+                            </div>
+                            <div className="text-xs text-[#525866]">
+                              {device.slug} {isCustom ? '· Custom/Override' : ''}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="text-[#0b0c0e] truncate max-w-[220px]">{device.chipset}</div>
+                            <div className="text-xs text-[#525866]">{device.gpu}</div>
+                          </td>
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-2 py-0.5 rounded text-xs font-semibold ${
+                                device.maxSupportedFps === 0
+                                  ? 'bg-[#fee2e2] text-[#991b1b]'
+                                  : device.maxSupportedFps >= 90
+                                    ? 'bg-[#dcfce7] text-[#166534]'
+                                    : 'bg-[#eef0f3] text-[#0b0c0e]'
+                              }`}
                             >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </Link>
-
-                            <button
-                              onClick={() => handleEditClick(device)}
-                              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-yellow-400 transition-colors cursor-pointer"
-                              title="Edit device"
-                            >
-                              <Edit3 className="w-3.5 h-3.5" />
-                            </button>
-
-                            {customDevices.some((d) => d.id === device.id) && (
-                              <button
-                                onClick={() => handleDeleteDevice(device.id)}
-                                className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
-                                title="Delete custom device"
+                              {device.maxSupportedFps === 0 ? 'Unsupported' : `${device.maxSupportedFps} FPS`}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-[#3d4350]">{device.displayRefreshRate} Hz</td>
+                          <td className="py-3 px-4 text-[#3d4350]">{device.batteryCapacity} mAh</td>
+                          <td className="py-3 px-4 text-right">
+                            <div className="inline-flex items-center gap-1.5">
+                              <Link
+                                href={`/devices/${device.brandSlug}/${device.slug}`}
+                                target="_blank"
+                                title="Open public device page"
+                                className="p-1.5 rounded bg-[#eef0f3] hover:bg-[#e2e5ea] text-[#0b0c0e]"
                               >
-                                <Trash2 className="w-3.5 h-3.5" />
+                                <ExternalLink className="w-4 h-4" />
+                              </Link>
+                              <button
+                                type="button"
+                                onClick={() => handleEditClick(device)}
+                                title="Edit device"
+                                className="p-1.5 rounded bg-[#eef0f3] hover:bg-[#e2e5ea] text-[#1f2de6] cursor-pointer"
+                              >
+                                <Edit3 className="w-4 h-4" />
                               </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                              {isCustom && (
+                                <button
+                                  type="button"
+                                  onClick={() => void handleDeleteDevice(device.id)}
+                                  title="Delete custom record"
+                                  className="p-1.5 rounded bg-[#fee2e2] hover:bg-[#fecaca] text-[#991b1b] cursor-pointer"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
-
               {filteredDevices.length > 50 && (
-                <div className="p-3 bg-black/30 border-t border-white/5 text-center text-xs text-gray-400 font-medium">
-                  Showing top 50 of {filteredDevices.length} matching devices. Use the search bar above to narrow down.
+                <div className="p-3 bg-[#f6f7f9] border-t border-[#e2e5ea] text-center text-xs text-[#525866]">
+                  Showing 50 of {filteredDevices.length.toLocaleString()} matching devices. Narrow results with search above.
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* ============================================================== */}
-        {/* TAB 3: DRAG & DROP IMPORTER (JSON & IMAGES)                    */}
-        {/* ============================================================== */}
-        {activeTab === 'dragdrop' && (
+        {/* TAB 3: IMPORT / EXPORT */}
+        {activeTab === 'import' && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-lg font-bold text-white">Drag & Drop Importer & Media Manager</h2>
-              <p className="text-xs text-gray-400">
-                Drag and drop smartphone JSON datasets for bulk updates, or drop smartphone photos for device profiles.
+              <h1 className="text-2xl font-semibold text-[#0b0c0e]">Bulk JSON import &amp; backup</h1>
+              <p className="text-sm text-[#3d4350]">
+                Import verified device datasets into Supabase or export the complete catalog.
               </p>
             </div>
 
-            {/* Drop Zone Box */}
             <div
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
-              className={`p-8 sm:p-12 rounded-3xl border-2 border-dashed transition-all text-center space-y-4 ${
-                dragActive
-                  ? 'border-[#28A9FF] bg-[#28A9FF]/10 scale-[1.01]'
-                  : 'border-white/20 bg-[#101518] hover:border-white/30'
+              className={`p-8 sm:p-12 rounded-xl border-2 border-dashed bg-[#ffffff] text-center space-y-4 transition-colors ${
+                dragActive ? 'border-[#1f2de6] bg-[#eef0f3]' : 'border-[#c5cbd4]'
               }`}
             >
-              <div className="w-16 h-16 rounded-2xl bg-[#28A9FF]/10 border border-[#28A9FF]/30 flex items-center justify-center text-[#28A9FF] mx-auto shadow-lg shadow-[#28A9FF]/10">
-                <UploadCloud className="w-8 h-8" />
+              <div className="w-12 h-12 rounded-lg bg-[#eef0f3] text-[#1f2de6] flex items-center justify-center mx-auto">
+                <UploadCloud className="w-6 h-6" />
               </div>
-
               <div className="space-y-1">
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  Drag and Drop Files Here
-                </h3>
-                <p className="text-xs text-gray-400 max-w-md mx-auto">
-                  Drop a <code className="text-[#FFD400]">.json</code> file to import new smartphones in bulk, or an image file (<code className="text-[#39F56A]">.png, .jpg, .webp</code>) to preview.
+                <h2 className="text-lg font-semibold text-[#0b0c0e]">Drop a device JSON file</h2>
+                <p className="text-sm text-[#525866] max-w-md mx-auto">
+                  Upload an array of `DeviceInfo` JSON records to upsert custom devices into your catalog.
                 </p>
               </div>
-
-              <div className="pt-2">
+              <div>
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept=".json,image/*"
+                  accept=".json"
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      processFile(e.target.files[0]);
-                    }
+                    if (e.target.files?.[0]) processJsonFile(e.target.files[0]);
                   }}
                   className="hidden"
                 />
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="py-2.5 px-5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-md bg-[#eef0f3] hover:bg-[#e2e5ea] text-[#0b0c0e] text-sm font-medium cursor-pointer"
                 >
-                  Or Browse From Computer
+                  Choose JSON file
                 </button>
               </div>
-
-              {droppedFilesStatus && (
-                <div className="p-3 rounded-xl bg-[#39F56A]/10 border border-[#39F56A]/30 text-[#39F56A] text-xs font-bold inline-block">
-                  {droppedFilesStatus}
+              {importStatus && (
+                <div className="p-3 rounded-md bg-[#eef0f3] text-sm font-medium text-[#0b0c0e] inline-block">
+                  {importStatus}
                 </div>
               )}
             </div>
 
-            {/* Uploaded Image Preview If Present */}
-            {uploadedImageUrl && (
-              <div className="p-4 rounded-2xl bg-[#101518] border border-white/10 space-y-3">
-                <div className="text-xs font-bold text-white flex items-center gap-2">
-                  <ImageIcon className="w-4 h-4 text-[#28A9FF]" />
-                  <span>Dropped Image Preview:</span>
-                </div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={uploadedImageUrl}
-                  alt="Dropped Preview"
-                  className="max-h-64 rounded-xl object-contain border border-white/10 bg-black/40 p-2 mx-auto"
-                />
+            <div className="p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <h3 className="text-base font-semibold text-[#0b0c0e]">Export catalog JSON</h3>
+                <p className="text-sm text-[#525866]">
+                  Download all {allDevicesList.length.toLocaleString()} device records for backup or migration.
+                </p>
               </div>
-            )}
-
-            {/* Export & Backup Tools */}
-            <div className="p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Download className="w-4 h-4 text-[#FFD400]" />
-                <span>Export & Database Backup</span>
-              </h3>
-              <p className="text-xs text-gray-400">
-                Download the complete active database ({allDevicesList.length} smartphones) as a single JSON file for offline backups or Supabase mass seeding.
-              </p>
               <button
+                type="button"
                 onClick={handleExportJson}
-                className="py-2.5 px-4 rounded-xl bg-[#FFD400] hover:bg-[#ffe033] text-black font-black text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer"
+                className="px-4 py-2.5 rounded-md bg-[#111317] hover:bg-[#272b33] text-white text-sm font-medium inline-flex items-center gap-2 cursor-pointer shrink-0"
               >
                 <Download className="w-4 h-4" />
-                <span>Export All {allDevicesList.length} Devices (JSON)</span>
+                <span>Download JSON</span>
               </button>
             </div>
           </div>
         )}
 
-        {/* ============================================================== */}
-        {/* TAB 4: SUPABASE SETTINGS & SYNC                                */}
-        {/* ============================================================== */}
-        {activeTab === 'settings' && (
-          <div className="space-y-6">
+        {/* TAB 4: MESSAGES */}
+        {activeTab === 'messages' && (
+          <div className="space-y-5">
             <div>
-              <h2 className="text-lg font-bold text-white">Supabase Cloud Database Integration</h2>
-              <p className="text-xs text-gray-400">
-                Connect your free Supabase project to persist smartphone records and live visitor analytics in PostgreSQL.
+              <h1 className="text-2xl font-semibold text-[#0b0c0e]">Benchmark submissions &amp; inquiries</h1>
+              <p className="text-sm text-[#3d4350]">
+                Messages submitted through the public Contact page and stored in Supabase `contact_messages`.
               </p>
             </div>
 
-            {/* Connection Status Banner */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full ${connectionStatus === 'connected' ? 'bg-[#39F56A] shadow-lg shadow-[#39F56A]/50' : 'bg-yellow-400'}`} />
-                <div>
-                  <div className="text-sm font-bold text-white">
-                    {connectionStatus === 'connected' ? 'Supabase Connected & Active' : 'Operating in Local Storage Mode'}
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    {connectionStatus === 'connected'
-                      ? 'All custom smartphones and analytics are syncing directly with PostgreSQL.'
-                      : 'Changes are safely stored locally in your browser storage until Supabase credentials are provided.'}
-                  </div>
-                </div>
+            {messages.length === 0 ? (
+              <div className="p-8 rounded-xl bg-[#ffffff] border border-[#e2e5ea] text-center text-sm text-[#525866]">
+                No messages received yet.
               </div>
+            ) : (
+              <div className="space-y-3">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-2"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="font-semibold text-[#0b0c0e]">
+                        {msg.name}{' '}
+                        <span className="font-normal text-sm text-[#525866]">({msg.email})</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-xs text-[#525866]">
+                        <span className="px-2 py-0.5 rounded bg-[#eef0f3] text-[#0b0c0e] font-medium">
+                          {msg.topic}
+                        </span>
+                        <span className="tabular-nums">
+                          {new Date(msg.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    {msg.device_model && (
+                      <div className="text-xs font-medium text-[#1f2de6]">
+                        Device: {msg.device_model}
+                      </div>
+                    )}
+                    <p className="text-sm text-[#272b33] leading-relaxed">{msg.message}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
-              <button
-                onClick={copySqlSchema}
-                className="py-2 px-3.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
-              >
-                {copiedSql ? <Check className="w-3.5 h-3.5 text-[#39F56A]" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedSql ? 'Schema Copied!' : 'Copy SQL Schema Script'}</span>
-              </button>
+        {/* TAB 5: SUPABASE & ACCESS */}
+        {activeTab === 'supabase' && (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-2xl font-semibold text-[#0b0c0e]">Supabase database &amp; superuser access</h1>
+              <p className="text-sm text-[#3d4350]">
+                Live PostgreSQL schema status, single-superuser lock, and Vercel deployment configuration.
+              </p>
             </div>
 
-            {/* Supabase Credentials Form */}
-            <form onSubmit={handleSaveSupabaseConfig} className="p-5 sm:p-6 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
-              <h3 className="text-sm font-bold text-white">Configure Supabase Project Keys</h3>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-300">
-                  Supabase Project URL (NEXT_PUBLIC_SUPABASE_URL)
-                </label>
-                <input
-                  type="text"
-                  placeholder="https://xyzcompany.supabase.co"
-                  value={supabaseUrl}
-                  onChange={(e) => setSupabaseUrl(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 font-mono"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-300">
-                  Supabase Anon Public API Key (NEXT_PUBLIC_SUPABASE_ANON_KEY)
-                </label>
-                <input
-                  type="password"
-                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  value={supabaseKey}
-                  onChange={(e) => setSupabaseKey(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400 font-mono"
-                />
-              </div>
-
-              <div className="pt-2 flex items-center gap-3">
-                <button
-                  type="submit"
-                  className="py-2.5 px-5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  Save & Connect Supabase
-                </button>
-                <span className="text-[11px] text-gray-500">
-                  Credentials are encrypted in local environment / browser storage.
+            {/* Single Superuser Enforcement Card */}
+            <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-3">
+              <div className="flex items-center justify-between">
+                <h2 className="text-base font-semibold text-[#0b0c0e]">Authorized superuser (1 account max)</h2>
+                <span className="px-2.5 py-0.5 rounded bg-[#dcfce7] text-[#166534] text-xs font-medium">
+                  Enforced
                 </span>
               </div>
-            </form>
+              <div className="space-y-2">
+                {adminUsers.map((u) => (
+                  <div
+                    key={u.email}
+                    className="p-3 rounded-lg bg-[#eef0f3] flex items-center justify-between text-sm"
+                  >
+                    <span className="font-medium text-[#0b0c0e]">{u.email}</span>
+                    <span className="text-xs font-medium text-[#166534] uppercase">{u.role}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-            {/* Supabase Schema Instructions */}
-            <div className="p-5 rounded-2xl bg-black/40 border border-white/5 space-y-3">
-              <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-purple-400" />
-                <span>How to Setup in 2 Minutes:</span>
-              </h3>
-              <ol className="text-xs text-gray-400 space-y-2 list-decimal list-inside">
-                <li>Create a free account at <strong className="text-white">supabase.com</strong> and create a project.</li>
-                <li>Click <strong className="text-white">SQL Editor</strong> on the left menu.</li>
-                <li>Click <strong className="text-white">Copy SQL Schema Script</strong> above and paste it into the SQL editor, then click <strong className="text-white">Run</strong>.</li>
-                <li>Go to <strong className="text-white">Project Settings → API</strong>, copy your Project URL and Anon Key, and paste them into the fields above!</li>
-              </ol>
+            {/* Live Table Health Matrix */}
+            <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-base font-semibold text-[#0b0c0e]">PostgreSQL table health</h2>
+                  <p className="text-xs text-[#525866]">
+                    Verified against Supabase using server Service Role Key.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={copySqlSchema}
+                  className="px-4 py-2 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white text-sm font-medium inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  {copiedSql ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  <span>{copiedSql ? 'Copied SQL Schema' : 'Copy Complete SQL Schema'}</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {tablesStatus.map((t) => (
+                  <div
+                    key={t.name}
+                    className="p-3.5 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] flex items-center justify-between"
+                  >
+                    <div>
+                      <div className="font-mono text-sm font-medium text-[#0b0c0e]">{t.name}</div>
+                      <div className="text-xs text-[#525866] tabular-nums">
+                        {t.ready ? `${t.count} row(s)` : 'Run SQL schema to create'}
+                      </div>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        t.ready
+                          ? 'bg-[#dcfce7] text-[#166534]'
+                          : 'bg-[#fef3c7] text-[#92400e]'
+                      }`}
+                    >
+                      {t.ready ? 'Ready' : 'Pending'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Vercel Env Checklist */}
+            <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-3">
+              <h2 className="text-base font-semibold text-[#0b0c0e]">Vercel environment variables</h2>
+              <p className="text-sm text-[#525866]">
+                Configure these keys in Vercel Project Settings &rarr; Environment Variables (no `.env` secrets needed in Git):
+              </p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-[#0b0c0e]">
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_SUPABASE_URL</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">SUPABASE_SERVICE_ROLE_KEY</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_EMAIL &amp; ADMIN_PASSWORD</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_SESSION_SECRET</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_ADSENSE_CLIENT_ID</li>
+              </ul>
             </div>
           </div>
         )}
       </div>
 
-      {/* ============================================================== */}
-      {/* ADD / EDIT SMARTPHONE MODAL                                    */}
-      {/* ============================================================== */}
+      {/* Add / Edit Device Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl rounded-3xl bg-[#101518] border border-white/10 shadow-2xl overflow-hidden my-8">
-            <div className="p-5 border-b border-white/10 flex items-center justify-between bg-black/30">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-[#39F56A]" />
-                <span>{editingDevice ? `Edit: ${editingDevice.model}` : 'Add New Smartphone to Database'}</span>
-              </h3>
+        <div className="fixed inset-0 z-50 bg-[#0b0c0e]/50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-2xl rounded-xl bg-[#ffffff] border border-[#d6dbe3] shadow-2xl overflow-hidden my-8">
+            <div className="px-6 py-4 border-b border-[#e2e5ea] flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-[#0b0c0e]">
+                {editingDevice ? `Edit ${editingDevice.model}` : 'Add smartphone record'}
+              </h2>
               <button
+                type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                aria-label="Close modal"
+                className="p-1.5 rounded text-[#525866] hover:text-[#0b0c0e] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveDevice} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+            <form onSubmit={handleSaveDevice} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Brand Name</label>
+                  <label className="block font-medium text-[#0b0c0e]">Brand</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Samsung, Apple, Poco, Infinix"
+                    placeholder="e.g. Samsung, Apple, POCO"
                     value={formData.brand}
                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
                   />
                 </div>
-
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Model Name</label>
+                  <label className="block font-medium text-[#0b0c0e]">Model</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Galaxy S25 Ultra, GT 20 Pro"
+                    placeholder="e.g. Galaxy S25 Ultra"
                     value={formData.model}
                     onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Chipset / Processor</label>
+                  <label className="block font-medium text-[#0b0c0e]">Chipset</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Snapdragon 8 Gen 3 (4nm)"
+                    placeholder="e.g. Snapdragon 8 Elite (3nm)"
                     value={formData.chipset}
                     onChange={(e) => setFormData({ ...formData, chipset: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
                   />
                 </div>
-
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">GPU</label>
+                  <label className="block font-medium text-[#0b0c0e]">GPU</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Adreno 750 / Mali-G610"
+                    placeholder="e.g. Adreno 830"
                     value={formData.gpu}
                     onChange={(e) => setFormData({ ...formData, gpu: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none focus:ring-2 focus:ring-[#1f2de6]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Max Supported FPS</label>
+                  <label className="block font-medium text-[#0b0c0e]">Max PUBG FPS</label>
                   <select
                     value={formData.maxFps}
-                    onChange={(e) => setFormData({ ...formData, maxFps: Number(e.target.value), smoothFps: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        maxFps: Number(e.target.value),
+                        smoothFps: Number(e.target.value)
+                      })
+                    }
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                   >
-                    <option value={120}>120 FPS (Extreme+)</option>
-                    <option value={90}>90 FPS (Extreme)</option>
-                    <option value={60}>60 FPS (Ultra)</option>
-                    <option value={40}>40 FPS (High)</option>
-                    <option value={30}>30 FPS (Medium)</option>
-                    <option value={25}>25 FPS (Low)</option>
-                    <option value={0}>0 FPS (Unsupported)</option>
+                    <option value={120}>120 FPS</option>
+                    <option value={90}>90 FPS</option>
+                    <option value={60}>60 FPS</option>
+                    <option value={40}>40 FPS</option>
+                    <option value={30}>30 FPS</option>
+                    <option value={0}>Unsupported</option>
                   </select>
                 </div>
-
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Refresh Rate (Hz)</label>
+                  <label className="block font-medium text-[#0b0c0e]">Refresh rate (Hz)</label>
                   <input
                     type="number"
                     value={formData.refreshRate}
                     onChange={(e) => setFormData({ ...formData, refreshRate: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                   />
                 </div>
-
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Battery (mAh)</label>
+                  <label className="block font-medium text-[#0b0c0e]">Battery (mAh)</label>
                   <input
                     type="number"
                     value={formData.batteryCapacity}
                     onChange={(e) => setFormData({ ...formData, batteryCapacity: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Gyroscope Type</label>
+                  <label className="block font-medium text-[#0b0c0e]">Gyroscope</label>
                   <select
                     value={formData.gyroscope}
-                    onChange={(e) => setFormData({ ...formData, gyroscope: e.target.value as DeviceInfo['gyroscope'] })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                    onChange={(e) =>
+                      setFormData({ ...formData, gyroscope: e.target.value as DeviceInfo['gyroscope'] })
+                    }
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                   >
                     <option value="Ultra Fast Hardware Gyro">Ultra Fast Hardware Gyro</option>
                     <option value="Hardware Gyro">Hardware Gyro</option>
@@ -1228,61 +1373,66 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                     <option value="Not Supported">Not Supported</option>
                   </select>
                 </div>
-
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300">Cooling System</label>
+                  <label className="block font-medium text-[#0b0c0e]">Cooling system</label>
                   <input
                     type="text"
+                    placeholder="e.g. Dual Vapor Chamber"
                     value={formData.coolingSystem}
                     onChange={(e) => setFormData({ ...formData, coolingSystem: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="block font-medium text-[#0b0c0e]">Pros (semicolon separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Stable 90 FPS; Low heat"
+                    value={formData.pros}
+                    onChange={(e) => setFormData({ ...formData, pros: e.target.value })}
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="block font-medium text-[#0b0c0e]">Cons (semicolon separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Heavy body; No 3.5mm jack"
+                    value={formData.cons}
+                    onChange={(e) => setFormData({ ...formData, cons: e.target.value })}
+                    className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300">Pros (separated by semicolon)</label>
-                <input
-                  type="text"
-                  value={formData.pros}
-                  onChange={(e) => setFormData({ ...formData, pros: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300">Cons (separated by semicolon)</label>
-                <input
-                  type="text"
-                  value={formData.cons}
-                  onChange={(e) => setFormData({ ...formData, cons: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300">Overall Gaming Verdict</label>
+                <label className="block font-medium text-[#0b0c0e]">Verdict summary</label>
                 <textarea
                   rows={2}
+                  placeholder="Concise real-world PUBG performance verdict..."
                   value={formData.verdict}
                   onChange={(e) => setFormData({ ...formData, verdict: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-black/40 border border-white/10 text-xs text-white focus:outline-none focus:border-[#39F56A]"
+                  className="w-full px-3 py-2 rounded-md bg-[#eef0f3] text-[#0b0c0e] focus:outline-none"
                 />
               </div>
 
-              <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
+              <div className="pt-3 border-t border-[#e2e5ea] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs cursor-pointer transition-colors"
+                  className="px-4 py-2 rounded-md bg-[#eef0f3] hover:bg-[#e2e5ea] text-[#0b0c0e] font-medium cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="py-2.5 px-5 rounded-xl bg-[#39F56A] hover:bg-[#32dc5e] text-black font-black text-xs shadow-lg shadow-[#39F56A]/20 cursor-pointer transition-colors"
+                  disabled={savingDevice}
+                  className="px-5 py-2 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium cursor-pointer disabled:opacity-60"
                 >
-                  Save Smartphone Record
+                  {savingDevice ? 'Saving...' : 'Save device'}
                 </button>
               </div>
             </form>

@@ -1,8 +1,17 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Database, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Supabase Connection Check — PUBGFrames',
+  robots: {
+    index: false,
+    follow: false
+  }
+};
 
 interface TodoItem {
   id: string | number;

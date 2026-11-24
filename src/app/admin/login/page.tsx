@@ -1,162 +1,158 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Shield, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
-import { getSupabase } from '@/lib/supabase';
-import { setAdminSession } from '@/lib/adminAuth';
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const expectedEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'usmanshahidhnd2108@gmail.com').toLowerCase().trim();
-  const expectedPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '@oZhQ95XP';
+  useEffect(() => {
+    let active = true;
+    fetch('/api/admin/session', { cache: 'no-store' })
+      .then((res) => {
+        if (res.ok && active) {
+          router.replace('/admin');
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [router]);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      const supabase = getSupabase();
-      if (supabase) {
-        // Try Supabase Auth first
-        const { error: sbError } = await supabase.auth.signInWithPassword({
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email: email.trim(),
           password
-        });
-        if (sbError) {
-          // Check authorized admin credentials fallback
-          if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
-            setAdminSession(email.trim().toLowerCase());
-            router.push('/admin');
-            return;
-          }
-          setError(sbError.message);
-          setLoading(false);
-          return;
-        }
-        setAdminSession(email.trim().toLowerCase());
-        router.push('/admin');
+        })
+      });
+
+      const data = (await res.json()) as { authenticated?: boolean; error?: string };
+
+      if (!res.ok || !data.authenticated) {
+        setError(data.error || 'Invalid email or security password.');
+        setLoading(false);
         return;
       }
 
-      // Local / Offline fallback mode with designated credentials
-      if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
-        setAdminSession(email.trim().toLowerCase());
-        router.push('/admin');
-      } else {
-        setError('Invalid admin credentials. Please enter authorized admin email and password.');
-      }
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Login failed');
-    } finally {
+      router.replace('/admin');
+      router.refresh();
+    } catch {
+      setError('Unable to reach authentication service. Please try again.');
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md space-y-8">
-        {/* Brand Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] mx-auto shadow-lg shadow-[#FFD400]/5">
-            <Shield className="w-7 h-7" />
+    <div className="min-h-[82vh] bg-[#eef0f3] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-[420px] space-y-6">
+        <div className="space-y-2 text-center">
+          <div className="inline-flex items-center justify-center w-11 h-11 rounded-lg bg-[#111317] text-white mx-auto">
+            <ShieldCheck className="w-5 h-5" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            PUBGFrames <span className="text-[#FFD400]">Admin Console</span>
+          <h1 className="text-[28px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
+            Admin sign in
           </h1>
-          <p className="text-xs sm:text-sm text-gray-400">
-            Sign in to manage smartphones database, view live visitor analytics, and configure Supabase.
+          <p className="text-[15px] text-[#3d4350]">
+            Manage the device catalog, view real traffic, and monitor Supabase sync.
           </p>
         </div>
 
-        {/* Login Card */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#101518] border border-white/10 shadow-2xl space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFD400]/5 rounded-full blur-3xl -z-10" />
-
+        <div className="p-6 sm:p-8 rounded-xl bg-[#ffffff] shadow-sm space-y-6">
           {error && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div
+              role="alert"
+              className="p-3.5 rounded-lg bg-[#fee2e2] text-[#991b1b] text-[15px] flex items-start gap-2.5"
+            >
+              <AlertCircle className="w-4 h-4 shrink-0 mt-1" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-300 uppercase tracking-wider">
-                Admin Email or Username
+              <label htmlFor="admin-email" className="block text-[15px] font-medium text-[#0b0c0e]">
+                Superuser email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-[#525866] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
+                  id="admin-email"
                   type="email"
                   required
+                  autoComplete="email"
                   placeholder="admin@pubgframes.internal"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#FFD400] transition-colors"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-md bg-[#eef0f3] text-base text-[#0b0c0e] placeholder-[#525866] focus:outline-none focus:ring-2 focus:ring-[#1f2de6] focus:bg-[#ffffff] transition-colors"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-300 uppercase tracking-wider">
-                Security Password
+              <label htmlFor="admin-password" className="block text-[15px] font-medium text-[#0b0c0e]">
+                Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-[#525866] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
-                  type="password"
+                  id="admin-password"
+                  type={showPassword ? 'text' : 'password'}
                   required
-                  placeholder="Enter security key..."
+                  autoComplete="current-password"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#FFD400] transition-colors"
+                  className="w-full pl-10 pr-11 py-2.5 rounded-md bg-[#eef0f3] text-base text-[#0b0c0e] placeholder-[#525866] focus:outline-none focus:ring-2 focus:ring-[#1f2de6] focus:bg-[#ffffff] transition-colors"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 rounded text-[#525866] hover:text-[#0b0c0e] cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-4 rounded-xl bg-[#FFD400] hover:bg-[#ffe033] text-black font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#FFD400]/20 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full py-3 px-4 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium text-base inline-flex items-center justify-center gap-2 transition-colors duration-150 disabled:opacity-60 cursor-pointer"
             >
-              {loading ? (
-                <span>Authenticating...</span>
-              ) : (
-                <>
-                  <span>Sign In to Control Center</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              <span>{loading ? 'Signing in...' : 'Sign in'}</span>
+              {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
 
-          {/* Security Notice */}
-          <div className="pt-4 border-t border-white/5 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-gray-300">
-              <Shield className="w-3.5 h-3.5 text-[#39F56A]" />
-              <span>Restricted System Access</span>
-            </div>
-            <p className="text-[11px] text-gray-400 leading-relaxed">
-              This terminal is reserved for master administrators only. Enter your authorized administrator credentials above to access database management and system analytics.
-            </p>
+          <div className="p-3.5 rounded-lg bg-[#eef0f3] text-[15px] text-[#3d4350] leading-relaxed">
+            Restricted to the designated superuser account. Sessions are verified server-side via signed cookies and expire automatically.
           </div>
         </div>
 
-        {/* Back to Site */}
         <div className="text-center">
           <Link
             href="/"
-            className="text-xs text-gray-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-[#3d4350] hover:text-[#0b0c0e] transition-colors"
           >
-            ← Return to PUBGFrames Public Website
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to PUBGFrames</span>
           </Link>
         </div>
       </div>

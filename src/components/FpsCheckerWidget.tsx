@@ -6,6 +6,7 @@ import { Smartphone, Search, ShieldCheck, AlertTriangle, Copy, Check, ArrowUpRig
 import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
 import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
+import { trackSearchQuery } from '@/lib/analytics';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { FpsGauge } from './FpsGauge';
 import { soundEffects } from '@/utils/soundEffects';
@@ -82,6 +83,7 @@ export const FpsCheckerWidget = () => {
 
   const handleSelectDevice = (device: DeviceInfo) => {
     soundEffects.playClick();
+    trackSearchQuery(formatDeviceName(device.brand, device.model), filteredDevices.length, device.id);
     setSelectedDevice(device);
     setGamingMinutes(0);
     setIsDropdownOpen(false);

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { DEVICES_DATA, getDeviceBySlug } from '@/data/devices';
+import { getSiteUrl } from '@/lib/siteConfig';
 import { GraphicsTier } from '@/types/device';
 import { AdBanner } from '@/components/AdBanner';
 import { Check, X as CloseIcon, ChevronRight, AlertTriangle } from 'lucide-react';
@@ -22,16 +23,17 @@ export async function generateMetadata({ params }: DeviceDetailProps): Promise<M
   const device = getDeviceBySlug(model);
   if (!device) return { title: 'Device Not Found' };
 
+  const siteUrl = getSiteUrl();
   return {
     title: `${device.brand} ${device.model} PUBG Mobile FPS & Performance Review`,
     description: `Does ${device.brand} ${device.model} support 90 FPS or 120 FPS in PUBG Mobile? Read full benchmark tests, thermal throttling analysis, and recommended competitive graphics settings.`,
     alternates: {
-      canonical: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}`
+      canonical: `${siteUrl}/devices/${device.brandSlug}/${device.slug}`
     },
     openGraph: {
       title: `${device.brand} ${device.model} PUBG Mobile FPS Review`,
       description: `Verified ${device.maxSupportedFps} FPS benchmark, thermal throttling data, and competitive graphics modes for ${device.brand} ${device.model}.`,
-      url: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}`
+      url: `${siteUrl}/devices/${device.brandSlug}/${device.slug}`
     }
   };
 }
@@ -44,6 +46,7 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
     notFound();
   }
 
+  const siteUrl = getSiteUrl();
   const tiers: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
   const isUnsupported = device.isUnsupportedHardware || device.maxSupportedFps === 0;
 
@@ -53,10 +56,10 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://pubgframes.com' },
-          { '@type': 'ListItem', position: 2, name: 'Devices', item: 'https://pubgframes.com/devices' },
-          { '@type': 'ListItem', position: 3, name: device.brand, item: `https://pubgframes.com/devices/${device.brandSlug}` },
-          { '@type': 'ListItem', position: 4, name: device.model, item: `https://pubgframes.com/devices/${device.brandSlug}/${device.slug}` }
+          { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Devices', item: `${siteUrl}/devices` },
+          { '@type': 'ListItem', position: 3, name: device.brand, item: `${siteUrl}/devices/${device.brandSlug}` },
+          { '@type': 'ListItem', position: 4, name: device.model, item: `${siteUrl}/devices/${device.brandSlug}/${device.slug}` }
         ]
       },
       {
@@ -76,12 +79,6 @@ export default async function DeviceDetailPage({ params }: DeviceDetailProps) {
           author: { '@type': 'Organization', name: 'PUBGFrames' },
           datePublished: device.benchmarkDate,
           reviewBody: device.verdict
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: device.overallGamingRating.toString(),
-          reviewCount: '48',
-          bestRating: '10'
         }
       }
     ]

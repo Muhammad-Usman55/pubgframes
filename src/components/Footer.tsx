@@ -33,15 +33,16 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Info & Legal (side by side with Tools on mobile) */}
+          {/* Info & Legal */}
           <div className="col-span-1 lg:col-span-2 lg:order-last space-y-2.5 sm:space-y-3">
             <h4 className="text-sm sm:text-base font-semibold text-white">Information</h4>
             <ul className="space-y-2 text-sm sm:text-base text-[#c5cbd4]">
-              <li><Link href="/about" className="hover:text-white transition-colors duration-150">About</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors duration-150">Contact</Link></li>
-              <li><Link href="/disclaimer" className="hover:text-white transition-colors duration-150">Disclaimer</Link></li>
+              <li><Link href="/about" className="hover:text-white transition-colors duration-150">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors duration-150">Contact Us</Link></li>
               <li><Link href="/privacy-policy" className="hover:text-white transition-colors duration-150">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-white transition-colors duration-150">Terms</Link></li>
+              <li><Link href="/cookie-policy" className="hover:text-white transition-colors duration-150">Cookie Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors duration-150">Terms of Service</Link></li>
+              <li><Link href="/disclaimer" className="hover:text-white transition-colors duration-150">Disclaimer</Link></li>
             </ul>
           </div>
 
@@ -70,8 +71,8 @@ export const Footer = () => {
           <div className="flex flex-wrap items-center gap-5">
             <Link href="/devices" className="hover:text-white transition-colors duration-150">Database</Link>
             <Link href="/compare" className="hover:text-white transition-colors duration-150">Compare</Link>
+            <Link href="/guides" className="hover:text-white transition-colors duration-150">Performance Guides</Link>
             <Link href="/contact" className="hover:text-white transition-colors duration-150">Submit Benchmark</Link>
-            <Link href="/admin" className="hover:text-white transition-colors duration-150">Admin</Link>
           </div>
           <p>© 2026 PUBGFrames</p>
         </div>

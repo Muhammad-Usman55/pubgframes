@@ -1,4 +1,4 @@
-'use client';
+import { DEVICES_DATA } from '@/data/devices';
 
 export interface TrafficDay {
   day: string;
@@ -16,7 +16,7 @@ export interface TopSearchItem {
   name: string;
   count: number;
   brand: string;
-  fps: number;
+  fps: number | null;
 }
 
 export interface RealAnalyticsData {
@@ -29,7 +29,18 @@ export interface RealAnalyticsData {
   trafficHistory: TrafficDay[];
 }
 
-export const DEFAULT_ANALYTICS: RealAnalyticsData = {
+export interface RawPageViewEvent {
+  path: string;
+  timestamp: number | string;
+  country?: string;
+}
+
+export interface RawSearchEvent {
+  query: string;
+  timestamp: number | string;
+}
+
+export const EMPTY_ANALYTICS: RealAnalyticsData = {
   totalViews: 0,
   todayViews: 0,
   activeVisitors: 0,
@@ -47,73 +58,28 @@ export const DEFAULT_ANALYTICS: RealAnalyticsData = {
   ]
 };
 
-const STORAGE_KEY = 'pubgframes_real_analytics_v1';
+const STORAGE_KEY = 'pubgframes_real_analytics_v2';
 
-interface StoredAnalytics {
-  views: Array<{ path: string; date: string; timestamp: number; country?: string }>;
-  searches: Array<{ query: string; timestamp: number }>;
-}
-
-function getStored(): StoredAnalytics {
-  if (typeof window === 'undefined') {
-    return { views: [], searches: [] };
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (err) {
-    console.error('Failed to parse analytics', err);
-  }
-  return { views: [], searches: [] };
+function toEpochMs(ts: number | string): number {
+  if (typeof ts === 'number') return ts;
+  const parsed = Date.parse(ts);
+  return Number.isNaN(parsed) ? Date.now() : parsed;
 }
 
 /**
- * Compute real analytics without dummy data
+ * Pure aggregator used by both Supabase server analytics API and local fallback.
+ * Computes metrics exclusively from real recorded events.
  */
-export function getRealAnalytics(): RealAnalyticsData {
-  const stored = getStored();
+export function aggregateAnalyticsEvents(
+  views: RawPageViewEvent[],
+  searches: RawSearchEvent[]
+): RealAnalyticsData {
   const todayStr = new Date().toISOString().split('T')[0];
-
-  const totalViews = stored.views.length;
-  const todayViews = stored.views.filter((v) => v.date === todayStr).length;
-
-  // Active visitors in last 15 minutes (or 1 if currently in admin session)
   const fifteenMinsAgo = Date.now() - 15 * 60 * 1000;
-  const recentViews = stored.views.filter((v) => v.timestamp > fifteenMinsAgo);
-  const activeVisitors = Math.max(recentViews.length, totalViews > 0 ? 1 : 0);
 
-  const totalSearches = stored.searches.length;
-
-  // Top searched items from real user inputs
-  const searchCounts: Record<string, number> = {};
-  for (const s of stored.searches) {
-    searchCounts[s.query] = (searchCounts[s.query] || 0) + 1;
-  }
-  const topSearched: TopSearchItem[] = Object.entries(searchCounts)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([name, count]) => ({
-      name: name.toUpperCase(),
-      count,
-      brand: 'Search Query',
-      fps: 60
-    }));
-
-  // Geographic visitor breakdown from real events
+  let todayViews = 0;
+  let activeVisitors = 0;
   const countryCounts: Record<string, number> = {};
-  for (const v of stored.views) {
-    const c = v.country || 'Global';
-    countryCounts[c] = (countryCounts[c] || 0) + 1;
-  }
-  const geoDistribution: GeoVisitor[] = Object.entries(countryCounts)
-    .map(([country, visits]) => ({
-      country,
-      visits,
-      percentage: totalViews > 0 ? Math.round((visits / totalViews) * 100) : 0
-    }))
-    .sort((a, b) => b.visits - a.visits);
-
-  // 7-day traffic trend based on actual recorded events
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const dayCounts: Record<string, { visitors: number; searches: number }> = {
     Mon: { visitors: 0, searches: 0 },
@@ -125,17 +91,56 @@ export function getRealAnalytics(): RealAnalyticsData {
     Sun: { visitors: 0, searches: 0 }
   };
 
-  for (const v of stored.views) {
-    const d = new Date(v.timestamp);
-    const day = dayNames[d.getDay()];
+  for (const v of views) {
+    const ms = toEpochMs(v.timestamp);
+    const dateStr = new Date(ms).toISOString().split('T')[0];
+    if (dateStr === todayStr) todayViews++;
+    if (ms > fifteenMinsAgo) activeVisitors++;
+
+    const country = v.country || 'Unknown';
+    countryCounts[country] = (countryCounts[country] || 0) + 1;
+
+    const day = dayNames[new Date(ms).getDay()];
     if (dayCounts[day]) dayCounts[day].visitors++;
   }
 
-  for (const s of stored.searches) {
-    const d = new Date(s.timestamp);
-    const day = dayNames[d.getDay()];
+  const searchCounts: Record<string, number> = {};
+  for (const s of searches) {
+    const q = (s.query || '').trim().toLowerCase();
+    if (!q) continue;
+    searchCounts[q] = (searchCounts[q] || 0) + 1;
+
+    const ms = toEpochMs(s.timestamp);
+    const day = dayNames[new Date(ms).getDay()];
     if (dayCounts[day]) dayCounts[day].searches++;
   }
+
+  const topSearched: TopSearchItem[] = Object.entries(searchCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([name, count]) => {
+      const matched = DEVICES_DATA.find(
+        (d) =>
+          `${d.brand} ${d.model}`.toLowerCase().includes(name) ||
+          d.model.toLowerCase().includes(name) ||
+          d.slug.toLowerCase() === name
+      );
+      return {
+        name,
+        count,
+        brand: matched?.brand || 'Search Query',
+        fps: matched ? matched.maxSupportedFps : null
+      };
+    });
+
+  const totalViews = views.length;
+  const geoDistribution: GeoVisitor[] = Object.entries(countryCounts)
+    .map(([country, visits]) => ({
+      country,
+      visits,
+      percentage: totalViews > 0 ? Math.round((visits / totalViews) * 100) : 0
+    }))
+    .sort((a, b) => b.visits - a.visits);
 
   const trafficHistory: TrafficDay[] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
     (day) => ({
@@ -149,17 +154,110 @@ export function getRealAnalytics(): RealAnalyticsData {
     totalViews,
     todayViews,
     activeVisitors,
-    totalSearches,
+    totalSearches: searches.length,
     topSearched,
     geoDistribution,
     trafficHistory
   };
 }
 
-/**
- * Clear analytics history
- */
-export function resetAnalyticsData() {
+function detectVisitorRegion(): string {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz.includes('Karachi')) return 'Pakistan';
+    if (tz.includes('Kolkata') || tz.includes('Calcutta')) return 'India';
+    if (tz.includes('Riyadh')) return 'Saudi Arabia';
+    if (tz.includes('Dubai')) return 'United Arab Emirates';
+    if (tz.includes('Dhaka')) return 'Bangladesh';
+    if (tz.includes('London')) return 'United Kingdom';
+    if (tz.includes('America/')) return 'North America';
+    if (tz.includes('Europe/')) return 'Europe';
+    if (tz.includes('Asia/')) return 'Asia';
+  } catch {
+    // ignore locale issues
+  }
+  return 'Global';
+}
+
+interface StoredBrowserAnalytics {
+  views: RawPageViewEvent[];
+  searches: RawSearchEvent[];
+}
+
+function readBrowserStore(): StoredBrowserAnalytics {
+  if (typeof window === 'undefined') return { views: [], searches: [] };
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw) as StoredBrowserAnalytics;
+  } catch {
+    // ignore storage errors
+  }
+  return { views: [], searches: [] };
+}
+
+function writeBrowserStore(data: StoredBrowserAnalytics) {
+  if (typeof window === 'undefined') return;
+  try {
+    if (data.views.length > 1000) data.views = data.views.slice(-1000);
+    if (data.searches.length > 1000) data.searches = data.searches.slice(-1000);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+export function getBrowserFallbackAnalytics(): RealAnalyticsData {
+  const store = readBrowserStore();
+  return aggregateAnalyticsEvents(store.views, store.searches);
+}
+
+export function clearBrowserFallbackAnalytics() {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(STORAGE_KEY);
+}
+
+export function trackPageView(path: string) {
+  if (typeof window === 'undefined' || !path || path.startsWith('/admin')) return;
+
+  const country = detectVisitorRegion();
+  const deviceType = window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop';
+
+  const store = readBrowserStore();
+  store.views.push({ path, timestamp: Date.now(), country });
+  writeBrowserStore(store);
+
+  fetch('/api/analytics/track', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: 'pageview',
+      path,
+      deviceType,
+      country,
+      referrer: document.referrer || ''
+    }),
+    keepalive: true
+  }).catch(() => {});
+}
+
+export function trackSearchQuery(query: string, resultCount = 0, selectedDeviceId?: string) {
+  if (typeof window === 'undefined') return;
+  const clean = query.trim();
+  if (clean.length < 2) return;
+
+  const store = readBrowserStore();
+  store.searches.push({ query: clean.toLowerCase(), timestamp: Date.now() });
+  writeBrowserStore(store);
+
+  fetch('/api/analytics/track', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      type: 'search',
+      query: clean.toLowerCase(),
+      resultCount,
+      selectedDeviceId
+    }),
+    keepalive: true
+  }).catch(() => {});
 }

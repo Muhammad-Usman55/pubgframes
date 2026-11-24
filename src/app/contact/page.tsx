@@ -6,6 +6,8 @@ import { soundEffects } from '@/utils/soundEffects';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,10 +16,39 @@ export default function ContactPage() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    soundEffects.playSuccess();
-    setSubmitted(true);
+    setSubmitError('');
+    setSubmitting(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string };
+        setSubmitError(data.error || 'Could not send message. Please email lab@pubgframes.com directly.');
+        setSubmitting(false);
+        return;
+      }
+
+      soundEffects.playSuccess();
+      setSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        deviceModel: '',
+        topic: 'Benchmark Submission',
+        message: ''
+      });
+    } catch {
+      setSubmitError('Network error while sending message. Please try again or email lab@pubgframes.com.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -50,6 +81,11 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4 text-[15px]">
+              {submitError && (
+                <div className="p-3 rounded-md bg-[#fee2e2] text-[#991b1b] text-sm">
+                  {submitError}
+                </div>
+              )}
               <div>
                 <label className="block text-[#0b0c0e] font-medium mb-1.5 text-[14px]">Your name</label>
                 <input
@@ -115,9 +151,10 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="w-full py-3 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium text-[15px] transition-colors duration-150 cursor-pointer"
+                disabled={submitting}
+                className="w-full py-3 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium text-[15px] transition-colors duration-150 disabled:opacity-60 cursor-pointer"
               >
-                Send message
+                {submitting ? 'Sending message...' : 'Send message'}
               </button>
             </form>
           )}
@@ -135,8 +172,13 @@ export default function ContactPage() {
 
           <div className="p-6 rounded-lg bg-[#e2e5ea] space-y-1.5 text-[15px]">
             <h3 className="font-semibold text-[#0b0c0e]">Direct email</h3>
-            <p className="text-[#525866]">For lab corrections and press inquiries:</p>
-            <p className="font-medium text-[#0b0c0e]">lab@pubgframes.com</p>
+            <p className="text-[#525866]">For lab corrections, privacy requests, and editorial inquiries:</p>
+            <p className="font-medium text-[#0b0c0e]">
+              <a href="mailto:lab@pubgframes.com" className="text-[#1f2de6] hover:underline">
+                lab@pubgframes.com
+              </a>
+            </p>
+            <p className="text-xs text-[#525866] pt-1">Typical response window: 24–48 hours.</p>
           </div>
         </div>
       </div>

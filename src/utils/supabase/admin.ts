@@ -1,27 +1,29 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  'https://irsndncadjwtztrltnyt.supabase.co';
-
-const serviceRoleKey =
+const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
+const serviceRoleKey = (
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  process.env.SUPABASE_SECRET_KEY;
+  process.env.SUPABASE_SECRET_KEY ||
+  ''
+).trim();
 
 /**
- * Privileged Supabase Admin Client.
- * ONLY use in server-side API routes, scripts, and server actions.
- * Bypasses Row Level Security (RLS).
+ * Privileged Supabase Admin Client (Server-only).
+ * Returns null cleanly when server credentials are not configured yet.
  */
-export const createAdminClient = () => {
-  if (!serviceRoleKey) {
-    throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY in environment variables.');
+export const createAdminClient = (): SupabaseClient | null => {
+  if (!supabaseUrl || !serviceRoleKey) {
+    return null;
   }
 
   return createClient(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false,
-    },
+      persistSession: false
+    }
   });
+};
+
+export const hasAdminDatabaseConfig = (): boolean => {
+  return Boolean(supabaseUrl && serviceRoleKey);
 };
