@@ -70,6 +70,13 @@ export default function AdminDashboardPage() {
   const [supabaseKey, setSupabaseKey] = useState('');
   const [connectionStatus, setConnectionStatus] = useState<'connected' | 'local'>('local');
   const [copiedSql, setCopiedSql] = useState(false);
+  const sqlCopyTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (sqlCopyTimerRef.current) clearTimeout(sqlCopyTimerRef.current);
+    };
+  }, []);
 
   // Form State for Adding / Editing Smartphone
   const [formData, setFormData] = useState({
@@ -428,7 +435,8 @@ CREATE POLICY "Allow public read" ON public.devices FOR SELECT USING (true);
 CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (true);`;
     navigator.clipboard.writeText(sqlScript);
     setCopiedSql(true);
-    setTimeout(() => setCopiedSql(false), 2000);
+    if (sqlCopyTimerRef.current) clearTimeout(sqlCopyTimerRef.current);
+    sqlCopyTimerRef.current = setTimeout(() => setCopiedSql(false), 2000);
   };
 
   if (isAuthenticated === null) {

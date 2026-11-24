@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useMemo, Suspense, useRef, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { DEVICES_DATA } from '@/data/devices';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
@@ -22,6 +22,13 @@ function CompareContent() {
   const [deviceA, setDeviceA] = useState<DeviceInfo>(initialPhone1);
   const [deviceB, setDeviceB] = useState<DeviceInfo>(initialPhone2);
   const [copiedLink, setCopiedLink] = useState(false);
+  const copyTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
+  }, []);
 
   const tiers: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
 
@@ -40,7 +47,8 @@ function CompareContent() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(url);
       setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2500);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopiedLink(false), 2500);
     }
   };
 

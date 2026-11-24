@@ -23,6 +23,7 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
     const target = isUnsupported ? 0 : Math.min(fps, maxFps);
     const duration = 800;
     const startTime = performance.now();
+    let animationFrameId: number;
 
     const animate = (now: number) => {
       const elapsed = now - startTime;
@@ -32,11 +33,17 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
       setCurrentFps(Math.round(target * ease));
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        animationFrameId = requestAnimationFrame(animate);
       }
     };
 
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, [fps, maxFps, isUnsupported]);
 
   const clampedFps = isUnsupported ? 0 : Math.min(currentFps, maxFps);

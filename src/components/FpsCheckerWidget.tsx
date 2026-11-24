@@ -45,8 +45,9 @@ export const FpsCheckerWidget = () => {
   const [copied, setCopied] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click and cleanup all pending async timers on unmount
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -54,7 +55,11 @@ export const FpsCheckerWidget = () => {
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      timersRef.current.forEach(clearTimeout);
+      timersRef.current = [];
+    };
   }, []);
 
   const filteredDevices = useMemo(() => {
@@ -90,19 +95,21 @@ export const FpsCheckerWidget = () => {
     setIsAnalyzing(true);
     setScanStep(1);
 
-    setTimeout(() => {
+    const t1 = setTimeout(() => {
       setScanStep(2);
     }, 250);
 
-    setTimeout(() => {
+    const t2 = setTimeout(() => {
       setScanStep(3);
     }, 500);
 
-    setTimeout(() => {
+    const t3 = setTimeout(() => {
       setIsAnalyzing(false);
       setShowDetailedReport(true);
       soundEffects.playSuccess();
     }, 750);
+
+    timersRef.current.push(t1, t2, t3);
   };
 
   const handleCopySummary = () => {
@@ -116,7 +123,8 @@ Check your PUBG FPS free on: https://pubgframes.com`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      const t4 = setTimeout(() => setCopied(false), 2500);
+      timersRef.current.push(t4);
     }
   };
 
