@@ -1,4 +1,5 @@
 import { DeviceInfo, FpsCalculationResult, GraphicsTier } from '@/types/device';
+import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { SAMSUNG_DEVICES } from './samsungDevices';
 import { APPLE_DEVICES } from './appleDevices';
 import { OPPO_DEVICES } from './oppoDevices';
@@ -1343,18 +1344,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
 }
 
 export function searchDevices(query: string): DeviceInfo[] {
-  const clean = query.trim().toLowerCase();
-  if (!clean) return DEVICES_DATA;
-
-  // Split query into terms to support multi-word queries like "samsung a03", "galaxy s24", "j2 core"
-  const terms = clean.split(/\s+/).filter(Boolean);
-
-  return DEVICES_DATA.filter((d) => {
-    const isXiaomiEcosystem = d.brandSlug === 'xiaomi' || d.brandSlug === 'redmi' || d.brandSlug === 'poco' || d.brandSlug === 'black-shark';
-    const ecosystemTags = isXiaomiEcosystem ? 'xiaomi mi ecosystem' : '';
-    const fullText = `${d.brand} ${d.model} ${d.chipset} ${d.slug} ${d.gpu} ${ecosystemTags} ${d.isUnsupportedHardware ? 'unsupported incompatible' : ''}`.toLowerCase();
-    return terms.every((term) => fullText.includes(term));
-  });
+  return searchDevicesWithFuzzy(DEVICES_DATA, query);
 }
 
 // Thermal throttling curve calculator over time

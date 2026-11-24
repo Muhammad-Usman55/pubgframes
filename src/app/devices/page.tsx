@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
+import { scoreDeviceRelevance } from '@/utils/fuzzySearch';
 import { Smartphone, Search, Zap, SlidersHorizontal, ArrowUpRight, Scale, CheckCircle2 } from 'lucide-react';
 import { AdBanner } from '@/components/AdBanner';
 
@@ -14,43 +15,51 @@ export default function DevicesCatalogPage() {
   const [sortBy, setSortBy] = useState<'popularity' | 'name' | 'fps'>('popularity');
 
   const filteredDevices = useMemo(() => {
-    const searchTerms = search.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const cleanSearch = search.trim();
 
-    return DEVICES_DATA.filter((device) => {
-      const matchBrand = selectedBrand === 'All' || device.brand === selectedBrand;
-      const matchFps =
-        selectedFpsFilter === 'All'
-          ? true
-          : selectedFpsFilter === 'Unsupported'
-          ? device.maxSupportedFps === 0 || device.isUnsupportedHardware
-          : device.maxSupportedFps.toString() === selectedFpsFilter;
-      
-      const isGaming = 
-        device.brand === 'Black Shark' ||
-        device.brand === 'iQOO' ||
-        device.brand === 'Razer' ||
-        device.model.toLowerCase().includes('rog') ||
-        device.model.toLowerCase().includes('redmagic') ||
-        device.model.toLowerCase().includes('legion') ||
-        device.model.toLowerCase().includes('gaming') ||
-        device.coolingSystem.toLowerCase().includes('fan') ||
-        device.coolingSystem.toLowerCase().includes('gamecool') ||
-        device.model.toLowerCase().includes('gt 20 pro') ||
-        device.model.toLowerCase().includes('gt 10 pro') ||
-        device.model.toLowerCase().includes('f4 gt');
+    return DEVICES_DATA
+      .map((device) => {
+        const matchBrand = selectedBrand === 'All' || device.brand === selectedBrand;
+        const matchFps =
+          selectedFpsFilter === 'All'
+            ? true
+            : selectedFpsFilter === 'Unsupported'
+            ? device.maxSupportedFps === 0 || device.isUnsupportedHardware
+            : device.maxSupportedFps.toString() === selectedFpsFilter;
 
-      const matchGaming = !onlyGamingPhones || isGaming;
+        const isGaming =
+          device.brand === 'Black Shark' ||
+          device.brand === 'iQOO' ||
+          device.brand === 'Razer' ||
+          device.model.toLowerCase().includes('rog') ||
+          device.model.toLowerCase().includes('redmagic') ||
+          device.model.toLowerCase().includes('legion') ||
+          device.model.toLowerCase().includes('gaming') ||
+          device.coolingSystem.toLowerCase().includes('fan') ||
+          device.coolingSystem.toLowerCase().includes('gamecool') ||
+          device.model.toLowerCase().includes('gt 20 pro') ||
+          device.model.toLowerCase().includes('gt 10 pro') ||
+          device.model.toLowerCase().includes('f4 gt');
 
-      const fullText = `${device.brand} ${device.model} ${device.chipset} ${device.slug}`.toLowerCase();
-      const matchSearch =
-        searchTerms.length === 0 || searchTerms.every((term) => fullText.includes(term));
-      return matchBrand && matchFps && matchGaming && matchSearch;
-    }).sort((a, b) => {
-      if (sortBy === 'popularity') return a.popularityRank - b.popularityRank;
-      if (sortBy === 'fps') return b.maxSupportedFps - a.maxSupportedFps;
-      return a.model.localeCompare(b.model);
-    });
-  }, [search, selectedBrand, selectedFpsFilter, sortBy]);
+        const matchGaming = !onlyGamingPhones || isGaming;
+        if (!matchBrand || !matchFps || !matchGaming) return null;
+
+        const score = cleanSearch ? scoreDeviceRelevance(device, cleanSearch) : 100;
+        if (score === 0) return null;
+
+        return { device, score };
+      })
+      .filter((item): item is { device: (typeof DEVICES_DATA)[0]; score: number } => item !== null)
+      .sort((a, b) => {
+        if (cleanSearch && b.score !== a.score) {
+          return b.score - a.score;
+        }
+        if (sortBy === 'popularity') return a.device.popularityRank - b.device.popularityRank;
+        if (sortBy === 'fps') return b.device.maxSupportedFps - a.device.maxSupportedFps;
+        return a.device.model.localeCompare(b.device.model);
+      })
+      .map((item) => item.device);
+  }, [search, selectedBrand, selectedFpsFilter, onlyGamingPhones, sortBy]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -76,7 +85,7 @@ export default function DevicesCatalogPage() {
             <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search phone or chipset (e.g. Snapdragon, Dimensity, S24)..."
+              placeholder="Relative search (e.g. Note 12, edmi note 12, S24, POCO X6)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#39F56A]"

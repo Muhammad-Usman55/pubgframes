@@ -22,6 +22,7 @@ import {
   Check
 } from 'lucide-react';
 import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
+import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { FpsGauge } from './FpsGauge';
 import { soundEffects } from '@/utils/soundEffects';
@@ -63,13 +64,9 @@ export const FpsCheckerWidget = () => {
   }, []);
 
   const filteredDevices = useMemo(() => {
-    return DEVICES_DATA.filter((device) => {
-      const matchesBrand = selectedBrandFilter === 'All' || device.brand === selectedBrandFilter;
-      const matchesSearch =
-        device.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        device.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        device.chipset.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesBrand && matchesSearch;
+    return searchDevicesWithFuzzy(DEVICES_DATA, searchQuery, {
+      brandFilter: selectedBrandFilter,
+      limit: 150
     });
   }, [selectedBrandFilter, searchQuery]);
 
@@ -226,7 +223,7 @@ Check your PUBG FPS free on: https://pubgframes.com`;
                     <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Search phone or chipset (e.g. S24, POCO, iPhone)..."
+                      placeholder="Search any model or typo (e.g. Note 12, edmi, S24, POCO)..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-9 pr-3 py-2 text-xs rounded-lg bg-black/50 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#39F56A]"

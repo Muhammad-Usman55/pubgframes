@@ -34,7 +34,7 @@ export const Hero = () => {
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#0E1318] border border-white/10 text-xs font-mono text-zinc-300 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#39F56A] shadow-[0_0_8px_#39F56A] animate-pulse" />
               <span className="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">
-                PUBG Mobile v3.5 Telemetry Active • <strong className="text-white">628+ Devices</strong>
+                PUBG Mobile v3.5 Telemetry Active • <strong className="text-white">1,630+ Devices</strong>
               </span>
             </div>
 

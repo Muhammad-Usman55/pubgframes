@@ -56,7 +56,7 @@ export const Navbar = () => {
               PUBG<span className="text-[#FFD400]">Frames</span>
             </span>
             <span className="text-[10px] font-mono tracking-widest text-[#39F56A] font-bold uppercase mt-0.5">
-              628+ Devices • v3.5
+              1,630+ Devices • v3.5
             </span>
           </div>
         </Link>
