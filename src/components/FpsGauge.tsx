@@ -7,18 +7,22 @@ interface FpsGaugeProps {
   maxFps?: number;
   label?: string;
   isUnsupported?: boolean;
+  isEmpty?: boolean;
 }
 
 export const FpsGauge: React.FC<FpsGaugeProps> = ({
   fps,
   maxFps = 120,
   label = 'FPS',
-  isUnsupported = false
+  isUnsupported = false,
+  isEmpty = false
 }) => {
-  const [currentFps, setCurrentFps] = useState(isUnsupported ? 0 : Math.min(fps, maxFps));
+  const [currentFps, setCurrentFps] = useState(
+    isEmpty || isUnsupported ? 0 : Math.min(fps, maxFps)
+  );
 
   useEffect(() => {
-    const target = isUnsupported ? 0 : Math.min(fps, maxFps);
+    const target = isEmpty || isUnsupported ? 0 : Math.min(fps, maxFps);
     const startVal = currentFps;
     const duration = 450;
     const startTime = performance.now();
@@ -40,16 +44,17 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fps, maxFps, isUnsupported]);
+  }, [fps, maxFps, isUnsupported, isEmpty]);
 
-  const clampedFps = isUnsupported ? 0 : Math.min(currentFps, maxFps);
+  const clampedFps = isEmpty || isUnsupported ? 0 : Math.min(currentFps, maxFps);
   const ratio = clampedFps / maxFps;
   const needleAngle = -180 + ratio * 180;
 
-  let fpsColor = '#15803d';
-  if (isUnsupported) fpsColor = '#b91c1c';
+  let fpsColor = '#166534';
+  if (isEmpty) fpsColor = '#3d4350';
+  else if (isUnsupported) fpsColor = '#b91c1c';
   else if (clampedFps >= 110) fpsColor = '#1f2de6';
-  else if (clampedFps >= 85) fpsColor = '#15803d';
+  else if (clampedFps >= 85) fpsColor = '#166534';
   else if (clampedFps >= 55) fpsColor = '#b45309';
   else if (clampedFps >= 35) fpsColor = '#c2410c';
   else fpsColor = '#b91c1c';
@@ -70,7 +75,7 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
         />
 
         {/* Active arc */}
-        {!isUnsupported && clampedFps > 0 && (
+        {!isEmpty && !isUnsupported && clampedFps > 0 && (
           <path
             d="M 20 110 A 80 80 0 0 1 180 110"
             fill="none"
@@ -120,7 +125,14 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
 
       {/* Numerical Readout */}
       <div className="text-center -mt-2">
-        {isUnsupported ? (
+        {isEmpty ? (
+          <div className="flex flex-col items-center">
+            <span className="text-[36px] font-semibold tracking-tight leading-none tabular-nums text-[#3d4350]">
+              --
+            </span>
+            <span className="text-sm font-medium text-[#3d4350] mt-1">{label}</span>
+          </div>
+        ) : isUnsupported ? (
           <div className="text-[#b91c1c] font-semibold text-xl tracking-tight">Unsupported</div>
         ) : (
           <div className="flex flex-col items-center">
