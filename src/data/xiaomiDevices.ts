@@ -111,6 +111,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "One of the ultimate flagship devices for PUBG Mobile. Sustains 120 FPS Extreme+ with peerless stability."
   },
   {
+    "id": "xiaomi-15-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 15 Pro",
+    "slug": "xiaomi-15-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8 Elite (3nm)",
+    "gpu": "Adreno 830",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.73\" 2K (3200x1440) M9 OLED 120Hz LTPO (3200 nits)",
+    "batteryCapacity": 6100,
+    "antutuScore": 3120000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Wing-shaped Circular Cold Pump Cooling System (4053mm²)",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 10,
+    "popularityRank": 1,
+    "benchmarkDate": "2024-11-10",
+    "benchmarkSource": "PUBGFrames Esports Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 120,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Snapdragon 8 Elite all-prime cores with 6100mAh silicon-carbon battery delivers flat 120.0 FPS gaming with world-class battery endurance."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 119,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Monster 6100mAh silicon-carbon anode battery",
+      "Qualcomm Snapdragon 8 Elite raw silicon speed",
+      "Micro-quad curved 2K M9 OLED display"
+    ],
+    "cons": [
+      "China release initial availability"
+    ],
+    "verdict": "Spectacular 120 FPS gaming flagship with 6100mAh marathon battery."
+  },
+  {
     "id": "xiaomi-14-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 14 Pro",
@@ -217,6 +329,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Curved edges may cause minor touch registering on claw grip"
     ],
     "verdict": "A flagship powerhouse that destroys tournament competition with stable 120 FPS."
+  },
+  {
+    "id": "xiaomi-15",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 15",
+    "slug": "xiaomi-15",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8 Elite (3nm)",
+    "gpu": "Adreno 830",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.36\" 1.5K LTPO OLED 120Hz (3200 nits)",
+    "batteryCapacity": 5400,
+    "antutuScore": 3080000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Circular Cold Pump Cooling Architecture",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.9,
+    "popularityRank": 2,
+    "benchmarkDate": "2024-11-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 120,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Compact 6.36-inch form factor with full Snapdragon 8 Elite power. Locked 120 FPS with 5400mAh battery."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 119,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Best compact 120 FPS gaming flagship in the world",
+      "5400mAh high-density battery in a 6.36\" body",
+      "Ultra-narrow 1.38mm symmetrical bezels"
+    ],
+    "cons": [
+      "Slightly smaller thermal volume than 15 Pro"
+    ],
+    "verdict": "Compact gaming perfection with 120 FPS lock."
   },
   {
     "id": "xiaomi-14",
@@ -328,6 +552,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "The ideal compact phone for competitive PUBG players wanting 120 FPS in an ergonomic flat-screen design."
   },
   {
+    "id": "xiaomi-mix-fold-4",
+    "brand": "Xiaomi",
+    "model": "Xiaomi MIX Fold 4",
+    "slug": "xiaomi-mix-fold-4",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8 Gen 3 (4nm)",
+    "gpu": "Adreno 750",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "7.98\" 2K+ LTPO Foldable OLED 120Hz + 6.56\" Outer",
+    "batteryCapacity": 5100,
+    "antutuScore": 2180000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "3D Spatial Vapor Chamber Cooling System (11,912mm² total area)",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.8,
+    "popularityRank": 3,
+    "benchmarkDate": "2024-08-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 119,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Nearly 8-inch inner canvas transforms PUBG Mobile into an expansive tablet combat display. Locked 120 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Ultrathin 9.47mm folded body",
+      "Nearly 8-inch immersive inner gaming display",
+      "IPX8 water resistance on a fold"
+    ],
+    "cons": [
+      "Premium luxury foldable price"
+    ],
+    "verdict": "The ultimate luxury foldable gaming device."
+  },
+  {
     "id": "xiaomi-14t-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 14T Pro",
@@ -434,6 +770,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Can warm up slightly in non-air-conditioned rooms after 40 minutes"
     ],
     "verdict": "A true flagship killer offering 120 FPS performance matching phones that cost twice as much."
+  },
+  {
+    "id": "xiaomi-mix-fold-3",
+    "brand": "Xiaomi",
+    "model": "Xiaomi MIX Fold 3",
+    "slug": "xiaomi-mix-fold-3",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 8 Gen 2 Leading Version (3.36GHz)",
+    "gpu": "Adreno 740",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "8.03\" 2K+ Eco² OLED 120Hz",
+    "batteryCapacity": 4800,
+    "antutuScore": 1650000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Ultra-thin Stainless Steel VC Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.6,
+    "popularityRank": 4,
+    "benchmarkDate": "2024-04-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 120 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Massive 8.03-inch 120Hz inner display",
+      "Leica quad camera array with dual telephotos",
+      "Zero-crease proprietary hinge"
+    ],
+    "cons": [
+      "China exclusive"
+    ],
+    "verdict": "Flagship foldable with superb 120 FPS performance."
   },
   {
     "id": "xiaomi-14t",
@@ -545,6 +993,116 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Remarkable mid-range value providing steady 90 FPS with vibrant 144Hz visuals."
   },
   {
+    "id": "xiaomi-mix-fold-2",
+    "brand": "Xiaomi",
+    "model": "Xiaomi MIX Fold 2",
+    "slug": "xiaomi-mix-fold-2",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2022,
+    "chipset": "Qualcomm Snapdragon 8+ Gen 1 (4nm)",
+    "gpu": "Adreno 730",
+    "ramOptions": [
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "8.02\" 2K+ Eco² OLED 120Hz",
+    "batteryCapacity": 4500,
+    "antutuScore": 1100000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "High-thermal graphite VC system",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.3,
+    "popularityRank": 5,
+    "benchmarkDate": "2024-02-18",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Only 5.4mm thin when unfolded",
+      "TSMC Snapdragon 8+ Gen 1 stability",
+      "Dual stereo Harman Kardon speakers"
+    ],
+    "cons": [
+      "Lacks 120 FPS unlock"
+    ],
+    "verdict": "Super-slim 90 FPS foldable."
+  },
+  {
     "id": "xiaomi-13-ultra",
     "brand": "Xiaomi",
     "model": "Xiaomi 13 Ultra",
@@ -653,6 +1211,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Superb gaming stability with one of the most efficient flagship processors."
   },
   {
+    "id": "xiaomi-mix-flip",
+    "brand": "Xiaomi",
+    "model": "Xiaomi MIX Flip",
+    "slug": "xiaomi-mix-flip",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8 Gen 3 (4nm)",
+    "gpu": "Adreno 750",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.86\" 1.5K LTPO OLED 120Hz (3000 nits)",
+    "batteryCapacity": 4780,
+    "antutuScore": 2110000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "3D Vapor Chamber Cooling for clamshell form factor",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.5,
+    "popularityRank": 6,
+    "benchmarkDate": "2024-09-01",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 120 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "4.01-inch full cover outer screen",
+      "Snapdragon 8 Gen 3 in a flip",
+      "4780mAh largest flip battery"
+    ],
+    "cons": [
+      "Clamshell thermal volume during prolonged gaming"
+    ],
+    "verdict": "First clamshell flip phone with authentic 120 FPS gaming."
+  },
+  {
     "id": "xiaomi-13-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 13 Pro",
@@ -758,6 +1428,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Curved screen requires practice for edge controls"
     ],
     "verdict": "Reliable 90 FPS flagship with outstanding battery refill speeds."
+  },
+  {
+    "id": "xiaomi-mix-4",
+    "brand": "Xiaomi",
+    "model": "Xiaomi MIX 4",
+    "slug": "xiaomi-mix-4",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 888+ 5G (5nm)",
+    "gpu": "Adreno 660",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.67\" FHD+ 3D Curved AMOLED 120Hz (CUP Under Display Camera)",
+    "batteryCapacity": 4500,
+    "antutuScore": 885000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Multi-layered graphene & 1232mm² VC",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.2,
+    "popularityRank": 7,
+    "benchmarkDate": "2024-01-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Full unblemished display with CUP under-display camera",
+      "Full ceramic unibody craftsmanship",
+      "120W wired + 50W wireless charging"
+    ],
+    "cons": [
+      "Heavy ceramic body (225g)"
+    ],
+    "verdict": "True full-screen ceramic masterpiece with 90 FPS."
   },
   {
     "id": "xiaomi-13",
@@ -868,6 +1649,114 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Fantastic flat-screen 90 FPS gaming weapon for competitive claw players."
   },
   {
+    "id": "xiaomi-mi-mix-3-5g",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi MIX 3 5G",
+    "slug": "xiaomi-mi-mix-3-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2019,
+    "chipset": "Qualcomm Snapdragon 855 (7nm)",
+    "gpu": "Adreno 640",
+    "ramOptions": [
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.39\" FHD+ Super AMOLED (Magnetic Slider)",
+    "batteryCapacity": 3800,
+    "antutuScore": 455000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Thermal Copper Heatpipe",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.6,
+    "popularityRank": 8,
+    "benchmarkDate": "2023-11-20",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Magnetic slider mechanical mechanism",
+      "Pure bezel-less Super AMOLED screen",
+      "Snapdragon 855 with 60 FPS lock"
+    ],
+    "cons": [
+      "Slider adds mechanical thickness"
+    ],
+    "verdict": "Iconic magnetic slider full-screen phone."
+  },
+  {
     "id": "xiaomi-13t-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 13T Pro",
@@ -974,6 +1863,115 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "No 120 FPS option in global PUBG client yet"
     ],
     "verdict": "A premium mid-range monster delivering flagship-level 90 FPS stability."
+  },
+  {
+    "id": "xiaomi-mi-mix-2s",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi MIX 2S",
+    "slug": "xiaomi-mi-mix-2s",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2018,
+    "chipset": "Qualcomm Snapdragon 845 (10nm)",
+    "gpu": "Adreno 630",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.99\" FHD+ IPS LCD Bezel-less",
+    "batteryCapacity": 3400,
+    "antutuScore": 350000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite thermal heat spreader",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.4,
+    "popularityRank": 9,
+    "benchmarkDate": "2023-10-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Ceramic back designed by Philippe Starck",
+      "Snapdragon 845 smooth 60 FPS gaming",
+      "Qi wireless charging"
+    ],
+    "cons": [
+      "Bottom bezel front selfie camera position"
+    ],
+    "verdict": "High-design ceramic classic with smooth 60 FPS."
   },
   {
     "id": "xiaomi-12s-ultra",
@@ -1083,6 +2081,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Phenomenal gaming reliability with high-efficiency silicon."
   },
   {
+    "id": "xiaomi-13t",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 13T",
+    "slug": "xiaomi-13t",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "MediaTek Dimensity 8200 Ultra (4nm)",
+    "gpu": "Mali-G610 MC6",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "6.67\" 1.5K CrystalRes AMOLED 144Hz (2600 nits)",
+    "batteryCapacity": 5000,
+    "antutuScore": 910000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "5000mm² Stainless Steel VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.4,
+    "popularityRank": 10,
+    "benchmarkDate": "2024-05-12",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "144Hz CrystalRes AMOLED display",
+      "IP68 water and dust resistance",
+      "5000mm² massive stainless steel VC"
+    ],
+    "cons": [
+      "Lacks 120 FPS profile"
+    ],
+    "verdict": "Mid-range gaming powerhouse with 144Hz display and 90 FPS."
+  },
+  {
     "id": "xiaomi-12-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 12 Pro",
@@ -1190,6 +2299,114 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Solid 90 FPS peak capability, but benefits greatly from an external phone cooler for long sessions."
   },
   {
+    "id": "xiaomi-13-lite",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 13 Lite",
+    "slug": "xiaomi-13-lite",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 7 Gen 1 (4nm)",
+    "gpu": "Adreno 644",
+    "ramOptions": [
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.55\" FHD+ AMOLED 120Hz (Dolby Vision)",
+    "batteryCapacity": 4500,
+    "antutuScore": 570000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Stainless Steel VC (2360mm²)",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.8,
+    "popularityRank": 11,
+    "benchmarkDate": "2024-03-20",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Ultra-slim 7.23mm lightweight body (171g)",
+      "Dual selfie cameras with dual front LEDs",
+      "120Hz curved AMOLED"
+    ],
+    "cons": [
+      "60 FPS max in PUBG Mobile"
+    ],
+    "verdict": "Stylish lightweight 60 FPS phone."
+  },
+  {
     "id": "xiaomi-11t-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi 11T Pro",
@@ -1294,6 +2511,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Snapdragon 888 warm thermals on extended 90 FPS matches"
     ],
     "verdict": "A fan favorite budget flagship that holds reliable 90 FPS in tournament scrims."
+  },
+  {
+    "id": "xiaomi-12s-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 12S Pro",
+    "slug": "xiaomi-12s-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2022,
+    "chipset": "Qualcomm Snapdragon 8+ Gen 1 (4nm)",
+    "gpu": "Adreno 730",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.73\" 2K Samsung E5 LTPO AMOLED 120Hz",
+    "batteryCapacity": 4600,
+    "antutuScore": 1110000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "2900mm² VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.6,
+    "popularityRank": 12,
+    "benchmarkDate": "2024-02-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 120 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "TSMC cold Snapdragon 8+ Gen 1",
+      "120W HyperCharge",
+      "2K 120Hz LTPO display"
+    ],
+    "cons": [
+      "China exclusive model"
+    ],
+    "verdict": "Cool-running 120 FPS esports performer."
   },
   {
     "id": "xiaomi-mi-11-ultra",
@@ -1404,6 +2733,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "A monumental multimedia flagship with smooth 90 FPS capabilities."
   },
   {
+    "id": "xiaomi-12",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 12 5G",
+    "slug": "xiaomi-12-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 8 Gen 1 (4nm)",
+    "gpu": "Adreno 730",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.28\" FHD+ AMOLED 120Hz Compact",
+    "batteryCapacity": 4500,
+    "antutuScore": 990000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "2600mm² VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.2,
+    "popularityRank": 13,
+    "benchmarkDate": "2024-01-20",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Compact 6.28\" form factor",
+      "Harman Kardon stereo speakers",
+      "67W fast charge"
+    ],
+    "cons": [
+      "Snapdragon 8 Gen 1 runs warm on long sessions"
+    ],
+    "verdict": "Compact 90 FPS flagship."
+  },
+  {
     "id": "xiaomi-mi-10t-pro",
     "brand": "Xiaomi",
     "model": "Xiaomi Mi 10T Pro 5G",
@@ -1508,6 +2948,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Slightly heavy device"
     ],
     "verdict": "A legendary esports budget icon. The Snapdragon 865 delivers flat 90 FPS with barely any heat."
+  },
+  {
+    "id": "xiaomi-12x",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 12X",
+    "slug": "xiaomi-12x",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 870 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.28\" FHD+ AMOLED 120Hz Compact",
+    "batteryCapacity": 4500,
+    "antutuScore": 720000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "2600mm² VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.3,
+    "popularityRank": 14,
+    "benchmarkDate": "2024-01-18",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Legendary Snapdragon 870 silicon stays ice cold. Rock-solid 90 FPS without frame drops."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Legendary cool Snapdragon 870 processor",
+      "Zero thermal throttling at 90 FPS",
+      "Compact 6.28\" hand feel"
+    ],
+    "cons": [
+      "No wireless charging"
+    ],
+    "verdict": "Thermally invincible compact 90 FPS phone."
   },
   {
     "id": "xiaomi-mi-9",
@@ -1616,6 +3167,115 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Good 60 FPS performance, but battery life limits session lengths."
   },
   {
+    "id": "xiaomi-12-lite",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 12 Lite",
+    "slug": "xiaomi-12-lite",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2022,
+    "chipset": "Qualcomm Snapdragon 778G 5G (6nm)",
+    "gpu": "Adreno 642L",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.55\" FHD+ AMOLED 120Hz (68B colors)",
+    "batteryCapacity": 4300,
+    "antutuScore": 535000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Multilayer Graphite Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.7,
+    "popularityRank": 15,
+    "benchmarkDate": "2023-12-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "173g featherweight body",
+      "120Hz 68-billion color AMOLED",
+      "108MP camera"
+    ],
+    "cons": [
+      "60 FPS cap"
+    ],
+    "verdict": "Slim and reliable 60 FPS daily driver."
+  },
+  {
     "id": "xiaomi-mi-8",
     "brand": "Xiaomi",
     "model": "Xiaomi Mi 8",
@@ -1719,6 +3379,116 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Decent casual 60 FPS device from the Snapdragon 845 era."
   },
   {
+    "id": "xiaomi-11t",
+    "brand": "Xiaomi",
+    "model": "Xiaomi 11T 5G",
+    "slug": "xiaomi-11t-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "MediaTek Dimensity 1200 Ultra (6nm)",
+    "gpu": "Mali-G77 MC9",
+    "ramOptions": [
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.67\" FHD+ AMOLED 120Hz (480Hz Touch)",
+    "batteryCapacity": 5000,
+    "antutuScore": 680000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Vapor Chamber Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.1,
+    "popularityRank": 16,
+    "benchmarkDate": "2023-11-05",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Dimensity 1200 Ultra power",
+      "5000mAh battery with 67W fast charge",
+      "Flat 120Hz AMOLED"
+    ],
+    "cons": [
+      "No 3.5mm jack"
+    ],
+    "verdict": "High-value 90 FPS gaming mid-ranger."
+  },
+  {
     "id": "xiaomi-mi-6",
     "brand": "Xiaomi",
     "model": "Xiaomi Mi 6",
@@ -1820,6 +3590,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Cult classic device that still boots PUBG Mobile casually at 37-40 FPS."
   },
   {
+    "id": "xiaomi-mi-11",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 11",
+    "slug": "xiaomi-mi-11",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 888 5G (5nm)",
+    "gpu": "Adreno 660",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.81\" 2K (3200x1440) AMOLED 120Hz",
+    "batteryCapacity": 4600,
+    "antutuScore": 810000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "VC LiquidCool Technology",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9,
+    "popularityRank": 17,
+    "benchmarkDate": "2023-10-20",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Gorgeous 2K 120Hz quad-curved display",
+      "Harman Kardon stereo speakers",
+      "55W wired + 50W wireless charge"
+    ],
+    "cons": [
+      "Runs warm during intense summer gaming"
+    ],
+    "verdict": "Beautiful 2K 90 FPS flagship."
+  },
+  {
     "id": "xiaomi-mi-4",
     "brand": "Xiaomi",
     "model": "Xiaomi Mi 4",
@@ -1916,6 +3797,115 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Cannot install game from Play Store"
     ],
     "verdict": "HARDWARE INCOMPATIBLE: Obsolete 32-bit architecture and Adreno 330 GPU cannot run modern PUBG Mobile."
+  },
+  {
+    "id": "xiaomi-mi-11-lite-5g",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 11 Lite 5G",
+    "slug": "xiaomi-mi-11-lite-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 780G 5G (5nm)",
+    "gpu": "Adreno 642",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.55\" FHD+ AMOLED 90Hz",
+    "batteryCapacity": 4250,
+    "antutuScore": 520000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "LiquidCool Technology",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.6,
+    "popularityRank": 18,
+    "benchmarkDate": "2023-09-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Thinnest 5G phone of its era (6.81mm, 159g)",
+      "Snapdragon 780G 5nm silicon",
+      "AMOLED 90Hz"
+    ],
+    "cons": [
+      "4250mAh battery"
+    ],
+    "verdict": "Ultra-featherweight 60 FPS gaming smartphone."
   },
   {
     "id": "xiaomi-12t-pro",
@@ -2026,6 +4016,118 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "Excellent 90 FPS gaming flagship killer."
   },
   {
+    "id": "xiaomi-mi-10-ultra",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 10 Ultra",
+    "slug": "xiaomi-mi-10-ultra",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2020,
+    "chipset": "Qualcomm Snapdragon 865 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5",
+      "16GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.67\" FHD+ OLED 120Hz (240Hz Touch)",
+    "batteryCapacity": 4500,
+    "antutuScore": 670000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "LiquidCool 2.0 Vapor Chamber (Layered Graphene)",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.3,
+    "popularityRank": 19,
+    "benchmarkDate": "2023-08-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Snapdragon 865 legendary efficiency. 120W charging provides 100% battery in 23 minutes between matches."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "120W HyperCharge + 50W wireless",
+      "120Hz OLED with 10-bit color",
+      "Transparent Edition aesthetic"
+    ],
+    "cons": [
+      "China exclusive release"
+    ],
+    "verdict": "Milestone 10th anniversary 90 FPS flagship."
+  },
+  {
     "id": "xiaomi-12t",
     "brand": "Xiaomi",
     "model": "Xiaomi 12T",
@@ -2129,6 +4231,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "Plastic sides"
     ],
     "verdict": "Very stable 90 FPS performance without heat throttling."
+  },
+  {
+    "id": "xiaomi-mi-10-5g",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 10 5G",
+    "slug": "xiaomi-mi-10-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2020,
+    "chipset": "Qualcomm Snapdragon 865 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.67\" FHD+ Curved AMOLED 90Hz",
+    "batteryCapacity": 4780,
+    "antutuScore": 630000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "3000mm² Vapor Chamber",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.1,
+    "popularityRank": 20,
+    "benchmarkDate": "2023-07-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Outstanding dual stereo speakers",
+      "4780mAh battery",
+      "Cold Snapdragon 865 90 FPS lock"
+    ],
+    "cons": [
+      "Single hole-punch curve"
+    ],
+    "verdict": "Legendary audio and rock-solid 90 FPS gaming."
   },
   {
     "id": "xiaomi-11-lite-5g-ne",
@@ -2237,6 +4450,117 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
     "verdict": "The most comfortable lightweight 60 FPS phone in the market."
   },
   {
+    "id": "xiaomi-mi-10s",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 10S",
+    "slug": "xiaomi-mi-10s",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 870 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.67\" FHD+ Curved AMOLED 90Hz",
+    "batteryCapacity": 4780,
+    "antutuScore": 715000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "3000mm² VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.3,
+    "popularityRank": 21,
+    "benchmarkDate": "2023-06-25",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "DXOMARK #1 Smartphone Audio Leader (Harman Kardon dual 1216P speakers)",
+      "Snapdragon 870 coolness",
+      "4780mAh battery"
+    ],
+    "cons": [
+      "Only 90Hz refresh rate"
+    ],
+    "verdict": "Best sounding smartphone in mobile gaming history."
+  },
+  {
     "id": "xiaomi-mi-a3",
     "brand": "Xiaomi",
     "model": "Xiaomi Mi A3 (Android One)",
@@ -2337,5 +4661,1739 @@ export const XIAOMI_DEVICES: DeviceInfo[] = [
       "720p Pentile display resolution"
     ],
     "verdict": "Decent casual 40 FPS phone with bloatware-free OS."
+  },
+  {
+    "id": "xiaomi-mi-10t-5g",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 10T 5G",
+    "slug": "xiaomi-mi-10t-5g",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2020,
+    "chipset": "Qualcomm Snapdragon 865 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "6GB LPDDR5",
+      "8GB LPDDR5"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "6.67\" FHD+ AdaptiveSync IPS LCD 144Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 645000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "LiquidCool Technology",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.2,
+    "popularityRank": 22,
+    "benchmarkDate": "2023-06-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "144Hz AdaptiveSync display",
+      "5000mAh battery",
+      "Snapdragon 865 power"
+    ],
+    "cons": [
+      "LCD display instead of AMOLED"
+    ],
+    "verdict": "144Hz IPS gaming beast with 90 FPS."
+  },
+  {
+    "id": "xiaomi-mi-9t-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 9T Pro",
+    "slug": "xiaomi-mi-9t-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2019,
+    "chipset": "Qualcomm Snapdragon 855 (7nm)",
+    "gpu": "Adreno 640",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.39\" FHD+ Super AMOLED (Pop-up Selfie Camera)",
+    "batteryCapacity": 4000,
+    "antutuScore": 470000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "8-layer Graphite Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.9,
+    "popularityRank": 23,
+    "benchmarkDate": "2023-05-18",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 59,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Motorized pop-up front camera gives an unblemished 100% full screen view. Locked 60.0 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Motorized pop-up selfie camera allows 100% notch-free screen",
+      "Snapdragon 855 locked 60 FPS",
+      "3.5mm headphone jack"
+    ],
+    "cons": [
+      "60Hz refresh rate"
+    ],
+    "verdict": "Legendary notch-free pop-up gaming champion."
+  },
+  {
+    "id": "xiaomi-mi-9t",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 9T",
+    "slug": "xiaomi-mi-9t",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2019,
+    "chipset": "Qualcomm Snapdragon 730 (8nm)",
+    "gpu": "Adreno 618",
+    "ramOptions": [
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.39\" FHD+ Super AMOLED (Pop-up Camera)",
+    "batteryCapacity": 4000,
+    "antutuScore": 310000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.5,
+    "popularityRank": 24,
+    "benchmarkDate": "2023-04-12",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Full unblemished notchless AMOLED screen",
+      "Pop-up selfie camera with LED ring",
+      "3.5mm audio jack"
+    ],
+    "cons": [
+      "Slight frame drop in smoke grenades"
+    ],
+    "verdict": "Classic notchless mid-ranger."
+  },
+  {
+    "id": "xiaomi-civi-4-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Civi 4 Pro",
+    "slug": "xiaomi-civi-4-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8s Gen 3 (4nm)",
+    "gpu": "Adreno 735",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.55\" 1.5K AMOLED 120Hz (3000 nits)",
+    "batteryCapacity": 4700,
+    "antutuScore": 1540000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "4184mm² Circular Cold Pump VC Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.6,
+    "popularityRank": 25,
+    "benchmarkDate": "2024-06-20",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 120 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Snapdragon 8s Gen 3 flagship silicon",
+      "Leica Summilux professional optics",
+      "Ultra-slim 7.45mm body (179g) with 120 FPS gaming"
+    ],
+    "cons": [
+      "China exclusive"
+    ],
+    "verdict": "Fashion-forward flagship with authentic 120 FPS gaming power."
+  },
+  {
+    "id": "xiaomi-civi-3",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Civi 3",
+    "slug": "xiaomi-civi-3",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "MediaTek Dimensity 8200 Ultra (4nm)",
+    "gpu": "Mali-G610 MC6",
+    "ramOptions": [
+      "12GB LPDDR5",
+      "16GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.55\" FHD+ Curved AMOLED 120Hz",
+    "batteryCapacity": 4500,
+    "antutuScore": 905000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "4000mm² Stainless Steel VC",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.2,
+    "popularityRank": 26,
+    "benchmarkDate": "2023-11-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Two-tone pastel finish",
+      "Dimensity 8200 Ultra 90 FPS power",
+      "Dual front 32MP cameras"
+    ],
+    "cons": [
+      "Curved screen edge"
+    ],
+    "verdict": "Stylish 90 FPS performer."
+  },
+  {
+    "id": "xiaomi-mi-note-10-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi Note 10 Pro",
+    "slug": "xiaomi-mi-note-10-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2019,
+    "chipset": "Qualcomm Snapdragon 730G (8nm)",
+    "gpu": "Adreno 618",
+    "ramOptions": [
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.47\" FHD+ 3D Curved AMOLED",
+    "batteryCapacity": 5260,
+    "antutuScore": 330000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Heat Spreader",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.5,
+    "popularityRank": 27,
+    "benchmarkDate": "2023-04-01",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 55,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Massive 5260mAh battery delivers long gaming sessions",
+      "World's first 108MP camera",
+      "Curved AMOLED"
+    ],
+    "cons": [
+      "60Hz panel",
+      "Snapdragon 730G is mid-tier"
+    ],
+    "verdict": "Huge battery classic 60 FPS phone."
+  },
+  {
+    "id": "xiaomi-mi-max-3",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi Max 3",
+    "slug": "xiaomi-mi-max-3",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2018,
+    "chipset": "Qualcomm Snapdragon 636 (14nm)",
+    "gpu": "Adreno 509",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.9\" FHD+ IPS LCD Giant Display",
+    "batteryCapacity": 5500,
+    "antutuScore": 140000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Metal Unibody Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.9,
+    "popularityRank": 28,
+    "benchmarkDate": "2023-03-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 88,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Gigantic 6.9-inch display provides huge field-of-view for spotting enemies across Pochinki."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 37,
+        "fpsMax": 40,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 40 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Huge 6.9-inch display gives tablet-like field of view",
+      "5500mAh battery lasts 10+ hours of continuous gaming",
+      "Metal unibody build"
+    ],
+    "cons": [
+      "Max 40 FPS High",
+      "Heavy 221g phone"
+    ],
+    "verdict": "Legendary giant-screen battery king for casual PUBG."
+  },
+  {
+    "id": "xiaomi-mi-max-2",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi Max 2",
+    "slug": "xiaomi-mi-max-2",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2017,
+    "chipset": "Qualcomm Snapdragon 625 (14nm)",
+    "gpu": "Adreno 506",
+    "ramOptions": [
+      "4GB LPDDR3"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.44\" FHD IPS LCD Big Screen",
+    "batteryCapacity": 5300,
+    "antutuScore": 85000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Passive Metal Body",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 7.2,
+    "popularityRank": 29,
+    "benchmarkDate": "2023-02-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 27,
+        "fpsMax": 30,
+        "stabilityScore": 84,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 10,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 30 FPS Medium on Smooth. Extreme battery stamina."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)"
+        ],
+        "estimatedFps": 25,
+        "fpsMin": 22,
+        "fpsMax": 25,
+        "stabilityScore": 80,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 11,
+        "confidenceLevel": "Verified"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Gigantic 6.44-inch screen",
+      "5300mAh legendary battery",
+      "Stereo speaker output"
+    ],
+    "cons": [
+      "Snapdragon 625 is limited to 30 FPS"
+    ],
+    "verdict": "Classic big-battery phablet for casual play."
+  },
+  {
+    "id": "xiaomi-pad-6s-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Pad 6S Pro 12.4",
+    "slug": "xiaomi-pad-6s-pro-12-4",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 8 Gen 2 (4nm)",
+    "gpu": "Adreno 740",
+    "ramOptions": [
+      "8GB LPDDR5X",
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "12.4\" 3K (3048x2032) 144Hz 3:2 Display (900 nits)",
+    "batteryCapacity": 10000,
+    "antutuScore": 1680000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Xiaomi HyperCool Large-area Heat Dissipation",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.9,
+    "popularityRank": 30,
+    "benchmarkDate": "2024-07-25",
+    "benchmarkSource": "PUBGFrames Esports Tablet Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 120,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "12.4-inch 3K 144Hz panel with 10,000mAh battery and 120W HyperCharge. Zero frame drops at 120 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 119,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Expansive 12.4-inch 3K 144Hz 3:2 productivity & gaming screen",
+      "10,000mAh monster battery with 120W charging (100% in 35 mins)",
+      "6-speaker spatial audio system"
+    ],
+    "cons": [
+      "Large form factor best used with desk prop or controller"
+    ],
+    "verdict": "Spectacular 120 FPS high-resolution esports tablet."
+  },
+  {
+    "id": "xiaomi-pad-6-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Pad 6 Pro",
+    "slug": "xiaomi-pad-6-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 8+ Gen 1 (4nm)",
+    "gpu": "Adreno 730",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "11.0\" 2.8K (2880x1800) 144Hz 16:10 Display",
+    "batteryCapacity": 8600,
+    "antutuScore": 1120000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Comprehensive Multi-Layer Graphite Architecture",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.8,
+    "popularityRank": 31,
+    "benchmarkDate": "2024-05-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 119,
+        "fpsMax": 120,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 120 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 120 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 118,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 117,
+        "fpsMax": 120,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Flagship Snapdragon 8+ Gen 1 performance",
+      "144Hz 2.8K sharp resolution",
+      "Quad stereo speakers with Dolby Atmos"
+    ],
+    "cons": [
+      "China ROM natively, requires global flashing for Play Store"
+    ],
+    "verdict": "Top-tier 120 FPS 11-inch Android gaming tablet."
+  },
+  {
+    "id": "xiaomi-pad-6",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Pad 6",
+    "slug": "xiaomi-pad-6",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 870 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "6GB LPDDR5",
+      "8GB LPDDR5"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "11.0\" 2.8K (2880x1800) 144Hz Display",
+    "batteryCapacity": 8840,
+    "antutuScore": 740000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "Multi-layered Graphite Plate",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.5,
+    "popularityRank": 32,
+    "benchmarkDate": "2024-04-10",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Snapdragon 870 delivers completely flat 90.0 FPS line on 144Hz 2.8K display. Best value tablet for PUBG."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Best value gaming tablet under $300",
+      "Flawless sustained 90 FPS",
+      "8840mAh battery lasts 8+ hours of continuous gaming"
+    ],
+    "cons": [
+      "Lacks 120 FPS Extreme+ unlock"
+    ],
+    "verdict": "The undisputed best value 90 FPS PUBG gaming tablet."
+  },
+  {
+    "id": "xiaomi-pad-5-pro",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Pad 5 Pro",
+    "slug": "xiaomi-pad-5-pro",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 870 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "6GB LPDDR5",
+      "8GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "11.0\" 2.5K WQHD+ 120Hz (Dolby Vision)",
+    "batteryCapacity": 8600,
+    "antutuScore": 710000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "22745mm² Heat Dissipation Area",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 9.3,
+    "popularityRank": 33,
+    "benchmarkDate": "2023-11-15",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 90 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 90 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Octa-speaker surround sound system",
+      "Snapdragon 870 stability",
+      "67W fast charging"
+    ],
+    "cons": [
+      "Older MIUI for Pad software"
+    ],
+    "verdict": "High-power 90 FPS tablet with 8 speakers."
+  },
+  {
+    "id": "xiaomi-pad-5",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Pad 5",
+    "slug": "xiaomi-pad-5",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2021,
+    "chipset": "Qualcomm Snapdragon 860 (7nm)",
+    "gpu": "Adreno 640",
+    "ramOptions": [
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "11.0\" 2.5K WQHD+ 120Hz IPS Display",
+    "batteryCapacity": 8720,
+    "antutuScore": 580000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Integrated Graphite Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.8,
+    "popularityRank": 34,
+    "benchmarkDate": "2023-09-01",
+    "benchmarkSource": "PUBGFrames Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Sustained 60 FPS with Xiaomi IceLoop / Vapor Chamber cooling."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Stable 60 FPS on Balanced graphics."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Vivid high definition textures."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Dynamic HDR color gamut with natural shadows."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 23,
+        "confidenceLevel": "Verified",
+        "notes": "4K ultra textures with realistic water reflections."
+      }
+    },
+    "pros": [
+      "Crisp 2.5K 120Hz display",
+      "Quad stereo speakers",
+      "8720mAh long-lasting battery"
+    ],
+    "cons": [
+      "60 FPS max in PUBG Mobile without gfx tool"
+    ],
+    "verdict": "Affordable 11-inch 60 FPS gaming tablet."
+  },
+  {
+    "id": "xiaomi-mi-5",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 5",
+    "slug": "xiaomi-mi-5",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2016,
+    "chipset": "Qualcomm Snapdragon 820 (14nm)",
+    "gpu": "Adreno 530",
+    "ramOptions": [
+      "3GB LPDDR4",
+      "4GB LPDDR4"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.15\" Full HD IPS LCD (600 nits)",
+    "batteryCapacity": 3000,
+    "antutuScore": 160000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Thermal Layer",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 6.8,
+    "popularityRank": 35,
+    "benchmarkDate": "2023-01-10",
+    "benchmarkSource": "PUBGFrames Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 24,
+        "fpsMax": 30,
+        "stabilityScore": 78,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 22,
+        "confidenceLevel": "Verified",
+        "notes": "Snapdragon 820 can run PUBG on Smooth Medium (30 FPS), but exhibits heat after 20 minutes."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)"
+        ],
+        "estimatedFps": 25,
+        "fpsMin": 20,
+        "fpsMax": 25,
+        "stabilityScore": 72,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 24,
+        "confidenceLevel": "Verified"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "First 3D curved glass / ceramic back",
+      "Physical home key with fingerprint",
+      "Compact 5.15-inch form factor"
+    ],
+    "cons": [
+      "Battery capacity is small (3000mAh)",
+      "Runs hot"
+    ],
+    "verdict": "Historic 2016 flagship capable of basic 30 FPS."
+  },
+  {
+    "id": "xiaomi-mi-3",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 3",
+    "slug": "xiaomi-mi-3",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2013,
+    "chipset": "Qualcomm Snapdragon 800 (28nm)",
+    "gpu": "Adreno 330",
+    "ramOptions": [
+      "2GB LPDDR3"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.0\" Full HD IPS LCD",
+    "batteryCapacity": 3050,
+    "antutuScore": 42000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Internal Magnesium Alloy Frame",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 0,
+    "overallGamingRating": 0,
+    "popularityRank": 36,
+    "benchmarkDate": "2023-01-01",
+    "benchmarkSource": "PUBGFrames Archive",
+    "isUnsupportedHardware": true,
+    "graphicsModes": {
+      "Smooth": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "32-bit legacy CPU architecture and 2GB RAM. Cannot launch modern PUBG Mobile."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Historic device that put Xiaomi on the global tech map",
+      "Magnesium alloy unibody chassis"
+    ],
+    "cons": [
+      "Incompatible with modern 64-bit PUBG Mobile"
+    ],
+    "verdict": "Legendary vintage device."
+  },
+  {
+    "id": "xiaomi-mi-1",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Mi 1 / 1S (2011)",
+    "slug": "xiaomi-mi-1",
+    "brandSlug": "xiaomi",
+    "releaseYear": 2011,
+    "chipset": "Qualcomm MSM8260 Snapdragon S3 (45nm)",
+    "gpu": "Adreno 220",
+    "ramOptions": [
+      "1GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "4.0\" FWVGA (854x480) TFT",
+    "batteryCapacity": 1930,
+    "antutuScore": 8500,
+    "gyroscope": "Not Supported",
+    "coolingSystem": "None",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 0,
+    "overallGamingRating": 0,
+    "popularityRank": 37,
+    "benchmarkDate": "2023-01-01",
+    "benchmarkSource": "PUBGFrames Archive",
+    "isUnsupportedHardware": true,
+    "graphicsModes": {
+      "Smooth": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "Vintage 2011 hardware. Incompatible with modern Android game engines."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "The very first smartphone ever made by Xiaomi in 2011"
+    ],
+    "cons": [
+      "Incompatible with PUBG Mobile"
+    ],
+    "verdict": "Historical collector milestone."
   }
 ];

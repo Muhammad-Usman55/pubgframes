@@ -87,6 +87,7 @@ async function runQA() {
     { path: '/devices/infinix/infinix-gt-20-pro-5g', model: 'GT 20 Pro', brand: 'Infinix' },
     { path: '/devices/motorola/motorola-edge-50-ultra', model: 'Edge 50 Ultra', brand: 'Motorola' },
     { path: '/devices/xiaomi/xiaomi-14-ultra', model: 'Xiaomi 14 Ultra', brand: 'Xiaomi' },
+    { path: '/devices/xiaomi/xiaomi-15-pro', model: 'Xiaomi 15 Pro', brand: 'Xiaomi' },
     { path: '/devices/vivo/vivo-x100-pro', model: 'vivo X100 Pro', brand: 'vivo' }
   ];
 
