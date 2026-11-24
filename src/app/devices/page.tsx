@@ -10,6 +10,7 @@ export default function DevicesCatalogPage() {
   const [search, setSearch] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [selectedFpsFilter, setSelectedFpsFilter] = useState<'All' | '120' | '90' | '60' | '40' | 'Unsupported'>('All');
+  const [onlyGamingPhones, setOnlyGamingPhones] = useState(false);
   const [sortBy, setSortBy] = useState<'popularity' | 'name' | 'fps'>('popularity');
 
   const filteredDevices = useMemo(() => {
@@ -23,10 +24,27 @@ export default function DevicesCatalogPage() {
           : selectedFpsFilter === 'Unsupported'
           ? device.maxSupportedFps === 0 || device.isUnsupportedHardware
           : device.maxSupportedFps.toString() === selectedFpsFilter;
+      
+      const isGaming = 
+        device.brand === 'Black Shark' ||
+        device.brand === 'iQOO' ||
+        device.brand === 'Razer' ||
+        device.model.toLowerCase().includes('rog') ||
+        device.model.toLowerCase().includes('redmagic') ||
+        device.model.toLowerCase().includes('legion') ||
+        device.model.toLowerCase().includes('gaming') ||
+        device.coolingSystem.toLowerCase().includes('fan') ||
+        device.coolingSystem.toLowerCase().includes('gamecool') ||
+        device.model.toLowerCase().includes('gt 20 pro') ||
+        device.model.toLowerCase().includes('gt 10 pro') ||
+        device.model.toLowerCase().includes('f4 gt');
+
+      const matchGaming = !onlyGamingPhones || isGaming;
+
       const fullText = `${device.brand} ${device.model} ${device.chipset} ${device.slug}`.toLowerCase();
       const matchSearch =
         searchTerms.length === 0 || searchTerms.every((term) => fullText.includes(term));
-      return matchBrand && matchFps && matchSearch;
+      return matchBrand && matchFps && matchGaming && matchSearch;
     }).sort((a, b) => {
       if (sortBy === 'popularity') return a.popularityRank - b.popularityRank;
       if (sortBy === 'fps') return b.maxSupportedFps - a.maxSupportedFps;
@@ -105,7 +123,19 @@ export default function DevicesCatalogPage() {
 
         {/* FPS Tier Filter Pills */}
         <div className="flex items-center gap-2 text-xs pt-1 border-t border-white/5 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-gray-400 font-semibold text-[11px] uppercase mr-1 shrink-0">FPS Tier:</span>
+          <button
+            onClick={() => setOnlyGamingPhones(!onlyGamingPhones)}
+            className={`px-3 py-1 rounded-md text-[11px] font-bold transition-all shrink-0 flex items-center gap-1.5 border ${
+              onlyGamingPhones
+                ? 'bg-[#FFD400] text-black border-[#FFD400] shadow-[0_0_12px_rgba(255,212,0,0.4)]'
+                : 'bg-black/40 text-[#FFD400] border-[#FFD400]/40 hover:bg-[#FFD400]/10'
+            }`}
+          >
+            <span>🎮</span>
+            <span>Dedicated Gaming Beasts Only</span>
+          </button>
+
+          <span className="text-gray-400 font-semibold text-[11px] uppercase mx-1 shrink-0">| FPS Tier:</span>
           {['All', '120', '90', '60', '40', 'Unsupported'].map((fps) => (
             <button
               key={fps}

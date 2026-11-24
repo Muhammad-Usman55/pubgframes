@@ -22,6 +22,10 @@ import { NOTHING_DEVICES } from './nothingDevices';
 import { SONY_DEVICES } from './sonyDevices';
 import { TABLET_DEVICES } from './tabletDevices';
 import { GLOBAL_BRANDS_DEVICES } from './globalBrandsDevices';
+import { BLACK_SHARK_DEVICES } from './blackSharkDevices';
+import { LEGION_DEVICES } from './legionDevices';
+import { RAZER_DEVICES } from './razerDevices';
+import { IQOO_DEVICES } from './iqooDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1250,6 +1254,18 @@ const RAW_DEVICES: DeviceInfo[] = [
   // --- DEDICATED ESPORTS TABLETS (5+ MODELS) ---
   ...TABLET_DEVICES,
 
+  // --- BLACK SHARK (XIAOMI GAMING - 14 MODELS) ---
+  ...BLACK_SHARK_DEVICES,
+
+  // --- LENOVO LEGION (6 MODELS) ---
+  ...LEGION_DEVICES,
+
+  // --- RAZER GAMING (2 MODELS) ---
+  ...RAZER_DEVICES,
+
+  // --- VIVO iQOO ESPORTS (20 MODELS) ---
+  ...IQOO_DEVICES,
+
   // --- GLOBAL & LEGACY BRANDS (NOKIA, LENOVO, ITEL, HTC, BLU, ETC. - 17+ MODELS) ---
   ...GLOBAL_BRANDS_DEVICES
 ];
@@ -1303,6 +1319,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if ((b === 'nokia' || b === 'hmd') && (brandLower === 'nokia' || slugLower === 'nokia')) return true;
     if ((b === 'lenovo' || b === 'legion') && (brandLower === 'lenovo' || slugLower === 'lenovo')) return true;
     if (b === 'itel' && (brandLower === 'itel' || slugLower === 'itel')) return true;
+    if ((b === 'iqoo' || b === 'i-qoo') && (brandLower === 'iqoo' || slugLower === 'iqoo')) return true;
     if (b === 'meizu' && (brandLower === 'meizu' || slugLower === 'meizu')) return true;
     if ((b === 'black-shark' || b === 'blackshark') && (brandLower.includes('black') || slugLower.includes('black'))) return true;
     if (b === 'razer' && (brandLower === 'razer' || slugLower === 'razer')) return true;
@@ -1323,7 +1340,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
 export function searchDevices(query: string): DeviceInfo[] {
   const clean = query.trim().toLowerCase();
   if (!clean) return DEVICES_DATA;
-  
+
   // Split query into terms to support multi-word queries like "samsung a03", "galaxy s24", "j2 core"
   const terms = clean.split(/\s+/).filter(Boolean);
 
