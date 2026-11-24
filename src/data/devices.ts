@@ -17,6 +17,7 @@ import { INFINIX_DEVICES } from './infinixDevices';
 import { TECNO_DEVICES } from './tecnoDevices';
 import { ASUS_DEVICES } from './asusDevices';
 import { ZTE_DEVICES } from './zteDevices';
+import { REDMAGIC_DEVICES } from './redmagicDevices';
 import { HONOR_DEVICES } from './honorDevices';
 import { NOTHING_DEVICES } from './nothingDevices';
 import { SONY_DEVICES } from './sonyDevices';
@@ -1239,8 +1240,11 @@ const RAW_DEVICES: DeviceInfo[] = [
   // --- ASUS & ROG PHONE (GLOBAL REPOSITORY - 5+ MODELS) ---
   ...ASUS_DEVICES,
 
-  // --- ZTE & REDMAGIC (GLOBAL REPOSITORY - 5+ MODELS) ---
+  // --- ZTE & NUBIA (GLOBAL REPOSITORY - 8 MODELS) ---
   ...ZTE_DEVICES,
+
+  // --- REDMAGIC ESPORTS & GAMING (1ST GEN TO 12 PRO & TABLETS - 53 MODELS) ---
+  ...REDMAGIC_DEVICES,
 
   // --- HONOR (GLOBAL REPOSITORY - 6+ MODELS) ---
   ...HONOR_DEVICES,
@@ -1312,7 +1316,8 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
     if (b === 'infinix' && (brandLower === 'infinix' || slugLower === 'infinix')) return true;
     if (b === 'tecno' && (brandLower === 'tecno' || slugLower === 'tecno')) return true;
     if ((b === 'asus' || b === 'rog' || b === 'asus-rog') && (brandLower.includes('asus') || slugLower.includes('asus'))) return true;
-    if ((b === 'zte' || b === 'redmagic' || b === 'nubia') && (brandLower === 'zte' || slugLower === 'zte')) return true;
+    if ((b === 'redmagic' || b === 'red-magic') && (brandLower === 'redmagic' || slugLower === 'redmagic')) return true;
+    if ((b === 'zte' || b === 'nubia') && (brandLower === 'zte' || slugLower === 'zte' || brandLower.includes('nubia') || slugLower.includes('nubia') || brandLower === 'redmagic' || slugLower === 'redmagic')) return true;
     if (b === 'honor' && (brandLower === 'honor' || slugLower === 'honor')) return true;
     if ((b === 'nothing' || b === 'cmf') && (brandLower === 'nothing' || slugLower === 'nothing')) return true;
     if ((b === 'sony' || b === 'xperia') && (brandLower === 'sony' || slugLower === 'sony')) return true;

@@ -80,7 +80,8 @@ async function runQA() {
     { path: '/devices/poco/poco-x6-pro-5g', model: 'POCO X6 Pro 5G', brand: 'POCO' },
     { path: '/devices/samsung/galaxy-s24-ultra', model: 'Galaxy S24 Ultra', brand: 'Samsung' },
     { path: '/devices/asus/asus-rog-phone-9-pro', model: 'ROG Phone 9 Pro', brand: 'ASUS' },
-    { path: '/devices/zte/redmagic-10-pro-plus', model: 'RedMagic 10 Pro+', brand: 'ZTE' },
+    { path: '/devices/redmagic/redmagic-10-pro-global', model: 'REDMAGIC 10 Pro', brand: 'REDMAGIC' },
+    { path: '/devices/zte/zte-nubia-z60-ultra', model: 'ZTE Nubia Z60 Ultra', brand: 'ZTE' },
     { path: '/devices/black-shark/black-shark-5-pro', model: 'Black Shark 5 Pro', brand: 'Black Shark' },
     { path: '/devices/iqoo/iqoo-13-5g', model: 'iQOO 13', brand: 'iQOO' },
     { path: '/devices/lenovo/lenovo-legion-y90', model: 'Legion Y90', brand: 'Lenovo' },
@@ -120,7 +121,7 @@ async function runQA() {
     'huaweiDevices', 'xiaomiDevices', 'pocoDevices', 'redmiDevices',
     'vivoDevices', 'motorolaDevices', 'lgDevices', 'qmobileDevices',
     'oneplusDevices', 'realmeDevices', 'infinixDevices', 'tecnoDevices',
-    'asusDevices', 'zteDevices', 'honorDevices', 'nothingDevices',
+    'asusDevices', 'zteDevices', 'redmagicDevices', 'honorDevices', 'nothingDevices',
     'sonyDevices', 'tabletDevices', 'globalBrandsDevices',
     'blackSharkDevices', 'legionDevices', 'razerDevices', 'iqooDevices'
   ];
