@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Shield, Lock, Mail, ArrowRight, Zap, CheckCircle2, AlertCircle } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
+import { setAdminSession } from '@/lib/adminAuth';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -32,8 +33,7 @@ export default function AdminLoginPage() {
         if (sbError) {
           // Check authorized admin credentials fallback
           if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
-            localStorage.setItem('pubgframes_admin_auth', 'true');
-            localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
+            setAdminSession(email.trim().toLowerCase());
             router.push('/admin');
             return;
           }
@@ -41,16 +41,14 @@ export default function AdminLoginPage() {
           setLoading(false);
           return;
         }
-        localStorage.setItem('pubgframes_admin_auth', 'true');
-        localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
+        setAdminSession(email.trim().toLowerCase());
         router.push('/admin');
         return;
       }
 
       // Local / Offline fallback mode with designated credentials
       if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
-        localStorage.setItem('pubgframes_admin_auth', 'true');
-        localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
+        setAdminSession(email.trim().toLowerCase());
         router.push('/admin');
       } else {
         setError('Invalid admin credentials. Please enter authorized admin email and password.');

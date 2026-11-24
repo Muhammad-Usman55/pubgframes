@@ -37,6 +37,7 @@ import {
 } from 'lucide-react';
 import { getSupabaseCredentials, isSupabaseConnected, resetSupabaseInstance } from '@/lib/supabase';
 import { getRealAnalytics, resetAnalyticsData, RealAnalyticsData, DEFAULT_ANALYTICS } from '@/lib/analytics';
+import { getAdminSession, clearAdminSession } from '@/lib/adminAuth';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -94,16 +95,16 @@ export default function AdminDashboardPage() {
     verdict: 'Excellent competitive gaming performance with stable frame delivery.'
   });
 
-  // Verify Auth on mount
+  // Verify Auth on mount via session validation
   useEffect(() => {
-    const auth = localStorage.getItem('pubgframes_admin_auth');
-    const user = localStorage.getItem('pubgframes_admin_user');
-    if (auth !== 'true') {
+    const session = getAdminSession();
+    if (!session) {
       router.push('/admin/login');
-    } else {
-      setIsAuthenticated(true);
-      if (user) setAdminUser(user);
+      return;
     }
+
+    setIsAuthenticated(true);
+    setAdminUser(session.user);
 
     // Load custom devices from localStorage
     const saved = localStorage.getItem('pubgframes_custom_devices');
@@ -123,8 +124,7 @@ export default function AdminDashboardPage() {
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem('pubgframes_admin_auth');
-    localStorage.removeItem('pubgframes_admin_user');
+    clearAdminSession();
     router.push('/admin/login');
   };
 
