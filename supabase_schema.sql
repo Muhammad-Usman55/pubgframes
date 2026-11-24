@@ -102,6 +102,11 @@ CREATE POLICY "Allow public read of analytics"
 CREATE POLICY "Allow write access to devices" 
     ON public.devices FOR ALL USING (true);
 
+-- Seed Designated Super Admin User
+INSERT INTO public.admin_users (email, role)
+VALUES ('usmanshahidhnd2108@gmail.com', 'super_admin')
+ON CONFLICT (email) DO NOTHING;
+
 -- 7. Seed Initial Sample Analytics Data (Optional Demo Visits)
 INSERT INTO public.analytics_page_views (path, device_type, country, timestamp)
 VALUES 

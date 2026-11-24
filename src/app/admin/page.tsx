@@ -36,13 +36,14 @@ import {
   X
 } from 'lucide-react';
 import { getSupabaseCredentials, isSupabaseConnected, resetSupabaseInstance } from '@/lib/supabase';
+import { getRealAnalytics, resetAnalyticsData, RealAnalyticsData, DEFAULT_ANALYTICS } from '@/lib/analytics';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
 
   // Auth Protection
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [adminUser, setAdminUser] = useState<string>('admin@pubgframes.com');
+  const [adminUser, setAdminUser] = useState<string>('usmanshahidhnd2108@gmail.com');
 
   // Navigation Tab State
   const [activeTab, setActiveTab] = useState<'analytics' | 'devices' | 'dragdrop' | 'settings'>('analytics');
@@ -144,50 +145,39 @@ export default function AdminDashboardPage() {
     });
   }, [allDevicesList, brandFilter, fpsFilter, searchQuery]);
 
-  // Analytics Simulated / Live Metrics
+  // Real Analytics Dynamic Tracking (Dummy Data Completely Removed)
+  const [realStats, setRealStats] = useState<RealAnalyticsData>(DEFAULT_ANALYTICS);
+
+  const refreshAnalytics = () => {
+    setRealStats(getRealAnalytics());
+  };
+
+  useEffect(() => {
+    refreshAnalytics();
+  }, [allDevicesList.length]);
+
   const analyticsData = useMemo(() => {
     const totalDevices = allDevicesList.length;
-    const totalViews = 184520 + customDevices.length * 142;
-    const todayViews = 6840;
-    const activeVisitors = 38;
-    const totalSearches = 94100;
+    const stats = realStats || DEFAULT_ANALYTICS;
 
-    // Top searched devices list
-    const topSearched = [
-      { name: 'POCO X6 Pro 5G', count: 18420, fps: 90, brand: 'POCO' },
-      { name: 'iPhone 16 Pro Max', count: 16950, fps: 120, brand: 'Apple' },
-      { name: 'Samsung Galaxy S24 Ultra', count: 15320, fps: 120, brand: 'Samsung' },
-      { name: 'Infinix GT 20 Pro 5G', count: 14210, fps: 120, brand: 'Infinix' },
-      { name: 'RedMagic 10 Pro+', count: 12890, fps: 120, brand: 'ZTE' },
-      { name: 'OnePlus 12R', count: 11400, fps: 120, brand: 'OnePlus' },
-      { name: 'Tecno Camon 30 Premier', count: 9840, fps: 90, brand: 'Tecno' },
-      { name: 'Realme GT 6', count: 8750, fps: 120, brand: 'Realme' },
-      { name: 'iPad Pro 13 (M4)', count: 8320, fps: 120, brand: 'Apple' },
-      { name: 'QMobile Noir E8', count: 7650, fps: 30, brand: 'QMobile' }
-    ];
+    return {
+      totalDevices,
+      totalViews: stats.totalViews,
+      todayViews: stats.todayViews,
+      activeVisitors: stats.activeVisitors,
+      totalSearches: stats.totalSearches,
+      topSearched: stats.topSearched,
+      geoDistribution: stats.geoDistribution,
+      trafficHistory: stats.trafficHistory
+    };
+  }, [allDevicesList.length, realStats]);
 
-    // Geo visitors distribution
-    const geoDistribution = [
-      { country: 'Pakistan', percentage: 44, visits: '81,180' },
-      { country: 'India', percentage: 28, visits: '51,660' },
-      { country: 'Saudi Arabia', percentage: 12, visits: '22,140' },
-      { country: 'United Arab Emirates', percentage: 8, visits: '14,760' },
-      { country: 'Bangladesh & Others', percentage: 8, visits: '14,780' }
-    ];
-
-    // 7-day traffic trend
-    const trafficHistory = [
-      { day: 'Mon', visitors: 5800, searches: 3200 },
-      { day: 'Tue', visitors: 6200, searches: 3450 },
-      { day: 'Wed', visitors: 6100, searches: 3380 },
-      { day: 'Thu', visitors: 6900, searches: 3900 },
-      { day: 'Fri', visitors: 7800, searches: 4500 },
-      { day: 'Sat', visitors: 8900, searches: 5200 },
-      { day: 'Sun', visitors: 8200, searches: 4800 }
-    ];
-
-    return { totalDevices, totalViews, todayViews, activeVisitors, totalSearches, topSearched, geoDistribution, trafficHistory };
-  }, [allDevicesList, customDevices.length]);
+  const handleClearAnalytics = () => {
+    if (confirm('Are you sure you want to reset all tracked analytics counters to zero?')) {
+      resetAnalyticsData();
+      refreshAnalytics();
+    }
+  };
 
   // Handle Form Submission (Add or Update device)
   const handleSaveDevice = (e: React.FormEvent) => {
@@ -550,10 +540,41 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
         </div>
 
         {/* ============================================================== */}
-        {/* TAB 1: ANALYTICS & VISITOR METRICS                             */}
+        {/* TAB 1: ANALYTICS & VISITOR METRICS (REAL LIVE DATA)            */}
         {/* ============================================================== */}
         {activeTab === 'analytics' && (
           <div className="space-y-6">
+            {/* Real Analytics Header & Actions */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-2 border-b border-white/5">
+              <div>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <span>Live Production Telemetry & Visitor Tracking</span>
+                  <span className="w-2 h-2 rounded-full bg-[#39F56A] animate-pulse" />
+                </h2>
+                <p className="text-xs text-gray-400">
+                  Real visitor events, searches, and device queries logged in production. (Zero dummy data).
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={refreshAnalytics}
+                  className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-300 hover:text-white flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Refresh Stats</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearAnalytics}
+                  className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-xs font-semibold text-red-400 flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Reset Counters</span>
+                </button>
+              </div>
+            </div>
+
             {/* Top KPI Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
@@ -562,8 +583,8 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                   <div className="w-2 h-2 rounded-full bg-[#39F56A] animate-ping" />
                 </div>
                 <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.totalViews.toLocaleString()}</div>
-                <div className="text-[11px] text-[#39F56A] flex items-center gap-1 font-bold">
-                  <TrendingUp className="w-3.5 h-3.5" /> +14.2% from last week
+                <div className="text-[11px] text-gray-400 flex items-center gap-1">
+                  Verified real site visits
                 </div>
               </div>
 
@@ -573,16 +594,16 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                   <Users className="w-4 h-4 text-[#28A9FF]" />
                 </div>
                 <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.todayViews.toLocaleString()}</div>
-                <div className="text-[11px] text-gray-400 font-bold">Active Right Now: <span className="text-[#39F56A]">{analyticsData.activeVisitors} users</span></div>
+                <div className="text-[11px] text-gray-400 font-bold">Active Right Now: <span className="text-[#39F56A]">{analyticsData.activeVisitors}</span></div>
               </div>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
                 <div className="flex items-center justify-between text-gray-400 text-xs">
-                  <span>Total FPS Calculations</span>
+                  <span>User Search Queries</span>
                   <Zap className="w-4 h-4 text-[#FFD400]" />
                 </div>
                 <div className="text-2xl sm:text-3xl font-black text-white">{analyticsData.totalSearches.toLocaleString()}</div>
-                <div className="text-[11px] text-gray-400">92% on mobile phones</div>
+                <div className="text-[11px] text-gray-400">Total FPS queries</div>
               </div>
 
               <div className="p-4 sm:p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-2">
@@ -604,13 +625,14 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                     <TrendingUp className="w-4 h-4 text-[#39F56A]" />
                     <span>7-Day Visitor Trend</span>
                   </h3>
-                  <span className="text-[11px] text-gray-400">Past 7 days traffic</span>
+                  <span className="text-[11px] text-gray-400">Logged real traffic</span>
                 </div>
 
                 {/* Visual Responsive Bar Representation */}
                 <div className="h-48 flex items-end justify-between gap-2 sm:gap-4 pt-6 px-2">
                   {analyticsData.trafficHistory.map((item) => {
-                    const heightPercent = Math.round((item.visitors / 9000) * 100);
+                    const maxCount = Math.max(...analyticsData.trafficHistory.map((h) => h.visitors), 10);
+                    const heightPercent = item.visitors > 0 ? Math.max(Math.round((item.visitors / maxCount) * 100), 8) : 4;
                     return (
                       <div key={item.day} className="flex-1 flex flex-col items-center gap-2 group">
                         <div className="text-[10px] text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -618,7 +640,11 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                         </div>
                         <div
                           style={{ height: `${heightPercent}%` }}
-                          className="w-full max-w-[40px] rounded-t-lg bg-gradient-to-t from-[#39F56A]/20 to-[#39F56A] group-hover:to-[#FFD400] transition-colors relative"
+                          className={`w-full max-w-[40px] rounded-t-lg transition-colors relative ${
+                            item.visitors > 0
+                              ? 'bg-gradient-to-t from-[#39F56A]/20 to-[#39F56A] group-hover:to-[#FFD400]'
+                              : 'bg-white/5'
+                          }`}
                         />
                         <span className="text-xs font-bold text-gray-400">{item.day}</span>
                       </div>
@@ -633,49 +659,61 @@ CREATE POLICY "Allow public insert" ON public.devices FOR INSERT WITH CHECK (tru
                   <Globe className="w-4 h-4 text-[#28A9FF]" />
                   <span>Audience by Country</span>
                 </h3>
-                <div className="space-y-3">
-                  {analyticsData.geoDistribution.map((geo) => (
-                    <div key={geo.country} className="space-y-1">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-gray-300 font-semibold">{geo.country}</span>
-                        <span className="text-gray-400 font-mono">{geo.percentage}% ({geo.visits})</span>
+                {analyticsData.geoDistribution.length === 0 ? (
+                  <div className="py-12 text-center text-xs text-gray-500 font-mono">
+                    No visitor sessions logged yet. Live visitor countries will appear here.
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {analyticsData.geoDistribution.map((geo) => (
+                      <div key={geo.country} className="space-y-1">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-300 font-semibold">{geo.country}</span>
+                          <span className="text-gray-400 font-mono">{geo.percentage}% ({geo.visits})</span>
+                        </div>
+                        <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <div
+                            style={{ width: `${geo.percentage || 5}%` }}
+                            className="h-full rounded-full bg-[#28A9FF]"
+                          />
+                        </div>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                        <div
-                          style={{ width: `${geo.percentage}%` }}
-                          className="h-full rounded-full bg-[#28A9FF]"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Top 10 Searched Smartphones */}
+            {/* Top Searched Smartphones */}
             <div className="p-5 rounded-2xl bg-[#101518] border border-white/5 space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold text-white flex items-center gap-2">
                   <Smartphone className="w-4 h-4 text-[#FFD400]" />
-                  <span>Top 10 Most Searched Smartphones by Users</span>
+                  <span>Real User Search Queries</span>
                 </h3>
-                <span className="text-xs text-gray-400">Total volume</span>
+                <span className="text-xs text-gray-400">Tracked queries</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                {analyticsData.topSearched.map((phone, idx) => (
-                  <div key={phone.name} className="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-500 font-mono font-bold">#{idx + 1}</span>
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-[#39F56A]/10 text-[#39F56A]">
-                        {phone.fps} FPS
-                      </span>
+              {analyticsData.topSearched.length === 0 ? (
+                <div className="py-8 text-center text-xs text-gray-500 font-mono">
+                  No search queries logged yet. Queries typed into the website search bar will appear here in real-time.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                  {analyticsData.topSearched.map((phone, idx) => (
+                    <div key={phone.name} className="p-3.5 rounded-xl bg-black/40 border border-white/5 space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-500 font-mono font-bold">#{idx + 1}</span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-[#FFD400]/10 text-[#FFD400]">
+                          Live
+                        </span>
+                      </div>
+                      <div className="text-xs font-bold text-white truncate">{phone.name}</div>
+                      <div className="text-[11px] text-gray-400">{phone.count.toLocaleString()} searches</div>
                     </div>
-                    <div className="text-xs font-bold text-white truncate">{phone.name}</div>
-                    <div className="text-[11px] text-gray-400">{phone.count.toLocaleString()} searches</div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

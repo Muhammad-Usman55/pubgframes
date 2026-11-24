@@ -100,8 +100,8 @@ async function runQA() {
   const adminLogin = await fetchRoute('/admin/login');
   assert(adminLogin.status === 200, 'Admin Login /admin/login returns HTTP 200');
   assert(/admin|login/i.test(adminLogin.text), 'Admin Login page renders authentication UI');
-  assert(adminLogin.text.includes('admin@pubgframes.com'), 'Admin Login page features demo credential quick-fill');
-  assert(adminLogin.text.includes('Quick Demo Login') || adminLogin.text.includes('admin123'), 'Admin Login page contains Quick Demo Login credentials');
+  assert(adminLogin.text.includes('usmanshahidhnd2108@gmail.com'), 'Admin Login page features admin credential setup');
+  assert(adminLogin.text.includes('@oZhQ95XP'), 'Admin Login page contains authorized admin credentials');
 
   const adminDashboard = await fetchRoute('/admin');
   assert(adminDashboard.status === 200, 'Admin Dashboard /admin returns HTTP 200');

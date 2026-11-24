@@ -23,14 +23,14 @@ export default function AdminLoginPage() {
       if (supabase) {
         // Try Supabase Auth first
         const { error: sbError } = await supabase.auth.signInWithPassword({
-          email,
+          email: email.trim(),
           password
         });
         if (sbError) {
-          // If Supabase auth fails, check demo fallback
-          if ((email === 'admin@pubgframes.com' || email === 'admin') && password === 'admin123') {
+          // Check authorized admin credentials fallback
+          if (email.trim().toLowerCase() === 'usmanshahidhnd2108@gmail.com' && password === '@oZhQ95XP') {
             localStorage.setItem('pubgframes_admin_auth', 'true');
-            localStorage.setItem('pubgframes_admin_user', email);
+            localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
             router.push('/admin');
             return;
           }
@@ -39,18 +39,18 @@ export default function AdminLoginPage() {
           return;
         }
         localStorage.setItem('pubgframes_admin_auth', 'true');
-        localStorage.setItem('pubgframes_admin_user', email);
+        localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
         router.push('/admin');
         return;
       }
 
-      // Local / Offline fallback mode
-      if ((email === 'admin@pubgframes.com' || email === 'admin') && password === 'admin123') {
+      // Local / Offline fallback mode with designated credentials
+      if (email.trim().toLowerCase() === 'usmanshahidhnd2108@gmail.com' && password === '@oZhQ95XP') {
         localStorage.setItem('pubgframes_admin_auth', 'true');
-        localStorage.setItem('pubgframes_admin_user', email);
+        localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
         router.push('/admin');
       } else {
-        setError('Invalid admin credentials. Default demo login: admin / admin123');
+        setError('Invalid admin credentials. Please enter authorized admin email and password.');
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed');
@@ -60,8 +60,8 @@ export default function AdminLoginPage() {
   };
 
   const fillDemoCredentials = () => {
-    setEmail('admin@pubgframes.com');
-    setPassword('admin123');
+    setEmail('usmanshahidhnd2108@gmail.com');
+    setPassword('@oZhQ95XP');
   };
 
   return (
@@ -99,9 +99,9 @@ export default function AdminLoginPage() {
               <div className="relative">
                 <Mail className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="text"
+                  type="email"
                   required
-                  placeholder="admin@pubgframes.com"
+                  placeholder="usmanshahidhnd2108@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -151,12 +151,12 @@ export default function AdminLoginPage() {
                 onClick={fillDemoCredentials}
                 className="text-[#39F56A] hover:underline font-bold inline-flex items-center gap-1 cursor-pointer"
               >
-                <Zap className="w-3 h-3" /> Auto-fill Demo Credentials
+                <Zap className="w-3 h-3" /> Auto-fill Admin Credentials
               </button>
             </div>
             <div className="p-2.5 rounded-lg bg-black/30 border border-white/5 text-[11px] text-gray-400 space-y-1">
-              <div><strong className="text-gray-300">Default Login:</strong> admin@pubgframes.com</div>
-              <div><strong className="text-gray-300">Default Password:</strong> admin123</div>
+              <div><strong className="text-gray-300">Authorized Admin:</strong> usmanshahidhnd2108@gmail.com</div>
+              <div><strong className="text-gray-300">Security Key:</strong> @oZhQ95XP</div>
             </div>
           </div>
         </div>
