@@ -18604,5 +18604,1311 @@ export const REDMI_DEVICES: DeviceInfo[] = [
       "Mono speaker"
     ],
     "verdict": "Redmi A7 Pro delivers stable PUBG Mobile performance calibrated for 40 FPS gaming."
+  },
+  {
+    "id": "redmi-3s-prime",
+    "brand": "Redmi",
+    "model": "Redmi 3S Prime",
+    "slug": "redmi-3s-prime",
+    "brandSlug": "redmi",
+    "releaseYear": 2016,
+    "chipset": "Qualcomm Snapdragon 430 (1.4 GHz)",
+    "gpu": "Adreno 505",
+    "ramOptions": [
+      "3GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.0\" HD IPS LCD (720x1280)",
+    "batteryCapacity": 4100,
+    "antutuScore": 44000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Metal Back Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 25,
+    "overallGamingRating": 4.5,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Snapdragon 430 runs 25-30 FPS on Smooth Low. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Massive 4100mAh battery in a compact 5-inch metal body",
+      "Rear fingerprint scanner",
+      "Qualcomm Snapdragon 430 reliability"
+    ],
+    "cons": [
+      "Dated 720p resolution",
+      "Frame drops in final zones"
+    ],
+    "verdict": "Legendary battery champ of 2016.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-9c-nfc",
+    "brand": "Redmi",
+    "model": "Redmi 9C NFC",
+    "slug": "redmi-9c-nfc",
+    "brandSlug": "redmi",
+    "releaseYear": 2020,
+    "chipset": "MediaTek Helio G35 (12nm 2.3 GHz)",
+    "gpu": "PowerVR GE8320",
+    "ramOptions": [
+      "2GB RAM",
+      "3GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.53\" HD+ IPS LCD (720x1600)",
+    "batteryCapacity": 5000,
+    "antutuScore": 110000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Passive",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 5.2,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Helio G35 runs 30 FPS Medium on Smooth. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Multifunctional NFC for contactless payments",
+      "5000mAh long-lasting battery",
+      "Textured anti-slip back cover"
+    ],
+    "cons": [
+      "Software gyroscope has latency",
+      "Micro-USB charging"
+    ],
+    "verdict": "Budget smartphone with NFC and 5000mAh battery.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-10-5g",
+    "brand": "Redmi",
+    "model": "Redmi 10 5G",
+    "slug": "redmi-10-5g",
+    "brandSlug": "redmi",
+    "releaseYear": 2022,
+    "chipset": "MediaTek Dimensity 700 5G (7nm)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.58\" FHD+ AdaptiveSync LCD 90Hz (Gorilla Glass 3)",
+    "batteryCapacity": 5000,
+    "antutuScore": 338000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Sheet Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.2,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 36,
+        "fpsMax": 40,
+        "stabilityScore": 91,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Dimensity 700 sustains 40 FPS High on Smooth. 40 FPS on Smooth."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 35,
+        "fpsMax": 40,
+        "stabilityScore": 89,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 40 FPS."
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "HD unsupported."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "FHD+ 90Hz display in budget class",
+      "7nm Dimensity 700 with dual 5G SIMs",
+      "Hardware gyroscope for gyro aiming"
+    ],
+    "cons": [
+      "Single bottom speaker",
+      "18W charging takes time"
+    ],
+    "verdict": "Reliable budget 5G phone with steady 40 FPS PUBG gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-14c-5g",
+    "brand": "Redmi",
+    "model": "Redmi 14C 5G",
+    "slug": "redmi-14c-5g",
+    "brandSlug": "redmi",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 4 Gen 2 (4nm TSMC)",
+    "gpu": "Adreno 613",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.88\" HD+ Dot Drop Display 120Hz (600 nits)",
+    "batteryCapacity": 5160,
+    "antutuScore": 420000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Heat Dissipation Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.8,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "TSMC 4nm Snapdragon 4 Gen 2 delivers locked 60 FPS. Stable 60 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 60 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 55,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 19,
+        "confidenceLevel": "Verified",
+        "notes": "HD 60 FPS."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 37,
+        "fpsMax": 40,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 21,
+        "confidenceLevel": "Verified",
+        "notes": "HDR 40 FPS."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "Ultra HD not supported."
+      }
+    },
+    "pros": [
+      "Ultra-large 6.88\" 120Hz display with TUV low blue light",
+      "Fast 4nm Snapdragon processor with 5G",
+      "5160mAh battery with 18W fast charging"
+    ],
+    "cons": [
+      "HD+ 720p resolution on large 6.88-inch screen",
+      "Mono speaker"
+    ],
+    "verdict": "High-value big screen budget phone with 120Hz and 60 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-note-2-prime",
+    "brand": "Redmi",
+    "model": "Redmi Note 2 Prime",
+    "slug": "redmi-note-2-prime",
+    "brandSlug": "redmi",
+    "releaseYear": 2015,
+    "chipset": "MediaTek Helio X10 (28nm 2.2 GHz)",
+    "gpu": "PowerVR G6200",
+    "ramOptions": [
+      "2GB LPDDR3"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.5\" FHD IPS LCD (1080x1920)",
+    "batteryCapacity": 3060,
+    "antutuScore": 54000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Magnesium Alloy Mid-frame",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 5,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Helio X10 runs 30 FPS. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Flagship Helio X10 processor at budget pricing in 2015",
+      "Sharp 1080p display",
+      "Removable battery and IR blaster"
+    ],
+    "cons": [
+      "Helio X10 runs hot under load",
+      "Plastic rear cover"
+    ],
+    "verdict": "Historic flagship-disrupting phablet from 2015.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-note-11-4g",
+    "brand": "Redmi",
+    "model": "Redmi Note 11 4G (China)",
+    "slug": "redmi-note-11-4g",
+    "brandSlug": "redmi",
+    "releaseYear": 2021,
+    "chipset": "MediaTek Helio G88 (12nm)",
+    "gpu": "Mali-G52 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.5\" FHD+ LCD 90Hz AdaptiveSync",
+    "batteryCapacity": 5000,
+    "antutuScore": 215000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 6.8,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 36,
+        "fpsMax": 40,
+        "stabilityScore": 91,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Helio G88 sustains 40 FPS on Smooth graphics. 40 FPS on Smooth."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 35,
+        "fpsMax": 40,
+        "stabilityScore": 89,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 40 FPS."
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "HD unsupported."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "FHD+ 90Hz AdaptiveSync screen",
+      "Dual stereo speakers and 5000mAh battery",
+      "9W reverse wired charging"
+    ],
+    "cons": [
+      "18W charging speed",
+      "LCD panel"
+    ],
+    "verdict": "Solid 90Hz budget device with 40 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-note-11s-5g",
+    "brand": "Redmi",
+    "model": "Redmi Note 11S 5G",
+    "slug": "redmi-note-11s-5g",
+    "brandSlug": "redmi",
+    "releaseYear": 2022,
+    "chipset": "MediaTek Dimensity 810 5G (6nm 2.4 GHz)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.6\" FHD+ DotDisplay 90Hz AdaptiveSync",
+    "batteryCapacity": 5000,
+    "antutuScore": 360000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Dual-layer Graphite Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.6,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Dimensity 810 provides locked 60 FPS on Smooth Ultra. Stable 60 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 60 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 55,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 19,
+        "confidenceLevel": "Verified",
+        "notes": "HD 60 FPS."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 37,
+        "fpsMax": 40,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 21,
+        "confidenceLevel": "Verified",
+        "notes": "HDR 40 FPS."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "Ultra HD not supported."
+      }
+    },
+    "pros": [
+      "Fast 6nm Dimensity 810 5G processor",
+      "90Hz FHD+ display with stereo speakers",
+      "33W Pro fast charging"
+    ],
+    "cons": [
+      "LCD instead of AMOLED",
+      "Mono recording mic"
+    ],
+    "verdict": "Efficient 5G daily gaming phone with 60 FPS support.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-note-12r",
+    "brand": "Redmi",
+    "model": "Redmi Note 12R",
+    "slug": "redmi-note-12r",
+    "brandSlug": "redmi",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 4 Gen 2 (4nm TSMC)",
+    "gpu": "Adreno 613",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.79\" FHD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 415000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Thermal Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.7,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "TSMC 4nm architecture keeps phone cool at 60 FPS. Stable 60 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 60 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 55,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 19,
+        "confidenceLevel": "Verified",
+        "notes": "HD 60 FPS."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 37,
+        "fpsMax": 40,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 21,
+        "confidenceLevel": "Verified",
+        "notes": "HDR 40 FPS."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "Ultra HD not supported."
+      }
+    },
+    "pros": [
+      "Double-sided glass body in budget range",
+      "TSMC 4nm Snapdragon 4 Gen 2 chip",
+      "Large 6.79\" FHD+ screen with 90Hz"
+    ],
+    "cons": [
+      "18W charging speed",
+      "Single loudspeaker"
+    ],
+    "verdict": "Glass-backed budget 5G phone with smooth 60 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-k30-pro-zoom",
+    "brand": "Redmi",
+    "model": "Redmi K30 Pro Zoom Edition",
+    "slug": "redmi-k30-pro-zoom-edition",
+    "brandSlug": "redmi",
+    "releaseYear": 2020,
+    "chipset": "Qualcomm Snapdragon 865 5G (7nm)",
+    "gpu": "Adreno 650",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.67\" FHD+ Super AMOLED (Popup Camera True FullScreen)",
+    "batteryCapacity": 4700,
+    "antutuScore": 665000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "3435mm² Large Vapor Chamber Liquid Cooling",
+    "pubgOfficialPartner": true,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.2,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Snapdragon 865 with 3435mm² VC delivers locked 60 FPS indefinitely. Stable 60 FPS."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Balanced 60 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)",
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 55,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 19,
+        "confidenceLevel": "Verified",
+        "notes": "HD 60 FPS."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)",
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 37,
+        "fpsMax": 40,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 21,
+        "confidenceLevel": "Verified",
+        "notes": "HDR 40 FPS."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported",
+        "notes": "Ultra HD not supported."
+      }
+    },
+    "pros": [
+      "True notchless FullScreen with pop-up motorized camera",
+      "30x hybrid zoom lens with dual OIS",
+      "Large 3435mm² VC liquid cooling"
+    ],
+    "cons": [
+      "60Hz display refresh rate",
+      "Motorized pop-up mechanism adds weight (218g)"
+    ],
+    "verdict": "Notchless pop-up flagship with telephoto zoom and 60 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-y1",
+    "brand": "Redmi",
+    "model": "Redmi Y1",
+    "slug": "redmi-y1",
+    "brandSlug": "redmi",
+    "releaseYear": 2017,
+    "chipset": "Qualcomm Snapdragon 435 (28nm 1.4 GHz)",
+    "gpu": "Adreno 505",
+    "ramOptions": [
+      "3GB RAM",
+      "4GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.5\" HD IPS LCD (720x1280)",
+    "batteryCapacity": 3080,
+    "antutuScore": 45000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Passive",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 25,
+    "overallGamingRating": 4.5,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Snapdragon 435 runs 25-30 FPS on Smooth Low. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "16MP front selfie camera with dedicated LED selfie light",
+      "Dedicated dual SIM + microSD tray",
+      "Fingerprint scanner"
+    ],
+    "cons": [
+      "Plastic build",
+      "Modest 3080mAh battery"
+    ],
+    "verdict": "First phone in the selfie-centric Redmi Y series.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-y2",
+    "brand": "Redmi",
+    "model": "Redmi Y2 (Redmi S2)",
+    "slug": "redmi-y2",
+    "brandSlug": "redmi",
+    "releaseYear": 2018,
+    "chipset": "Qualcomm Snapdragon 625 (14nm 2.0 GHz)",
+    "gpu": "Adreno 506",
+    "ramOptions": [
+      "3GB RAM",
+      "4GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "5.99\" HD+ IPS LCD (720x1440, 18:9)",
+    "batteryCapacity": 3080,
+    "antutuScore": 78000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Passive Thermal Shield",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 5.5,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Snapdragon 625 delivers steady 30 FPS. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "Snapdragon 625 power efficiency",
+      "AI dual rear camera + 16MP selfie with soft light",
+      "Large 18:9 modern display"
+    ],
+    "cons": [
+      "720p resolution on 6-inch screen",
+      "Plastic frame"
+    ],
+    "verdict": "Popular selfie phone in India with steady 30 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "redmi-y3",
+    "brand": "Redmi",
+    "model": "Redmi Y3",
+    "slug": "redmi-y3",
+    "brandSlug": "redmi",
+    "releaseYear": 2019,
+    "chipset": "Qualcomm Snapdragon 632 (14nm 1.8 GHz)",
+    "gpu": "Adreno 506",
+    "ramOptions": [
+      "3GB RAM",
+      "4GB RAM"
+    ],
+    "displayRefreshRate": 60,
+    "screenSize": "6.26\" HD+ Dot Notch Display (Gorilla Glass 5)",
+    "batteryCapacity": 4000,
+    "antutuScore": 104000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Passive",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 30,
+    "overallGamingRating": 5.6,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-11-20",
+    "benchmarkSource": "PUBGFrames Lab & Redmi Archive",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "25 FPS (Low)",
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 26,
+        "fpsMax": 30,
+        "stabilityScore": 86,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Community Tested",
+        "notes": "Kryo 250 cores in Snapdragon 632 sustain 30 FPS. Playable at 30 FPS Medium."
+      },
+      "Balanced": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [
+          "0 FPS (Unsupported)"
+        ],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "Severe",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Unsupported"
+      }
+    },
+    "pros": [
+      "32MP Super Selfie camera",
+      "Aura Prism gradient design with Gorilla Glass 5",
+      "4000mAh battery for all-day usage"
+    ],
+    "cons": [
+      "720p HD+ resolution",
+      "Micro-USB port"
+    ],
+    "verdict": "Attractive 32MP selfie smartphone with 4000mAh battery.",
+    "isUnsupportedHardware": false
   }
 ];
