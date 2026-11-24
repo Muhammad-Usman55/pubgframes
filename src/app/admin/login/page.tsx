@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Shield, Lock, Mail, ArrowRight, Zap, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { getSupabase } from '@/lib/supabase';
 import { setAdminSession } from '@/lib/adminAuth';
 
@@ -60,11 +60,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const fillDemoCredentials = () => {
-    setEmail(expectedEmail);
-    setPassword(expectedPassword);
-  };
-
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md space-y-8">
@@ -102,7 +97,7 @@ export default function AdminLoginPage() {
                 <input
                   type="email"
                   required
-                  placeholder="usmanshahidhnd2108@gmail.com"
+                  placeholder="admin@pubgframes.internal"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -119,7 +114,7 @@ export default function AdminLoginPage() {
                 <input
                   type="password"
                   required
-                  placeholder="••••••••"
+                  placeholder="Enter security key..."
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-black/40 border border-white/10 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#FFD400] transition-colors"
@@ -143,22 +138,15 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* One-Click Demo Helper */}
-          <div className="pt-4 border-t border-white/5 space-y-3">
-            <div className="flex items-center justify-between text-xs text-gray-400">
-              <span>Quick Test Access:</span>
-              <button
-                type="button"
-                onClick={fillDemoCredentials}
-                className="text-[#39F56A] hover:underline font-bold inline-flex items-center gap-1 cursor-pointer"
-              >
-                <Zap className="w-3 h-3" /> Auto-fill Admin Credentials
-              </button>
+          {/* Security Notice */}
+          <div className="pt-4 border-t border-white/5 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold text-gray-300">
+              <Shield className="w-3.5 h-3.5 text-[#39F56A]" />
+              <span>Restricted System Access</span>
             </div>
-            <div className="p-2.5 rounded-lg bg-black/30 border border-white/5 text-[11px] text-gray-400 space-y-1">
-              <div><strong className="text-gray-300">Authorized Admin:</strong> usmanshahidhnd2108@gmail.com</div>
-              <div><strong className="text-gray-300">Security Key:</strong> @oZhQ95XP</div>
-            </div>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              This terminal is reserved for master administrators only. Enter your authorized administrator credentials above to access database management and system analytics.
+            </p>
           </div>
         </div>
 

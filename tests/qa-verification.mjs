@@ -104,8 +104,9 @@ async function runQA() {
   const adminLogin = await fetchRoute('/admin/login');
   assert(adminLogin.status === 200, 'Admin Login /admin/login returns HTTP 200');
   assert(/admin|login/i.test(adminLogin.text), 'Admin Login page renders authentication UI');
-  assert(adminLogin.text.includes('usmanshahidhnd2108@gmail.com'), 'Admin Login page features admin credential setup');
-  assert(adminLogin.text.includes('@oZhQ95XP'), 'Admin Login page contains authorized admin credentials');
+  assert(!adminLogin.text.includes('@oZhQ95XP'), 'Admin Login page hides raw security password from public view');
+  assert(!adminLogin.text.includes('usmanshahidhnd2108@gmail.com'), 'Admin Login page conceals real admin email from public view');
+  assert(adminLogin.text.includes('admin@pubgframes.internal'), 'Admin Login page uses safe generic internal placeholder');
 
   const adminDashboard = await fetchRoute('/admin');
   assert(adminDashboard.status === 200, 'Admin Dashboard /admin returns HTTP 200');
