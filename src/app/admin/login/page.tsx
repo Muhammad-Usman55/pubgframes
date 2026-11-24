@@ -13,6 +13,9 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const expectedEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'usmanshahidhnd2108@gmail.com').toLowerCase().trim();
+  const expectedPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '@oZhQ95XP';
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -28,7 +31,7 @@ export default function AdminLoginPage() {
         });
         if (sbError) {
           // Check authorized admin credentials fallback
-          if (email.trim().toLowerCase() === 'usmanshahidhnd2108@gmail.com' && password === '@oZhQ95XP') {
+          if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
             localStorage.setItem('pubgframes_admin_auth', 'true');
             localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
             router.push('/admin');
@@ -45,7 +48,7 @@ export default function AdminLoginPage() {
       }
 
       // Local / Offline fallback mode with designated credentials
-      if (email.trim().toLowerCase() === 'usmanshahidhnd2108@gmail.com' && password === '@oZhQ95XP') {
+      if (email.trim().toLowerCase() === expectedEmail && password === expectedPassword) {
         localStorage.setItem('pubgframes_admin_auth', 'true');
         localStorage.setItem('pubgframes_admin_user', email.trim().toLowerCase());
         router.push('/admin');
@@ -60,8 +63,8 @@ export default function AdminLoginPage() {
   };
 
   const fillDemoCredentials = () => {
-    setEmail('usmanshahidhnd2108@gmail.com');
-    setPassword('@oZhQ95XP');
+    setEmail(expectedEmail);
+    setPassword(expectedPassword);
   };
 
   return (
