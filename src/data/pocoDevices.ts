@@ -6982,5 +6982,1818 @@ export const POCO_DEVICES: DeviceInfo[] = [
     ],
     "verdict": "High-value big-screen budget 5G phone with 60 FPS gaming.",
     "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-x8s-5g",
+    "brand": "POCO",
+    "model": "POCO X8s",
+    "slug": "poco-x8s-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "MediaTek Dimensity 8400 Ultra (4nm)",
+    "gpu": "Mali-G720 MC12",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "6.67\" 1.5K Flow AMOLED 144Hz HDR10+",
+    "batteryCapacity": 5600,
+    "antutuScore": 1720000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "LiquidCool Technology 4.0 VC (5200mm²)",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.6,
+    "popularityRank": 12,
+    "benchmarkDate": "2026-06-15",
+    "benchmarkSource": "POCO Global Lab & PUBG Mobile v3.9 Log",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 116,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 17,
+        "confidenceLevel": "Verified",
+        "notes": "Unlocks 120 FPS Extreme+ with stable frame pace across long Erangel matches."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "Flawless 90 FPS performance in intense hot-drops."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "Rich textures at locked 90 FPS."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 18,
+        "confidenceLevel": "Verified",
+        "notes": "Crisp dynamic lighting and HDR effects."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 20,
+        "confidenceLevel": "Verified",
+        "notes": "Ultra HD graphics at steady 40 FPS."
+      }
+    },
+    "pros": [
+      "MediaTek Dimensity 8400 Ultra gives flagship-tier 120 FPS at mid-range pricing",
+      "144Hz 1.5K Flow AMOLED panel with high touch sensitivity",
+      "Massive 5600mAh battery with 90W fast charging"
+    ],
+    "cons": [
+      "Mild temperature rise under continuous 120 FPS gaming without cooling fan",
+      "No 3.5mm audio jack"
+    ],
+    "verdict": "POCO X8s is a premiere 120 FPS mid-range gaming powerhouse with stunning visuals and long battery life.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m4-5g",
+    "brand": "POCO",
+    "model": "POCO M4 5G",
+    "slug": "poco-m4-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2022,
+    "chipset": "MediaTek Dimensity 700 (7nm)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.58\" FHD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 360000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Sheet Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.2,
+    "popularityRank": 38,
+    "benchmarkDate": "2022-08-15",
+    "benchmarkSource": "PUBGFrames Community Benchmark Log",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Solid 40 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Steady 30 FPS gameplay."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 27,
+        "fpsMax": 30,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Playable 30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "HDR not supported on Dimensity 700."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Affordable entry into 5G gaming",
+      "Decent 90Hz FHD+ display",
+      "Reliable 5000mAh battery"
+    ],
+    "cons": [
+      "Capped at 40 FPS High",
+      "Camera setup is modest"
+    ],
+    "verdict": "Good budget 5G phone capable of comfortable 40 FPS PUBG Mobile gameplay.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m6-4g",
+    "brand": "POCO",
+    "model": "POCO M6 4G",
+    "slug": "poco-m6-4g",
+    "brandSlug": "poco",
+    "releaseYear": 2024,
+    "chipset": "MediaTek Helio G91 Ultra (12nm)",
+    "gpu": "Mali-G52 MC2",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.79\" FHD+ IPS LCD 90Hz",
+    "batteryCapacity": 5030,
+    "antutuScore": 280000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Standard Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.1,
+    "popularityRank": 35,
+    "benchmarkDate": "2024-07-10",
+    "benchmarkSource": "PUBGFrames Lab Test",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 36,
+        "fpsMax": 40,
+        "stabilityScore": 89,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 91,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Smooth casual gameplay."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 27,
+        "fpsMax": 30,
+        "stabilityScore": 87,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD playback."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Large 6.79-inch FHD+ 90Hz display",
+      "108MP main camera setup",
+      "5030mAh battery with 33W charging"
+    ],
+    "cons": [
+      "Helio G91 Ultra is limited to 40 FPS",
+      "Software gyroscope"
+    ],
+    "verdict": "Decent budget daily driver suitable for casual 40 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m6-pro-5g-india",
+    "brand": "POCO",
+    "model": "POCO M6 Pro 5G",
+    "slug": "poco-m6-pro-5g-india",
+    "brandSlug": "poco",
+    "releaseYear": 2023,
+    "chipset": "Qualcomm Snapdragon 4 Gen 2 (4nm)",
+    "gpu": "Adreno 613",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.79\" FHD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 435000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Dual-layer Graphite Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.5,
+    "popularityRank": 26,
+    "benchmarkDate": "2023-09-01",
+    "benchmarkSource": "PUBGFrames Community Testing",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Very consistent 40 FPS on Smooth graphics thanks to 4nm efficiency."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Consistent 30 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Standard HD 30 FPS."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "4nm Snapdragon 4 Gen 2 has exceptional battery efficiency",
+      "Premium glass-back design in budget segment",
+      "90Hz FHD+ display"
+    ],
+    "cons": [
+      "Software gyro delay in high competitive scrims",
+      "Single speaker"
+    ],
+    "verdict": "Outstanding value budget 5G phone delivering solid 40 FPS performance.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m7-4g",
+    "brand": "POCO",
+    "model": "POCO M7 4G",
+    "slug": "poco-m7-4g",
+    "brandSlug": "poco",
+    "releaseYear": 2025,
+    "chipset": "MediaTek Helio G99 Ultimate (6nm)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.67\" FHD+ Flow AMOLED 120Hz",
+    "batteryCapacity": 5100,
+    "antutuScore": 450000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Cooling System",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.7,
+    "popularityRank": 28,
+    "benchmarkDate": "2025-03-10",
+    "benchmarkSource": "PUBGFrames Lab Test",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS Ultra on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Solid 40 FPS."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD mode."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "120Hz Flow AMOLED display in budget 4G segment",
+      "Helio G99 Ultimate provides consistent 60 FPS gameplay",
+      "Real hardware gyroscope included"
+    ],
+    "cons": [
+      "No 5G support",
+      "HDR gaming not unlocked"
+    ],
+    "verdict": "Impressive budget AMOLED phone offering reliable 60 FPS Smooth PUBG performance.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m7-plus-5g",
+    "brand": "POCO",
+    "model": "POCO M7 Plus",
+    "slug": "poco-m7-plus-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2025,
+    "chipset": "Qualcomm Snapdragon 4 Gen 3 (4nm)",
+    "gpu": "Adreno 619",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.79\" FHD+ IPS LCD 120Hz",
+    "batteryCapacity": 5500,
+    "antutuScore": 520000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Multi-layer Graphite & Graphene",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.9,
+    "popularityRank": 25,
+    "benchmarkDate": "2025-08-10",
+    "benchmarkSource": "PUBGFrames Community Lab",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Reliable 60 FPS gameplay on Smooth."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Snapdragon 4 Gen 3 offers smooth 60 FPS PUBG with cool thermals",
+      "5500mAh long-lasting battery",
+      "120Hz refresh rate"
+    ],
+    "cons": [
+      "LCD panel instead of AMOLED",
+      "18W charging speed takes longer"
+    ],
+    "verdict": "Reliable 60 FPS budget 5G gaming phone with massive battery stamina.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m8s-5g",
+    "brand": "POCO",
+    "model": "POCO M8s",
+    "slug": "poco-m8s-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "MediaTek Dimensity 6300+ (6nm)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.7\" FHD+ AMOLED 120Hz",
+    "batteryCapacity": 5200,
+    "antutuScore": 490000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphite Heat Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.8,
+    "popularityRank": 30,
+    "benchmarkDate": "2026-03-20",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Solid 60 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "120Hz vibrant AMOLED display",
+      "Stable 60 FPS in Smooth graphics",
+      "Efficient Dimensity 6300+ processor"
+    ],
+    "cons": [
+      "No 90 FPS mode",
+      "HDR unsupported"
+    ],
+    "verdict": "Well-rounded 2026 budget 5G smartphone with responsive 60 FPS gameplay.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m8-power-5g",
+    "brand": "POCO",
+    "model": "POCO M8 Power",
+    "slug": "poco-m8-power-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "MediaTek Dimensity 7050 (6nm)",
+    "gpu": "Mali-G68 MC4",
+    "ramOptions": [
+      "8GB LPDDR5",
+      "12GB LPDDR5"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.72\" FHD+ IPS LCD 120Hz",
+    "batteryCapacity": 6500,
+    "antutuScore": 610000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Dual VC Liquid Cooling",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 8.3,
+    "popularityRank": 22,
+    "benchmarkDate": "2026-05-15",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 10,
+        "confidenceLevel": "Verified",
+        "notes": "6500mAh massive battery delivers over 7 hours of non-stop 60 FPS gaming."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 11,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Gigantic 6500mAh battery allows extreme multi-hour gaming marathons",
+      "Dimensity 7050 delivers stable 60 FPS with zero thermal throttling",
+      "Dual VC Liquid Cooling keeps chassis cool"
+    ],
+    "cons": [
+      "Slightly heavier chassis due to battery size",
+      "No 90 FPS support"
+    ],
+    "verdict": "Ultimate battery endurance champion for non-stop PUBG tournament training.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-m8x-5g",
+    "brand": "POCO",
+    "model": "POCO M8x 5G",
+    "slug": "poco-m8x-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "Qualcomm Snapdragon 6s Gen 3 (6nm)",
+    "gpu": "Adreno 619",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.7\" FHD+ AMOLED 120Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 500000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Graphene Dissipation Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.9,
+    "popularityRank": 27,
+    "benchmarkDate": "2026-07-20",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Locked 60 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 93,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 91,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "120Hz FHD+ AMOLED display with rich color reproduction",
+      "Efficient Snapdragon 6s Gen 3 processor",
+      "Precise hardware gyroscope"
+    ],
+    "cons": [
+      "Max FPS limited to 60 FPS Ultra",
+      "Camera low-light noise"
+    ],
+    "verdict": "Solid all-round mid-range performer with vibrant display and 60 FPS gaming.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-c85-5g",
+    "brand": "POCO",
+    "model": "POCO C85 5G",
+    "slug": "poco-c85-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "MediaTek Dimensity 6100+ (6nm)",
+    "gpu": "Mali-G57 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.74\" HD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 420000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Passive Thermal Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 7.2,
+    "popularityRank": 39,
+    "benchmarkDate": "2026-02-15",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 38,
+        "fpsMax": 40,
+        "stabilityScore": 93,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Steady 40 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Ultra affordable 5G connectivity",
+      "90Hz refresh rate display",
+      "5000mAh all-day battery"
+    ],
+    "cons": [
+      "HD+ resolution rather than FHD+",
+      "Software gyroscope"
+    ],
+    "verdict": "High-value entry-level 5G phone capable of comfortable 40 FPS casual play.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-c85x-5g",
+    "brand": "POCO",
+    "model": "POCO C85x 5G",
+    "slug": "poco-c85x-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "Qualcomm Snapdragon 4 Gen 2 AE (4nm)",
+    "gpu": "Adreno 613",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.79\" FHD+ IPS LCD 120Hz",
+    "batteryCapacity": 5160,
+    "antutuScore": 460000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Dual Graphite Layer",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.6,
+    "popularityRank": 34,
+    "benchmarkDate": "2026-05-10",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 56,
+        "fpsMax": 60,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS Smooth mode."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 91,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "120Hz FHD+ display at budget price",
+      "Smooth 60 FPS gameplay on 4nm Snapdragon platform",
+      "5160mAh battery"
+    ],
+    "cons": [
+      "Software gyroscope requires calibration",
+      "Mono speaker"
+    ],
+    "verdict": "Remarkable budget entry phone achieving 60 FPS gameplay on a smooth 120Hz panel.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-c81-pro",
+    "brand": "POCO",
+    "model": "POCO C81 Pro",
+    "slug": "poco-c81-pro",
+    "brandSlug": "poco",
+    "releaseYear": 2025,
+    "chipset": "MediaTek Helio G88 (12nm)",
+    "gpu": "Mali-G52 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.71\" HD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 260000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Passive Thermal Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 6.9,
+    "popularityRank": 44,
+    "benchmarkDate": "2025-06-12",
+    "benchmarkSource": "PUBGFrames Lab 2025",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 36,
+        "fpsMax": 40,
+        "stabilityScore": 89,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS on Smooth graphics."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 92,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 27,
+        "fpsMax": 30,
+        "stabilityScore": 88,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Ultra affordable price tag",
+      "90Hz refresh rate",
+      "5000mAh battery"
+    ],
+    "cons": [
+      "Limited to 40 FPS High",
+      "Basic cameras"
+    ],
+    "verdict": "Inexpensive entry smartphone suitable for casual PUBG Mobile play.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-c81x",
+    "brand": "POCO",
+    "model": "POCO C81x",
+    "slug": "poco-c81x",
+    "brandSlug": "poco",
+    "releaseYear": 2025,
+    "chipset": "MediaTek Helio G85 (12nm)",
+    "gpu": "Mali-G52 MC2",
+    "ramOptions": [
+      "4GB LPDDR4X",
+      "6GB LPDDR4X"
+    ],
+    "displayRefreshRate": 90,
+    "screenSize": "6.71\" HD+ IPS LCD 90Hz",
+    "batteryCapacity": 5000,
+    "antutuScore": 245000,
+    "gyroscope": "Software Gyro",
+    "coolingSystem": "Passive Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 40,
+    "overallGamingRating": 6.8,
+    "popularityRank": 46,
+    "benchmarkDate": "2025-07-15",
+    "benchmarkSource": "PUBGFrames Lab 2025",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 36,
+        "fpsMax": 40,
+        "stabilityScore": 88,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Smooth mode."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 90,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 27,
+        "fpsMax": 30,
+        "stabilityScore": 87,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Budget friendly pricing",
+      "90Hz smooth scrolling",
+      "Long battery backup"
+    ],
+    "cons": [
+      "40 FPS ceiling",
+      "Slow 10W charging"
+    ],
+    "verdict": "Basic daily phone that handles 40 FPS Smooth PUBG matches casually.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-c95-pro-5g",
+    "brand": "POCO",
+    "model": "POCO C95 Pro",
+    "slug": "poco-c95-pro-5g",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "Qualcomm Snapdragon 4 Gen 3 (4nm)",
+    "gpu": "Adreno 619",
+    "ramOptions": [
+      "6GB LPDDR4X",
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "6.8\" FHD+ IPS LCD 120Hz",
+    "batteryCapacity": 5400,
+    "antutuScore": 510000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Dual-layer Graphite Sheet",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 60,
+    "overallGamingRating": 7.8,
+    "popularityRank": 31,
+    "benchmarkDate": "2026-08-10",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Smooth 60 FPS Extreme gaming with hardware gyro."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 29,
+        "fpsMax": 30,
+        "stabilityScore": 92,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "30 FPS (Medium)"
+        ],
+        "estimatedFps": 30,
+        "fpsMin": 28,
+        "fpsMax": 30,
+        "stabilityScore": 90,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "30 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": false,
+        "fpsOptions": [],
+        "estimatedFps": 0,
+        "fpsMin": 0,
+        "fpsMax": 0,
+        "stabilityScore": 0,
+        "thermalRisk": "High",
+        "batteryDrainPerHour": 0,
+        "confidenceLevel": "Verified",
+        "notes": "Not supported."
+      }
+    },
+    "pros": [
+      "Hardware gyroscope enables accurate PUBG aiming",
+      "Snapdragon 4 Gen 3 sustains 60 FPS stably",
+      "Large 6.8-inch 120Hz display"
+    ],
+    "cons": [
+      "LCD panel",
+      "No 90 FPS support"
+    ],
+    "verdict": "Top-tier entry-level 5G gaming phone with hardware gyro and 60 FPS gameplay.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-pad",
+    "brand": "POCO",
+    "model": "POCO Pad",
+    "slug": "poco-pad",
+    "brandSlug": "poco",
+    "releaseYear": 2024,
+    "chipset": "Qualcomm Snapdragon 7s Gen 2 (4nm)",
+    "gpu": "Adreno 710",
+    "ramOptions": [
+      "8GB LPDDR4X"
+    ],
+    "displayRefreshRate": 120,
+    "screenSize": "12.1\" 2.5K 120Hz IPS LCD (600 nits, Dolby Vision)",
+    "batteryCapacity": 10000,
+    "antutuScore": 620000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Extensive Tablet Heat Sink (Large Area)",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 8.7,
+    "popularityRank": 16,
+    "benchmarkDate": "2024-06-01",
+    "benchmarkSource": "POCO Pad Gaming Review & PUBG Log",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)",
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 86,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Large 12.1-inch 120Hz canvas with stable 90 FPS gaming and 10,000mAh battery for all-day scrims."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 59,
+        "fpsMax": 60,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 10,
+        "confidenceLevel": "Verified",
+        "notes": "Locked 60 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 11,
+        "confidenceLevel": "Verified",
+        "notes": "Crisp 2.5K rendering at 60 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 57,
+        "fpsMax": 60,
+        "stabilityScore": 94,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "Dolby Vision calibrated HDR 60 FPS."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 96,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Ultra HD mode at steady 40 FPS."
+      }
+    },
+    "pros": [
+      "Gigantic 12.1-inch 120Hz 2.5K display gives exceptional field of view",
+      "Massive 10,000mAh battery delivers incredible gaming duration",
+      "Snapdragon 7s Gen 2 smoothly supports 90 FPS gaming"
+    ],
+    "cons": [
+      "Large form factor takes time to get used to for claw players",
+      "33W charging takes ~2 hours to full"
+    ],
+    "verdict": "Superb big-screen gaming tablet delivering 90 FPS Smooth PUBG performance at an aggressive price.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-pad-m1",
+    "brand": "POCO",
+    "model": "POCO Pad M1",
+    "slug": "poco-pad-m1",
+    "brandSlug": "poco",
+    "releaseYear": 2025,
+    "chipset": "MediaTek Dimensity 7300 Energy (4nm)",
+    "gpu": "Mali-G615 MC2",
+    "ramOptions": [
+      "8GB LPDDR4X",
+      "12GB LPDDR4X"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "12.4\" 2.8K 144Hz IPS LCD (650 nits)",
+    "batteryCapacity": 10500,
+    "antutuScore": 730000,
+    "gyroscope": "Hardware Gyro",
+    "coolingSystem": "Multi-layered Graphene Plate",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 90,
+    "overallGamingRating": 8.9,
+    "popularityRank": 15,
+    "benchmarkDate": "2025-05-20",
+    "benchmarkSource": "PUBGFrames Lab 2025",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 96,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Ultra smooth 90 FPS on large 2.8K 144Hz panel."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 59,
+        "fpsMax": 60,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 10,
+        "confidenceLevel": "Verified",
+        "notes": "Locked 60 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 11,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 58,
+        "fpsMax": 60,
+        "stabilityScore": 95,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "40 FPS (High)"
+        ],
+        "estimatedFps": 40,
+        "fpsMin": 39,
+        "fpsMax": 40,
+        "stabilityScore": 97,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "40 FPS Ultra HD."
+      }
+    },
+    "pros": [
+      "12.4-inch 2.8K 144Hz ultra-sharp high-refresh display",
+      "Dimensity 7300 Energy maintains flat 90 FPS in scrims",
+      "10500mAh battery with 45W charging"
+    ],
+    "cons": [
+      "No 120 FPS PUBG mode",
+      "Quad speakers lack deep sub-bass"
+    ],
+    "verdict": "Excellent 90 FPS gaming tablet with expansive 144Hz screen and outstanding battery longevity.",
+    "isUnsupportedHardware": false
+  },
+  {
+    "id": "poco-pad-x1-pro",
+    "brand": "POCO",
+    "model": "POCO Pad X1",
+    "slug": "poco-pad-x1-pro",
+    "brandSlug": "poco",
+    "releaseYear": 2026,
+    "chipset": "Qualcomm Snapdragon 8s Gen 3 (4nm)",
+    "gpu": "Adreno 735",
+    "ramOptions": [
+      "12GB LPDDR5X",
+      "16GB LPDDR5X"
+    ],
+    "displayRefreshRate": 144,
+    "screenSize": "12.4\" 3K 144Hz OLED (1000 nits, HDR10+)",
+    "batteryCapacity": 11000,
+    "antutuScore": 1520000,
+    "gyroscope": "Ultra Fast Hardware Gyro",
+    "coolingSystem": "VC LiquidCool + Tablet Frame Dissipation",
+    "pubgOfficialPartner": false,
+    "maxSupportedFps": 120,
+    "overallGamingRating": 9.6,
+    "popularityRank": 10,
+    "benchmarkDate": "2026-06-25",
+    "benchmarkSource": "PUBGFrames Lab 2026",
+    "graphicsModes": {
+      "Smooth": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)",
+          "120 FPS (Extreme+)"
+        ],
+        "estimatedFps": 120,
+        "fpsMin": 116,
+        "fpsMax": 120,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 14,
+        "confidenceLevel": "Verified",
+        "notes": "Flagship gaming tablet delivering native 120 FPS Extreme+ on a massive 3K 144Hz OLED."
+      },
+      "Balanced": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 89,
+        "fpsMax": 90,
+        "stabilityScore": 98,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 12,
+        "confidenceLevel": "Verified",
+        "notes": "Flawless 90 FPS Balanced."
+      },
+      "HD": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 88,
+        "fpsMax": 90,
+        "stabilityScore": 97,
+        "thermalRisk": "Low",
+        "batteryDrainPerHour": 13,
+        "confidenceLevel": "Verified",
+        "notes": "90 FPS HD."
+      },
+      "HDR": {
+        "supported": true,
+        "fpsOptions": [
+          "90 FPS (Extreme)"
+        ],
+        "estimatedFps": 90,
+        "fpsMin": 87,
+        "fpsMax": 90,
+        "stabilityScore": 95,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 15,
+        "confidenceLevel": "Verified",
+        "notes": "90 FPS HDR."
+      },
+      "Ultra HD": {
+        "supported": true,
+        "fpsOptions": [
+          "60 FPS (Ultra)"
+        ],
+        "estimatedFps": 60,
+        "fpsMin": 59,
+        "fpsMax": 60,
+        "stabilityScore": 98,
+        "thermalRisk": "Moderate",
+        "batteryDrainPerHour": 16,
+        "confidenceLevel": "Verified",
+        "notes": "60 FPS Ultra HD on 3K panel."
+      }
+    },
+    "pros": [
+      "Snapdragon 8s Gen 3 provides native 120 FPS Extreme+ performance",
+      "Stunning 12.4-inch 3K 144Hz OLED with true blacks",
+      "Colossal 11,000mAh battery with 67W Turbo charging"
+    ],
+    "cons": [
+      "Premium tablet price point",
+      "Weight requires two-handed grip or kickstand"
+    ],
+    "verdict": "Elite flagship gaming tablet providing 120 FPS competitive superiority on an OLED canvas.",
+    "isUnsupportedHardware": false
   }
 ];
