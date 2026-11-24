@@ -174,6 +174,9 @@ export function searchDevicesWithFuzzy(
   }
 
   if (!cleanQuery) {
+    if (options?.limit && options.limit > 0) {
+      return pool.slice(0, options.limit);
+    }
     return pool;
   }
 

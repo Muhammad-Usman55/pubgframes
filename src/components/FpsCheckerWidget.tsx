@@ -171,6 +171,7 @@ Check yours at https://pubgframes.com`;
                     placeholder="Enter mobile name"
                     value={searchQuery}
                     onFocus={() => setIsDropdownOpen(true)}
+                    onClick={() => setIsDropdownOpen(true)}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
                       setIsDropdownOpen(true);
@@ -250,7 +251,7 @@ Check yours at https://pubgframes.com`;
                     <div className="space-y-1">
                       {filteredDevices.map((device) => (
                         <button
-                          key={device.id}
+                          key={`${device.id}-${device.slug}`}
                           type="button"
                           onClick={() => handleSelectDevice(device)}
                           className={`w-full flex items-center justify-between p-2.5 rounded-md text-left text-base transition-colors duration-150 cursor-pointer ${
@@ -287,7 +288,17 @@ Check yours at https://pubgframes.com`;
               </div>
 
               {/* Selected Device Display BELOW Search Input */}
-              <div className="w-full flex items-center justify-between gap-3 p-3.5 rounded-md bg-[#eef0f3]">
+              <div
+                onClick={() => {
+                  if (!selectedDevice) {
+                    setIsDropdownOpen(true);
+                    searchInputRef.current?.focus();
+                  }
+                }}
+                className={`w-full flex items-center justify-between gap-3 p-3.5 rounded-md bg-[#eef0f3] ${
+                  !selectedDevice ? 'cursor-pointer hover:bg-[#e2e5ea] transition-colors duration-150' : ''
+                }`}
+              >
                 <div className="flex items-center gap-3 overflow-hidden">
                   <Smartphone
                     className={`w-5 h-5 shrink-0 ${selectedDevice ? 'text-[#1f2de6]' : 'text-[#3d4350]'}`}
@@ -318,15 +329,19 @@ Check yours at https://pubgframes.com`;
                 {selectedDevice ? (
                   <button
                     type="button"
-                    onClick={handleClearDevice}
-                    className="text-[#3d4350] hover:text-[#0b0c0e] text-sm font-medium ml-2 shrink-0 px-2 py-1 rounded bg-[#ffffff] cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleClearDevice();
+                    }}
+                    className="text-[#3d4350] hover:text-[#0b0c0e] text-sm font-medium ml-2 shrink-0 px-2.5 py-1 rounded bg-[#ffffff] cursor-pointer"
                   >
                     Clear
                   </button>
                 ) : (
                   <button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       soundEffects.playClick();
                       setIsDropdownOpen(!isDropdownOpen);
                       searchInputRef.current?.focus();

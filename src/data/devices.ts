@@ -1275,13 +1275,21 @@ const RAW_DEVICES: DeviceInfo[] = [
   ...GLOBAL_BRANDS_DEVICES
 ];
 
-// De-duplicate devices by brandSlug + slug ensuring clean uniqueness across static generation
+// De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
 const seenDeviceKeys = new Set<string>();
+const seenDeviceIds = new Set<string>();
 export const DEVICES_DATA: DeviceInfo[] = RAW_DEVICES.filter((d) => {
   const key = `${d.brandSlug.toLowerCase()}/${d.slug.toLowerCase()}`;
   if (seenDeviceKeys.has(key)) return false;
   seenDeviceKeys.add(key);
   return true;
+}).map((d) => {
+  let uniqueId = d.id;
+  if (seenDeviceIds.has(uniqueId)) {
+    uniqueId = d.slug && !seenDeviceIds.has(d.slug) ? d.slug : `${d.brandSlug}-${d.slug}`;
+  }
+  seenDeviceIds.add(uniqueId);
+  return uniqueId === d.id ? d : { ...d, id: uniqueId };
 });
 
 export const ALL_BRANDS = Array.from(new Set(DEVICES_DATA.map((d) => d.brand))).sort();
