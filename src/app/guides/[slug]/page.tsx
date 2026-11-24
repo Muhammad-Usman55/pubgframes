@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { GUIDES_DATA, getGuideBySlug } from '@/data/guides';
-import { BookOpen, Clock, Calendar, ChevronRight, Zap, ShieldCheck, ArrowLeft, Share2 } from 'lucide-react';
+import { Clock, Calendar, ChevronRight, Check } from 'lucide-react';
 
 interface GuideArticleProps {
   params: Promise<{ slug: string }>;
@@ -56,78 +56,72 @@ export default async function GuideDetailPage({ params }: GuideArticleProps) {
   };
 
   return (
-    <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <article className="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb Navigation */}
-      <nav className="flex items-center gap-2 text-xs text-gray-400">
-        <Link href="/" className="hover:text-white">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <Link href="/guides" className="hover:text-white">Guides</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-[#FFD400] font-bold truncate">{guide.title}</span>
+      <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-[14px] text-[#525866]">
+        <Link href="/" className="hover:text-[#0b0c0e]">Home</Link>
+        <ChevronRight className="w-4 h-4" />
+        <Link href="/guides" className="hover:text-[#0b0c0e]">Guides</Link>
+        <ChevronRight className="w-4 h-4" />
+        <span className="text-[#0b0c0e] font-medium truncate">{guide.title}</span>
       </nav>
 
-      {/* Article Header */}
-      <header className="space-y-4 pb-6 border-b border-white/10">
-        <div className="flex items-center gap-3 text-xs">
-          <span className="px-3 py-1 rounded-full bg-[#FFD400]/10 border border-[#FFD400]/30 text-[#FFD400] font-bold">
+      <header className="space-y-4 pb-6">
+        <div className="flex flex-wrap items-center gap-3 text-[13px] text-[#525866]">
+          <span className="px-2.5 py-1 rounded bg-[#e2e5ea] text-[#0b0c0e] font-medium">
             {guide.category}
           </span>
-          <span className="text-gray-400 flex items-center gap-1">
+          <span className="inline-flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5" />
             {guide.readTime}
           </span>
-          <span className="text-gray-400 flex items-center gap-1">
+          <span className="inline-flex items-center gap-1.5 tabular-nums">
             <Calendar className="w-3.5 h-3.5" />
             {guide.publishedDate}
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight leading-tight">
+        <h1 className="text-[30px] sm:text-[42px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
           {guide.title}
         </h1>
 
-        <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-normal">
+        <p className="text-[17px] text-[#525866] leading-relaxed">
           {guide.subtitle}
         </p>
 
-        {/* Author byline */}
-        <div className="pt-2 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#171D21] border border-white/10 flex items-center justify-center font-bold text-[#FFD400] text-xs">
-              {guide.author.name.slice(0, 2).toUpperCase()}
-            </div>
-            <div>
-              <div className="text-xs font-bold text-white">{guide.author.name}</div>
-              <div className="text-[11px] text-gray-400">{guide.author.role}</div>
-            </div>
+        <div className="pt-2 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#111317] text-white flex items-center justify-center font-medium text-xs">
+            {guide.author.name.slice(0, 2).toUpperCase()}
+          </div>
+          <div>
+            <div className="text-[14px] font-semibold text-[#0b0c0e]">{guide.author.name}</div>
+            <div className="text-[13px] text-[#525866]">{guide.author.role}</div>
           </div>
         </div>
       </header>
 
-      {/* Article Body Content */}
-      <div className="space-y-8 text-gray-200 leading-relaxed text-sm sm:text-base">
+      <div className="space-y-8 text-[#0b0c0e] leading-relaxed text-[16px] sm:text-[17px]">
         {guide.content.map((section, idx) => (
           <section key={idx} className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            <h2 className="text-2xl font-semibold tracking-tight text-[#0b0c0e]">
               {section.sectionTitle}
             </h2>
 
             {section.paragraphs.map((p, pIdx) => (
-              <p key={pIdx} className="text-gray-300 leading-relaxed">
+              <p key={pIdx} className="text-[#272b33] leading-relaxed">
                 {p}
               </p>
             ))}
 
             {section.bulletPoints && section.bulletPoints.length > 0 && (
-              <ul className="space-y-2 p-4 rounded-xl bg-[#171D21] border border-white/5 text-xs sm:text-sm">
+              <ul className="space-y-2.5 p-5 rounded-lg bg-[#ffffff] border border-[#e2e5ea] text-[15px]">
                 {section.bulletPoints.map((bp, bpIdx) => (
                   <li key={bpIdx} className="flex items-start gap-2.5">
-                    <span className="text-[#39F56A] font-bold">✓</span>
+                    <Check className="w-4 h-4 text-[#15803d] shrink-0 mt-1" />
                     <span>{bp}</span>
                   </li>
                 ))}
@@ -135,11 +129,8 @@ export default async function GuideDetailPage({ params }: GuideArticleProps) {
             )}
 
             {section.proTip && (
-              <div className="p-4 rounded-xl bg-[#FFD400]/10 border border-[#FFD400]/30 text-xs sm:text-sm text-yellow-200 space-y-1">
-                <div className="font-extrabold text-[#FFD400] uppercase tracking-wide flex items-center gap-1.5 text-xs">
-                  <Zap className="w-3.5 h-3.5 fill-current" />
-                  <span>Pro Tip from PUBGFrames Lab</span>
-                </div>
+              <div className="p-5 rounded-lg bg-[#e2e5ea] text-[15px] text-[#0b0c0e] space-y-1">
+                <div className="font-semibold text-[#1f2de6]">Lab Note</div>
                 <p className="leading-relaxed">{section.proTip}</p>
               </div>
             )}
@@ -147,22 +138,19 @@ export default async function GuideDetailPage({ params }: GuideArticleProps) {
         ))}
       </div>
 
-      {/* Bottom CTA Box */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#171D21] border border-[#FFD400]/30 space-y-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h3 className="text-lg font-black text-white">Wondering how your device performs?</h3>
-            <p className="text-xs text-gray-400 mt-0.5">
-              Run our verified benchmark calculator on your exact smartphone model.
-            </p>
-          </div>
-          <Link
-            href="/fps-checker"
-            className="px-6 py-3 rounded-full bg-[#FFD400] text-black font-extrabold text-xs hover:bg-yellow-400 whitespace-nowrap"
-          >
-            Check My FPS Now →
-          </Link>
+      <div className="p-6 sm:p-8 rounded-lg bg-[#111317] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-semibold">Check your phone’s FPS</h3>
+          <p className="text-[14px] text-[#a6aebc] mt-1">
+            Look up frame rate limits and heat ratings for your exact device model.
+          </p>
         </div>
+        <Link
+          href="/fps-checker"
+          className="px-5 py-3 rounded-md bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium text-[15px] shrink-0"
+        >
+          Open FPS Checker
+        </Link>
       </div>
     </article>
   );

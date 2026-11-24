@@ -1,30 +1,25 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { MobileBottomNav } from '@/components/MobileBottomNav';
+import { MotionObserver } from '@/components/MotionObserver';
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-inter'
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-space'
+  variable: '--font-jakarta'
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://pubgframes.com'),
   title: {
-    default: 'PUBGFrames — Check Your PUBG FPS. Play Better.',
+    default: 'PUBGFrames — Check Your Phone’s PUBG Frame Rate',
     template: '%s | PUBGFrames'
   },
   description:
-    'Discover how your smartphone performs in PUBG Mobile. Select your device, choose your graphics settings (Smooth, Balanced, HD, Ultra HD), and explore verified estimated gaming FPS.',
+    'Look up verified PUBG Mobile frame rates, graphics presets, thermal heat behavior, and gyroscope hardware ratings across 1,630+ smartphones and tablets.',
   keywords: [
     'PUBG FPS Checker',
     'PUBG Mobile FPS Calculator',
@@ -35,7 +30,7 @@ export const metadata: Metadata = {
     'PUBG Mobile Benchmark',
     'Snapdragon vs Dimensity PUBG'
   ],
-  authors: [{ name: 'PUBGFrames Gaming Labs' }],
+  authors: [{ name: 'PUBGFrames Hardware Lab' }],
   creator: 'PUBGFrames',
   publisher: 'PUBGFrames',
   formatDetection: {
@@ -48,9 +43,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://pubgframes.com',
     siteName: 'PUBGFrames',
-    title: 'PUBGFrames — Check Your PUBG FPS Like Never Before!',
+    title: 'PUBGFrames — Check Your Phone’s PUBG Frame Rate',
     description:
-      'Check real-time FPS estimates, compare graphics modes, and find the best gaming phones for PUBG Mobile.',
+      'Verified PUBG Mobile FPS limits, graphics modes, and thermal comparisons across 1,630+ phones.',
     images: [
       {
         url: '/hero-reference.jpg',
@@ -62,9 +57,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PUBGFrames — Check Your PUBG FPS. Play Better.',
+    title: 'PUBGFrames — Check Your Phone’s PUBG Frame Rate',
     description:
-      'Check real-time FPS estimates, compare graphics modes, and find the best gaming phones for PUBG Mobile.',
+      'Verified FPS limits, graphics modes, and thermal comparisons for PUBG Mobile.',
     images: ['/hero-reference.jpg']
   },
   icons: {
@@ -94,7 +89,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#080B0D',
+  themeColor: '#eef0f3',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -114,11 +109,11 @@ export default function RootLayout({
         '@id': 'https://pubgframes.com/#website',
         url: 'https://pubgframes.com',
         name: 'PUBGFrames',
-        description: 'Verified PUBG Mobile FPS & Hardware Benchmark Database for 628+ Smartphones',
+        description: 'PUBG Mobile frame rate and smartphone gaming hardware database for 1,630+ phones and tablets',
         publisher: {
           '@type': 'Organization',
           '@id': 'https://pubgframes.com/#organization',
-          name: 'PUBGFrames Gaming Labs',
+          name: 'PUBGFrames',
           url: 'https://pubgframes.com',
           logo: {
             '@type': 'ImageObject',
@@ -139,12 +134,12 @@ export default function RootLayout({
       {
         '@type': 'WebApplication',
         '@id': 'https://pubgframes.com/#webapp',
-        name: 'PUBGFrames FPS Estimator',
+        name: 'PUBGFrames FPS Checker',
         url: 'https://pubgframes.com',
         applicationCategory: 'GameApplication',
         operatingSystem: 'Android, iOS',
         description:
-          'Smartphone gaming performance information platform and FPS estimator for PUBG Mobile players.',
+          'Smartphone gaming performance lookup and PUBG Mobile frame rate calculator.',
         offers: {
           '@type': 'Offer',
           price: '0',
@@ -155,9 +150,11 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`dark scroll-smooth ${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`scroll-smooth ${jakarta.variable}`}>
       <head>
-        {/* Browser Tab Favicon & App Icons */}
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap" rel="stylesheet" />
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -167,11 +164,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="bg-[#080B0D] tactical-grid-bg text-gray-100 antialiased min-h-screen flex flex-col font-sans selection:bg-[#FFD400] selection:text-black">
+      <body className="bg-[#eef0f3] text-[#0b0c0e] antialiased min-h-dvh flex flex-col font-sans selection:bg-[#1f2de6] selection:text-white">
+        <MotionObserver />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
-        <MobileBottomNav />
       </body>
     </html>
   );

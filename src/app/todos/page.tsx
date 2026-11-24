@@ -22,12 +22,11 @@ async function TodosList() {
 
   if (error) {
     return (
-      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-start gap-3">
-        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-md bg-[#fef3c7] text-[#92400e] text-[14px] flex items-start gap-3">
+        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
         <div>
-          <p className="font-bold">Database Notice:</p>
-          <p className="text-gray-300 mt-1">{error.message || 'Table todos not yet created in your Supabase project or RLS enabled.'}</p>
-          <p className="text-gray-400 mt-1">Supabase client helper is configured and responding properly!</p>
+          <p className="font-semibold">Database status notice</p>
+          <p className="mt-1">{error.message || 'Table todos not yet created in Supabase or RLS enabled.'}</p>
         </div>
       </div>
     );
@@ -35,20 +34,20 @@ async function TodosList() {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-xs font-semibold text-[#39F56A]">
+      <div className="flex items-center gap-2 text-[14px] font-medium text-[#15803d]">
         <CheckCircle2 className="w-4 h-4" />
-        <span>Successfully connected to Supabase ({todos?.length ?? 0} todos found)</span>
+        <span>Connected to Supabase ({todos?.length ?? 0} entries)</span>
       </div>
       {todos && todos.length > 0 ? (
         <ul className="space-y-2">
           {todos.map((todo: any) => (
-            <li key={todo.id} className="p-3 rounded-lg bg-black/40 border border-white/5 text-xs text-white">
+            <li key={todo.id} className="p-3 rounded bg-[#f6f7f9] border border-[#e2e5ea] text-[15px] text-[#0b0c0e]">
               {todo.name || todo.title || JSON.stringify(todo)}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-xs text-gray-400 italic">No todos entries in database yet.</p>
+        <p className="text-[14px] text-[#525866]">No todos entries yet.</p>
       )}
     </div>
   );
@@ -56,33 +55,32 @@ async function TodosList() {
 
 export default function TodosPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-8">
-      <div className="p-6 rounded-2xl bg-[#11171E] border border-white/10 space-y-4">
+    <div className="max-w-3xl mx-auto px-4 sm:px-8 py-12 space-y-6">
+      <div className="p-6 sm:p-8 rounded-lg bg-[#ffffff] border border-[#e2e5ea] space-y-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#39F56A]/10 border border-[#39F56A]/30 flex items-center justify-center text-[#39F56A]">
+          <div className="w-10 h-10 rounded-md bg-[#eef0f3] flex items-center justify-center text-[#1f2de6]">
             <Database className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="text-xl font-black text-white">Supabase Cloud Live Connection</h1>
-            <p className="text-xs text-gray-400">Server Component query via @supabase/ssr</p>
+            <h1 className="text-xl font-semibold text-[#0b0c0e]">Supabase Live Connection</h1>
+            <p className="text-[14px] text-[#525866]">Server Component query via @supabase/ssr</p>
           </div>
         </div>
 
-        <Suspense fallback={
-          <div className="flex items-center gap-2 text-xs text-gray-400 py-4">
-            <Loader2 className="w-4 h-4 animate-spin text-[#FFD400]" />
-            <span>Connecting to Supabase...</span>
-          </div>
-        }>
+        <Suspense
+          fallback={
+            <div className="flex items-center gap-2 text-[14px] text-[#525866] py-4">
+              <Loader2 className="w-4 h-4 animate-spin text-[#1f2de6]" />
+              <span>Connecting to Supabase...</span>
+            </div>
+          }
+        >
           <TodosList />
         </Suspense>
 
         <div className="pt-2">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-xs font-bold text-[#FFD400] hover:underline"
-          >
-            ← Back to PUBGFrames
+          <Link href="/" className="text-[14px] font-medium text-[#1f2de6] hover:underline">
+            Return to PUBGFrames
           </Link>
         </div>
       </div>

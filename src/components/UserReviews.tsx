@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Trophy, ShieldCheck, Flame, Gauge, ArrowUpRight, Zap, Filter } from 'lucide-react';
+import { formatDeviceName } from '@/utils/formatDeviceName';
 import { soundEffects } from '@/utils/soundEffects';
 
 interface LeaderboardDevice {
@@ -17,7 +17,6 @@ interface LeaderboardDevice {
   coolingTech: string;
   slug: string;
   brandSlug: string;
-  tier: 'S-Tier' | 'A-Tier' | 'B-Tier';
 }
 
 const LEADERBOARD_DATA: LeaderboardDevice[] = [
@@ -26,112 +25,104 @@ const LEADERBOARD_DATA: LeaderboardDevice[] = [
     model: 'Galaxy S24 Ultra',
     brand: 'Samsung',
     chipset: 'Snapdragon 8 Gen 3 for Galaxy',
-    fpsMode: 'Smooth + 120 FPS',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 120,
     stability: 98,
     tempDelta: '+7.2°C',
     coolingTech: '1.9x Vapor Chamber',
     slug: 'galaxy-s24-ultra',
-    brandSlug: 'samsung',
-    tier: 'S-Tier'
+    brandSlug: 'samsung'
   },
   {
     rank: 2,
-    model: 'ROG Phone 8 Pro',
+    model: 'ROG Phone 9 Pro',
     brand: 'ASUS',
-    chipset: 'Snapdragon 8 Gen 3',
-    fpsMode: 'Smooth + 120 FPS',
+    chipset: 'Snapdragon 8 Elite',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 120,
     stability: 99,
-    tempDelta: '+6.5°C',
-    coolingTech: 'GameCool 8 360° SoC',
-    slug: 'rog-phone-8-pro',
-    brandSlug: 'asus',
-    tier: 'S-Tier'
+    tempDelta: '+6.1°C',
+    coolingTech: 'GameCool 9 SoC',
+    slug: 'asus-rog-phone-9-pro',
+    brandSlug: 'asus'
   },
   {
     rank: 3,
     model: 'iPhone 16 Pro Max',
     brand: 'Apple',
-    chipset: 'Apple A18 Pro (3nm)',
-    fpsMode: 'Smooth + 120 FPS',
+    chipset: 'Apple A18 Pro',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 120,
     stability: 99,
     tempDelta: '+6.8°C',
     coolingTech: 'Graphene Thermal Sheet',
     slug: 'iphone-16-pro-max',
-    brandSlug: 'apple',
-    tier: 'S-Tier'
+    brandSlug: 'apple'
   },
   {
     rank: 4,
     model: 'POCO F6 Pro',
     brand: 'POCO',
     chipset: 'Snapdragon 8 Gen 2',
-    fpsMode: 'Smooth + 120 FPS',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 118,
     stability: 96,
     tempDelta: '+8.4°C',
-    coolingTech: 'LiquidCool 4.0 Iceloop',
+    coolingTech: 'LiquidCool 4.0',
     slug: 'poco-f6-pro',
-    brandSlug: 'poco',
-    tier: 'S-Tier'
+    brandSlug: 'poco'
   },
   {
     rank: 5,
-    model: 'iQOO 12 5G',
+    model: 'iQOO 13 5G',
     brand: 'iQOO',
-    chipset: 'Snapdragon 8 Gen 3 + Q1',
-    fpsMode: 'Smooth + 120 FPS',
+    chipset: 'Snapdragon 8 Elite + Q2',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 120,
     stability: 99,
-    tempDelta: '+7.0°C',
-    coolingTech: '6K Four-Zone VC',
-    slug: 'iqoo-12-5g',
-    brandSlug: 'iqoo',
-    tier: 'S-Tier'
+    tempDelta: '+6.7°C',
+    coolingTech: '7K Vapor Chamber',
+    slug: 'iqoo-13-5g',
+    brandSlug: 'iqoo'
   },
   {
     rank: 6,
     model: 'POCO X6 Pro 5G',
     brand: 'POCO',
     chipset: 'Dimensity 8300 Ultra',
-    fpsMode: 'Smooth + 90 FPS',
+    fpsMode: 'Smooth · 90 FPS',
     testedFps: 90,
     stability: 94,
     tempDelta: '+9.1°C',
-    coolingTech: '5000mm² LiquidCool 2.0',
+    coolingTech: '5000mm² LiquidCool',
     slug: 'poco-x6-pro-5g',
-    brandSlug: 'poco',
-    tier: 'A-Tier'
+    brandSlug: 'poco'
   },
   {
     rank: 7,
     model: 'Infinix GT 20 Pro',
     brand: 'Infinix',
-    chipset: 'Dimensity 8200 Ultimate + Pixelworks',
-    fpsMode: 'Smooth + 120 FPS',
+    chipset: 'Dimensity 8200 Ultimate',
+    fpsMode: 'Smooth · 120 FPS',
     testedFps: 114,
     stability: 93,
     tempDelta: '+8.8°C',
     coolingTech: 'PCM Graphite + VC',
-    slug: 'infinix-gt-20-pro',
-    brandSlug: 'infinix',
-    tier: 'A-Tier'
+    slug: 'infinix-gt-20-pro-5g',
+    brandSlug: 'infinix'
   },
   {
     rank: 8,
     model: 'OnePlus 12R',
     brand: 'OnePlus',
     chipset: 'Snapdragon 8 Gen 2',
-    fpsMode: 'Smooth + 90 FPS',
+    fpsMode: 'Smooth · 90 FPS',
     testedFps: 90,
     stability: 98,
     tempDelta: '+6.1°C',
-    coolingTech: 'Dual Cryo-velocity VC',
+    coolingTech: 'Cryo-velocity VC',
     slug: 'oneplus-12r',
-    brandSlug: 'oneplus',
-    tier: 'A-Tier'
+    brandSlug: 'oneplus'
   }
 ];
 
@@ -145,53 +136,50 @@ export const UserReviews = () => {
   });
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-      {/* Section Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-6">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#39F56A]/10 border border-[#39F56A]/20 text-[#39F56A] text-xs font-bold uppercase tracking-wider mb-2">
-            <Trophy className="w-3.5 h-3.5" />
-            <span>Lab Telemetry Leaderboard</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-            Competitive Device Power Ranking
+    <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-12 sm:py-16 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 reveal-on-scroll">
+        <div className="space-y-1.5">
+          <h2 className="text-[28px] sm:text-[36px] font-semibold tracking-[-0.025em] text-[#0b0c0e] leading-tight">
+            Competitive performance ranking
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400 mt-1">
-            Real hardware frame-time consistency and thermal endurance measured in 30-minute scrim sessions.
+          <p className="text-base text-[#0b0c0e]">
+            Sustained frame delivery and temperature rise over 30-minute classic sessions.
           </p>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex items-center gap-2 bg-[#171D21] p-1 rounded-xl border border-white/5 text-xs">
+        <div className="inline-flex items-center gap-1 bg-[#e2e5ea] p-1 rounded-md text-sm">
           <button
+            type="button"
             onClick={() => {
               soundEffects.playClick();
               setFilterTier('All');
             }}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              filterTier === 'All' ? 'bg-[#FFD400] text-black' : 'text-gray-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded font-medium transition-colors duration-150 cursor-pointer ${
+              filterTier === 'All' ? 'bg-[#ffffff] text-[#0b0c0e]' : 'text-[#3d4350] hover:text-[#0b0c0e]'
             }`}
           >
-            All Ranks
+            All ranks
           </button>
           <button
+            type="button"
             onClick={() => {
               soundEffects.playClick();
               setFilterTier('120');
             }}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              filterTier === '120' ? 'bg-[#39F56A] text-black' : 'text-gray-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded font-medium transition-colors duration-150 cursor-pointer ${
+              filterTier === '120' ? 'bg-[#ffffff] text-[#0b0c0e]' : 'text-[#3d4350] hover:text-[#0b0c0e]'
             }`}
           >
             120 FPS
           </button>
           <button
+            type="button"
             onClick={() => {
               soundEffects.playClick();
               setFilterTier('90');
             }}
-            className={`px-3 py-1.5 rounded-lg font-bold transition-colors ${
-              filterTier === '90' ? 'bg-[#28A9FF] text-black' : 'text-gray-400 hover:text-white'
+            className={`px-3.5 py-1.5 rounded font-medium transition-colors duration-150 cursor-pointer ${
+              filterTier === '90' ? 'bg-[#ffffff] text-[#0b0c0e]' : 'text-[#3d4350] hover:text-[#0b0c0e]'
             }`}
           >
             90 FPS
@@ -199,78 +187,48 @@ export const UserReviews = () => {
         </div>
       </div>
 
-      {/* Desktop / Tablet Data-Dense Table & Mobile Friendly Cards */}
-      <div className="rounded-2xl bg-[#171D21] border border-white/10 overflow-hidden shadow-xl">
-        {/* Desktop Table View */}
+      {/* Clean Data Table */}
+      <div className="rounded-lg bg-[#ffffff] overflow-hidden reveal-on-scroll">
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left text-xs sm:text-sm">
+          <table className="w-full text-left text-base">
             <thead>
-              <tr className="border-b border-white/10 bg-[#101518]/70 text-gray-400 uppercase tracking-wider text-[11px] font-bold">
-                <th className="py-3.5 px-4 w-12 text-center">Rank</th>
-                <th className="py-3.5 px-4">Device & Chipset</th>
-                <th className="py-3.5 px-4">Preset Mode</th>
-                <th className="py-3.5 px-4">Measured FPS</th>
-                <th className="py-3.5 px-4">Stability</th>
-                <th className="py-3.5 px-4">30m Temp Rise</th>
-                <th className="py-3.5 px-4">Tier</th>
-                <th className="py-3.5 px-4 text-right">Details</th>
+              <tr className="bg-[#e2e5ea]/60 text-[#0b0c0e] text-sm font-medium">
+                <th className="py-4 px-5 w-16">#</th>
+                <th className="py-4 px-5">Device & Processor</th>
+                <th className="py-4 px-5">Preset Mode</th>
+                <th className="py-4 px-5 text-right">Measured FPS</th>
+                <th className="py-4 px-5 text-right">Stability</th>
+                <th className="py-4 px-5 text-right">30m Temp Rise</th>
+                <th className="py-4 px-5 text-right">Review</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5 font-medium">
+            <tbody>
               {filtered.map((device) => (
-                <tr key={device.model} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="py-3.5 px-4 text-center">
-                    <span className={`w-6 h-6 rounded-full inline-flex items-center justify-center font-black text-xs ${
-                      device.rank === 1
-                        ? 'bg-[#FFD400] text-black'
-                        : device.rank <= 3
-                        ? 'bg-[#39F56A]/20 text-[#39F56A] border border-[#39F56A]/40'
-                        : 'text-gray-400 bg-white/5'
-                    }`}>
-                      {device.rank}
-                    </span>
+                <tr key={device.model} className="even:bg-[#f6f7f9] hover:bg-[#eef0f3] transition-colors duration-150">
+                  <td className="py-4 px-5 tabular-nums font-medium text-[#3d4350]">
+                    {device.rank}
                   </td>
-                  <td className="py-3.5 px-4">
-                    <div className="font-bold text-white text-sm">{device.brand} {device.model}</div>
-                    <div className="text-[11px] text-gray-400 font-mono">{device.chipset}</div>
+                  <td className="py-4 px-5">
+                    <div className="font-semibold text-[#0b0c0e]">{formatDeviceName(device.brand, device.model)}</div>
+                    <div className="text-sm text-[#3d4350]">{device.chipset}</div>
                   </td>
-                  <td className="py-3.5 px-4">
-                    <span className="text-gray-300 font-mono text-xs">{device.fpsMode}</span>
+                  <td className="py-4 px-5 text-[#3d4350] text-base">{device.fpsMode}</td>
+                  <td className="py-4 px-5 text-right tabular-nums font-semibold text-[#166534]">
+                    {device.testedFps} FPS
                   </td>
-                  <td className="py-3.5 px-4">
-                    <span className="font-mono font-black text-[#39F56A] text-sm">{device.testedFps} FPS</span>
+                  <td className="py-4 px-5 text-right tabular-nums font-medium text-[#0b0c0e]">
+                    {device.stability}%
                   </td>
-                  <td className="py-3.5 px-4">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-white">{device.stability}%</span>
-                      <div className="w-16 h-1.5 bg-black/40 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-[#39F56A] rounded-full"
-                          style={{ width: `${device.stability}%` }}
-                        />
-                      </div>
-                    </div>
+                  <td className="py-4 px-5 text-right tabular-nums text-[#3d4350]">
+                    <span className="text-[#0b0c0e] font-medium">{device.tempDelta}</span>
+                    <span className="block text-sm">{device.coolingTech}</span>
                   </td>
-                  <td className="py-3.5 px-4">
-                    <span className="font-mono text-yellow-400 text-xs">{device.tempDelta}</span>
-                    <span className="text-[10px] text-gray-500 block truncate">{device.coolingTech}</span>
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <span className={`px-2 py-0.5 rounded text-[11px] font-black uppercase tracking-wider ${
-                      device.tier === 'S-Tier'
-                        ? 'bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30'
-                        : 'bg-[#39F56A]/15 text-[#39F56A] border border-[#39F56A]/30'
-                    }`}>
-                      {device.tier}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="py-4 px-5 text-right">
                     <Link
                       href={`/devices/${device.brandSlug}/${device.slug}`}
-                      className="text-[#FFD400] hover:underline font-bold inline-flex items-center gap-1 text-xs"
+                      className="text-[#1f2de6] font-medium hover:underline text-base"
                     >
-                      <span>Specs</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      Specs
                     </Link>
                   </td>
                 </tr>
@@ -279,55 +237,27 @@ export const UserReviews = () => {
           </table>
         </div>
 
-        {/* Mobile View: High density stacked cards */}
-        <div className="md:hidden divide-y divide-white/5">
+        {/* Mobile Stacked List */}
+        <div className="md:hidden">
           {filtered.map((device) => (
-            <div key={device.model} className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className={`w-6 h-6 rounded-full inline-flex items-center justify-center font-black text-xs ${
-                    device.rank === 1 ? 'bg-[#FFD400] text-black' : 'bg-white/10 text-gray-300'
-                  }`}>
-                    {device.rank}
-                  </span>
-                  <div>
-                    <h4 className="text-sm font-bold text-white leading-tight">{device.brand} {device.model}</h4>
-                    <span className="text-[10px] text-gray-400 font-mono">{device.chipset}</span>
-                  </div>
+            <div key={device.model} className="p-4 even:bg-[#f6f7f9] space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <span className="text-sm text-[#3d4350] font-medium mr-2 tabular-nums">#{device.rank}</span>
+                  <span className="text-base font-semibold text-[#0b0c0e]">{formatDeviceName(device.brand, device.model)}</span>
+                  <p className="text-sm text-[#3d4350] mt-0.5">{device.chipset}</p>
                 </div>
-
-                <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
-                  device.tier === 'S-Tier'
-                    ? 'bg-[#FFD400]/15 text-[#FFD400] border border-[#FFD400]/30'
-                    : 'bg-[#39F56A]/15 text-[#39F56A]'
-                }`}>
-                  {device.tier}
+                <span className="text-base font-semibold tabular-nums text-[#166534] shrink-0">
+                  {device.testedFps} FPS
                 </span>
               </div>
-
-              <div className="grid grid-cols-3 gap-2 bg-[#101518] p-2.5 rounded-xl text-center text-xs">
-                <div>
-                  <span className="text-[10px] text-gray-400 block">Measured</span>
-                  <strong className="text-[#39F56A] font-mono text-sm">{device.testedFps} FPS</strong>
-                </div>
-                <div>
-                  <span className="text-[10px] text-gray-400 block">Stability</span>
-                  <strong className="text-white font-mono text-sm">{device.stability}%</strong>
-                </div>
-                <div>
-                  <span className="text-[10px] text-gray-400 block">30m Temp</span>
-                  <strong className="text-yellow-400 font-mono text-sm">{device.tempDelta}</strong>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-1 text-xs">
-                <span className="text-[11px] text-gray-400 font-mono">{device.fpsMode}</span>
+              <div className="flex items-center justify-between text-sm text-[#3d4350] pt-1">
+                <span className="tabular-nums">Stability: {device.stability}% &middot; {device.tempDelta}</span>
                 <Link
                   href={`/devices/${device.brandSlug}/${device.slug}`}
-                  className="text-[#FFD400] font-bold flex items-center gap-1 hover:underline text-xs"
+                  className="text-[#1f2de6] font-medium"
                 >
-                  <span>Full Telemetry</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  Open specs
                 </Link>
               </div>
             </div>

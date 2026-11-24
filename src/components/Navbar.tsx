@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Volume2, VolumeX, Sparkles, Smartphone, Gauge, GitCompare, BookOpen } from 'lucide-react';
+import { Menu, X, Volume2, VolumeX } from 'lucide-react';
 import { soundEffects } from '@/utils/soundEffects';
 
 export const Navbar = () => {
@@ -23,10 +23,9 @@ export const Navbar = () => {
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'FPS Checker', href: '/fps-checker' },
-    { label: 'Compare', href: '/compare' },
     { label: 'Devices', href: '/devices' },
-    { label: 'Guides', href: '/guides' },
-    { label: 'About', href: '/about' }
+    { label: 'Compare', href: '/compare' },
+    { label: 'Guides', href: '/guides' }
   ];
 
   const isActive = (href: string) => {
@@ -35,34 +34,26 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#080B0D]/90 backdrop-blur-md border-b border-white/5 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo with Tab-Matching Custom Reticle */}
+    <header className="relative z-40 w-full bg-[#eef0f3]">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        {/* Wordmark */}
         <Link
           href="/"
           onClick={() => soundEffects.playClick()}
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2.5 shrink-0"
         >
-          <div className="relative w-9 h-9 rounded-xl bg-[#0F141C] border border-[#FFD400]/40 flex items-center justify-center p-1.5 shadow-[0_0_15px_rgba(255,212,0,0.18)] group-hover:border-[#FFD400] transition-colors">
-            {/* Custom Reticle Vector */}
-            <svg viewBox="0 0 64 64" className="w-full h-full" fill="none">
-              <path d="M14 22v-8h8M42 14h8v8M14 42v8h8M42 50h8v-8" stroke="#FFD400" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="32" cy="32" r="10" stroke="#39F56A" strokeWidth="3" />
-              <circle cx="32" cy="32" r="3.5" fill="#FFD400" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl md:text-2xl font-black tracking-tight text-white flex items-center leading-none">
-              PUBG<span className="text-[#FFD400]">Frames</span>
-            </span>
-            <span className="text-[10px] font-mono tracking-widest text-[#39F56A] font-bold uppercase mt-0.5">
-              1,630+ Devices • v3.5
-            </span>
-          </div>
+          <svg viewBox="0 0 36 36" className="w-7 h-7" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="32" height="32" rx="6" fill="#0b0c0e" />
+            <path d="M10 14v-4h4M22 10h4v4M10 22v4h4M22 26h4v-4" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" />
+            <circle cx="18" cy="18" r="3" fill="#1f2de6" />
+          </svg>
+          <span className="text-xl font-semibold tracking-[-0.02em] text-[#0b0c0e]">
+            PUBGFrames
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1.5 lg:gap-2">
+        <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
             const active = isActive(link.href);
             return (
@@ -70,10 +61,10 @@ export const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={() => soundEffects.playClick()}
-                className={`px-3.5 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                className={`px-3.5 py-2 rounded-md text-base font-medium whitespace-nowrap transition-colors duration-150 ${
                   active
-                    ? 'bg-[#FFD400] text-black shadow-[0_0_15px_rgba(255,212,0,0.3)]'
-                    : 'text-gray-300 hover:text-white hover:bg-white/5'
+                    ? 'bg-[#e2e5ea] text-[#0b0c0e]'
+                    : 'text-[#3d4350] hover:text-[#0b0c0e] hover:bg-[#e2e5ea]/60'
                 }`}
               >
                 {link.label}
@@ -83,100 +74,88 @@ export const Navbar = () => {
         </nav>
 
         {/* Right Actions */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Tactical Gaming Sound FX Toggle */}
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           <button
             onClick={handleToggleSound}
-            title={soundActive ? 'Tactical Sound FX: ON (Click to Mute)' : 'Tactical Sound FX: OFF (Click to Enable)'}
-            aria-label="Toggle Gaming Sound FX"
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
-              soundActive
-                ? 'bg-[#171D21] border-[#FFD400]/40 text-[#FFD400] shadow-[0_0_10px_rgba(255,212,0,0.2)]'
-                : 'bg-[#171D21] border-white/10 text-gray-500'
-            }`}
+            title={soundActive ? 'Click sounds on' : 'Click sounds muted'}
+            aria-label="Toggle interface sound effects"
+            className="w-9 h-9 rounded-md bg-[#e2e5ea] hover:bg-[#d5d9e0] text-[#0b0c0e] flex items-center justify-center transition-colors duration-150 cursor-pointer"
           >
-            {soundActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            {soundActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-[#3d4350]" />}
           </button>
 
           <Link
             href="/fps-checker"
             onClick={() => soundEffects.playClick()}
-            className="inline-flex items-center gap-2 bg-[#FFD400] hover:bg-[#FFE033] text-black font-extrabold text-sm px-5 py-2.5 rounded-full shadow-[0_0_20px_rgba(255,212,0,0.35)] hover:shadow-[0_0_25px_rgba(255,212,0,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center justify-center whitespace-nowrap bg-[#1f2de6] hover:bg-[#1723bf] text-white font-medium text-base px-4 py-2 rounded-md transition-colors duration-150 active:scale-[0.98]"
           >
-            <span>Try Now</span>
-            <ArrowRight className="w-4 h-4 stroke-[3]" />
+            Check FPS
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* Mobile & Tablet Controls */}
+        <div className="flex lg:hidden items-center gap-2 shrink-0">
           <button
             onClick={handleToggleSound}
-            aria-label="Toggle Sound"
-            className="p-1.5 rounded-lg bg-[#171D21] border border-white/10 text-[#FFD400]"
+            title={soundActive ? 'Click sounds on' : 'Click sounds muted'}
+            aria-label="Toggle interface sound effects"
+            className="p-2 rounded-md bg-[#e2e5ea] text-[#0b0c0e] cursor-pointer"
           >
-            {soundActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            {soundActive ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-[#3d4350]" />}
           </button>
           <Link
             href="/fps-checker"
             onClick={() => soundEffects.playClick()}
-            className="bg-[#FFD400] text-black font-bold text-xs px-3.5 py-1.5 rounded-full"
+            className="inline-flex items-center justify-center whitespace-nowrap bg-[#1f2de6] text-white font-medium text-sm px-3.5 py-2 rounded-md"
           >
-            Try Now
+            Check FPS
           </Link>
           <button
             onClick={() => {
               soundEffects.playClick();
               setMobileMenuOpen(!mobileMenuOpen);
             }}
-            className="p-2 rounded-lg bg-[#171D21] border border-white/10 text-gray-300 hover:text-white"
+            className="p-2 rounded-md bg-[#e2e5ea] text-[#0b0c0e] cursor-pointer"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile & Tablet Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#101518] border-b border-white/10 px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-200">
-          <div className="flex flex-col gap-2">
-            {navLinks.map((link) => {
-              const active = isActive(link.href);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => {
-                    soundEffects.playClick();
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`px-4 py-3 rounded-xl text-base font-semibold transition-colors flex items-center justify-between ${
-                    active
-                      ? 'bg-[#FFD400] text-black'
-                      : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {active && <span className="w-2 h-2 rounded-full bg-black" />}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-3">
-            <Link
-              href="/fps-checker"
-              onClick={() => {
-                soundEffects.playClick();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-center gap-2 bg-[#FFD400] text-black font-extrabold py-3 rounded-xl shadow-lg"
-            >
-              <span>Check FPS Free</span>
-              <ArrowRight className="w-4 h-4 stroke-[3]" />
-            </Link>
-          </div>
+        <div className="lg:hidden bg-[#ffffff] px-4 sm:px-8 pt-3 pb-6 space-y-2">
+          {navLinks.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => {
+                  soundEffects.playClick();
+                  setMobileMenuOpen(false);
+                }}
+                className={`block px-4 py-3 rounded-md text-base font-medium transition-colors duration-150 ${
+                  active
+                    ? 'bg-[#e2e5ea] text-[#0b0c0e]'
+                    : 'text-[#3d4350] hover:bg-[#eef0f3] hover:text-[#0b0c0e]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          <Link
+            href="/about"
+            onClick={() => {
+              soundEffects.playClick();
+              setMobileMenuOpen(false);
+            }}
+            className="block px-4 py-3 rounded-md text-base font-medium text-[#3d4350] hover:bg-[#eef0f3] hover:text-[#0b0c0e]"
+          >
+            About & Methodology
+          </Link>
         </div>
       )}
     </header>

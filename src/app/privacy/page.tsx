@@ -8,19 +8,21 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <h1 className="text-3xl font-black text-white">Privacy Policy</h1>
-      <div className="p-6 rounded-2xl bg-[#101518] border border-white/5 space-y-4 text-xs sm:text-sm text-gray-300 leading-relaxed">
+    <div className="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12 space-y-8">
+      <h1 className="text-[32px] sm:text-[42px] font-semibold tracking-[-0.025em] text-[#0b0c0e]">
+        Privacy Policy
+      </h1>
+      <div className="p-6 sm:p-8 rounded-lg bg-[#ffffff] border border-[#e2e5ea] space-y-5 text-[15px] text-[#272b33] leading-relaxed">
         <p>
-          At PUBGFrames, privacy is a fundamental right. We do not require account registration or collect private user credentials to use our FPS estimation tools.
+          PUBGFrames does not require account registration or collect private user credentials to use our FPS lookup and device comparison tools.
         </p>
-        <h2 className="text-base font-bold text-white pt-2">No In-Game Account Access</h2>
+        <h2 className="text-lg font-semibold text-[#0b0c0e] pt-1">No in-game account access</h2>
         <p>
-          PUBGFrames never requests your PUBG Mobile player ID, game password, social login, or any in-game credentials. All estimations are calculated based on device hardware profiles selected by the user.
+          PUBGFrames never requests your PUBG Mobile player ID, game password, or social login. Device checks run locally against published hardware benchmarks.
         </p>
-        <h2 className="text-base font-bold text-white pt-2">Cookies & Analytics</h2>
+        <h2 className="text-lg font-semibold text-[#0b0c0e] pt-1">Cookies and analytics</h2>
         <p>
-          We use minimal, anonymized website telemetry to monitor platform uptime, server responsiveness, and Core Web Vitals to deliver the fastest mobile experience possible.
+          We use minimal performance telemetry to monitor uptime and page loading responsiveness without selling personal data.
         </p>
       </div>
     </div>

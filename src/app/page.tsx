@@ -1,7 +1,7 @@
 import React from 'react';
 import { Hero } from '@/components/Hero';
-import { FeatureCards } from '@/components/FeatureCards';
 import { FpsCheckerWidget } from '@/components/FpsCheckerWidget';
+import { FeatureCards } from '@/components/FeatureCards';
 import { GraphicsComparisonSection } from '@/components/GraphicsComparisonSection';
 import { StatsTrustBar } from '@/components/StatsTrustBar';
 import { UserReviews } from '@/components/UserReviews';
@@ -11,35 +11,35 @@ import { AdBanner } from '@/components/AdBanner';
 export default function HomePage() {
   return (
     <div className="space-y-4">
-      {/* 1. Hero Section matching mockup */}
+      {/* Hero with clear value & immediate path */}
       <Hero />
 
-      {/* High-visibility Google AdSlot (Top Leaderboard) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Main Working Product Fragment right up front */}
+      <FpsCheckerWidget />
+
+      {/* Top Advertisement Slot */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
         <AdBanner format="leaderboard" slot="pubgframes_home_top" />
       </div>
 
-      {/* 2. 4 Feature Cards row */}
-      <FeatureCards />
+      {/* Inverted High-Contrast Telemetry Chapter */}
+      <StatsTrustBar />
 
-      {/* 3. Main FPS Checker (Most important feature) */}
-      <FpsCheckerWidget />
-
-      {/* 4. FPS in Different Settings Section */}
+      {/* Visual Split-Slider & Preset Comparison */}
       <GraphicsComparisonSection />
 
-      {/* Mid-Page Sponsor / In-feed Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Specification & Audit Overview */}
+      <FeatureCards />
+
+      {/* Mid-Page Advertisement Slot */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
         <AdBanner format="horizontal-strip" slot="pubgframes_home_mid" />
       </div>
 
-      {/* 5. Trust / Statistics Bar with Golden PUBG Level 3 Helmet */}
-      <StatsTrustBar />
-
-      {/* 6. Leaderboard & Telemetry Benchmarks */}
+      {/* Verified Performance Leaderboard */}
       <UserReviews />
 
-      {/* 7. Ready to Check Your PUBG FPS CTA Banner */}
+      {/* Cobalt Call to Action */}
       <CtaBanner />
     </div>
   );
