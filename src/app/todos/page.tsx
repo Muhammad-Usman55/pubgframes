@@ -4,20 +4,29 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Database, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
+interface TodoItem {
+  id: string | number;
+  name?: string;
+  title?: string;
+  [key: string]: unknown;
+}
+
 async function TodosList() {
-  let todos: any[] | null = null;
+  let todos: TodoItem[] | null = null;
   let error: { message: string } | null = null;
 
   try {
     const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
     const res = await supabase.from('todos').select('*');
-    todos = res.data;
+    todos = (res.data as TodoItem[] | null) ?? null;
     if (res.error) {
       error = res.error;
     }
-  } catch (err: any) {
-    error = { message: err?.message || 'Database connection unreachable during build' };
+  } catch (err: unknown) {
+    error = {
+      message: err instanceof Error ? err.message : 'Database connection unreachable during build'
+    };
   }
 
   if (error) {
@@ -40,7 +49,7 @@ async function TodosList() {
       </div>
       {todos && todos.length > 0 ? (
         <ul className="space-y-2">
-          {todos.map((todo: any) => (
+          {todos.map((todo) => (
             <li key={todo.id} className="p-3 rounded bg-[#f6f7f9] border border-[#e2e5ea] text-[15px] text-[#0b0c0e]">
               {todo.name || todo.title || JSON.stringify(todo)}
             </li>

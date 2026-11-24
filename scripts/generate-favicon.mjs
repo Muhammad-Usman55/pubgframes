@@ -45,7 +45,6 @@ function generateReticlePng(size) {
   const BG = [7, 10, 14, 255];          // #070A0E
   const GOLD = [255, 212, 0, 255];      // #FFD400
   const GREEN = [57, 245, 106, 255];    // #39F56A
-  const WHITE = [255, 255, 255, 255];
 
   const center = size / 2;
   const radius = size * 0.32;

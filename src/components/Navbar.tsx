@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Volume2, VolumeX } from 'lucide-react';
@@ -12,7 +12,10 @@ export const Navbar = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setSoundActive(soundEffects.isEnabled());
+    const timer = setTimeout(() => {
+      setSoundActive(soundEffects.isEnabled());
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleToggleSound = () => {

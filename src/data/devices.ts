@@ -1294,14 +1294,6 @@ export const DEVICES_DATA: DeviceInfo[] = RAW_DEVICES.filter((d) => {
 
 export const ALL_BRANDS = Array.from(new Set(DEVICES_DATA.map((d) => d.brand))).sort();
 
-export function getAllDevices(): DeviceInfo[] {
-  return DEVICES_DATA;
-}
-
-export function getDeviceById(id: string): DeviceInfo | undefined {
-  return DEVICES_DATA.find((d) => d.id === id);
-}
-
 export function getDeviceBySlug(slug: string): DeviceInfo | undefined {
   return DEVICES_DATA.find((d) => d.slug.toLowerCase() === slug.toLowerCase() || d.id === slug);
 }

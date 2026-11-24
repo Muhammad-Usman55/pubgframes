@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Smartphone, Search, ShieldCheck, AlertTriangle, Copy, Check, ArrowUpRight, Flame, X } from 'lucide-react';
 import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
@@ -9,6 +9,14 @@ import { formatDeviceName } from '@/utils/formatDeviceName';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
 import { FpsGauge } from './FpsGauge';
 import { soundEffects } from '@/utils/soundEffects';
+
+const QUICK_PICK_SLUGS = [
+  'galaxy-s24-ultra',
+  'iphone-16-pro-max',
+  'poco-x6-pro-5g',
+  'redmi-note-12',
+  'infinix-gt-20-pro'
+];
 
 export const FpsCheckerWidget = () => {
   const [selectedDevice, setSelectedDevice] = useState<DeviceInfo | null>(null);
@@ -62,19 +70,10 @@ export const FpsCheckerWidget = () => {
   const currentDisplayFps =
     selectedDevice && baseFpsResult?.setting.supported ? thermalState.throttledFps : 0;
 
-  const quickPickSlugs = [
-    'galaxy-s24-ultra',
-    'iphone-16-pro-max',
-    'poco-x6-pro-5g',
-    'redmi-note-12',
-    'infinix-gt-20-pro'
-  ];
-
   const quickPicks = useMemo(() => {
-    return quickPickSlugs
+    return QUICK_PICK_SLUGS
       .map((s) => DEVICES_DATA.find((d) => d.slug === s))
       .filter((d): d is DeviceInfo => Boolean(d));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const selectedFullName = selectedDevice

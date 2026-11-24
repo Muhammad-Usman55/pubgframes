@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { scoreDeviceRelevance } from '@/utils/fuzzySearch';

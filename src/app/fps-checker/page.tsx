@@ -1,4 +1,3 @@
-import React from 'react';
 import { Metadata } from 'next';
 import { FpsCheckerWidget } from '@/components/FpsCheckerWidget';
 import { GraphicsComparisonSection } from '@/components/GraphicsComparisonSection';

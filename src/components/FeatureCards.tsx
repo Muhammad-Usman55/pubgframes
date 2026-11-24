@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA } from '@/data/devices';
 import { soundEffects } from '@/utils/soundEffects';

@@ -112,30 +112,8 @@ p {
   }
 }
 
-@keyframes media-settle {
-  from {
-    transform: scale(1.04);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
-@keyframes hero-drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.045);
-  }
-}
-
 .animate-hero-line {
   animation: line-rise 600ms var(--ease-expo) both;
-}
-
-.animate-hero-media {
-  animation: media-settle 900ms var(--ease-soft) both;
 }
 
 .animate-hero-drift {

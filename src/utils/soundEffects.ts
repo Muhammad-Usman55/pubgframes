@@ -11,7 +11,9 @@ class SoundManager {
   private initContext() {
     if (typeof window === 'undefined') return;
     if (!this.ctx) {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
@@ -55,31 +57,6 @@ class SoundManager {
     } catch {
       // AudioContext not allowed or not supported
     }
-  }
-
-  // Futuristic calculation whoosh / scan sound
-  public playScan() {
-    if (!this.soundEnabled) return;
-    try {
-      this.initContext();
-      if (!this.ctx) return;
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(200, now);
-      osc.frequency.exponentialRampToValueAtTime(950, now + 0.35);
-
-      gain.gain.setValueAtTime(0.01, now);
-      gain.gain.linearRampToValueAtTime(0.18, now + 0.2);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(now + 0.4);
-    } catch {}
   }
 
   // High FPS confirmation chime (success sound)

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
-import { DeviceInfo, FpsOption, GraphicsTier } from '@/types/device';
+import { DeviceInfo } from '@/types/device';
 import {
   Shield,
   LayoutDashboard,
@@ -21,18 +21,12 @@ import {
   Copy,
   Check,
   Globe,
-  Battery,
-  Cpu,
-  Flame,
-  CheckCircle2,
-  AlertTriangle,
   LogOut,
   ExternalLink,
   RefreshCw,
   FileText,
   Image as ImageIcon,
   Zap,
-  SlidersHorizontal,
   X
 } from 'lucide-react';
 import { getSupabaseCredentials, isSupabaseConnected, resetSupabaseInstance } from '@/lib/supabase';
@@ -110,24 +104,28 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    setIsAuthenticated(true);
-    setAdminUser(session.user);
+    const timer = setTimeout(() => {
+      setIsAuthenticated(true);
+      setAdminUser(session.user);
 
-    // Load custom devices from localStorage
-    const saved = localStorage.getItem('pubgframes_custom_devices');
-    if (saved) {
-      try {
-        setCustomDevices(JSON.parse(saved));
-      } catch (e) {
-        console.error('Error loading custom devices', e);
+      // Load custom devices from localStorage
+      const saved = localStorage.getItem('pubgframes_custom_devices');
+      if (saved) {
+        try {
+          setCustomDevices(JSON.parse(saved));
+        } catch (e) {
+          console.error('Error loading custom devices', e);
+        }
       }
-    }
 
-    // Load Supabase credentials
-    const creds = getSupabaseCredentials();
-    if (creds.url) setSupabaseUrl(creds.url);
-    if (creds.key) setSupabaseKey(creds.key);
-    setConnectionStatus(isSupabaseConnected() ? 'connected' : 'local');
+      // Load Supabase credentials
+      const creds = getSupabaseCredentials();
+      if (creds.url) setSupabaseUrl(creds.url);
+      if (creds.key) setSupabaseKey(creds.key);
+      setConnectionStatus(isSupabaseConnected() ? 'connected' : 'local');
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, [router]);
 
   const handleLogout = () => {
@@ -160,7 +158,10 @@ export default function AdminDashboardPage() {
   };
 
   useEffect(() => {
-    refreshAnalytics();
+    const timer = setTimeout(() => {
+      setRealStats(getRealAnalytics());
+    }, 0);
+    return () => clearTimeout(timer);
   }, [allDevicesList.length]);
 
   const analyticsData = useMemo(() => {

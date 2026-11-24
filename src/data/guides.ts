@@ -174,10 +174,6 @@ export const GUIDES_DATA: GuideArticle[] = [
   }
 ];
 
-export function getAllGuides(): GuideArticle[] {
-  return GUIDES_DATA;
-}
-
 export function getGuideBySlug(slug: string): GuideArticle | undefined {
   return GUIDES_DATA.find((g) => g.slug === slug);
 }

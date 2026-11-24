@@ -76,10 +76,3 @@ export function clearAdminSession() {
   localStorage.removeItem('pubgframes_admin_auth');
   localStorage.removeItem('pubgframes_admin_user');
 }
-
-/**
- * Checks if the current browser window has an active authenticated session
- */
-export function isSessionAuthenticated(): boolean {
-  return getAdminSession() !== null;
-}

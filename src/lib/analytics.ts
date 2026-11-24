@@ -1,7 +1,5 @@
 'use client';
 
-import { getSupabase } from './supabase';
-
 export interface TrafficDay {
   day: string;
   visitors: number;
@@ -67,94 +65,6 @@ function getStored(): StoredAnalytics {
     console.error('Failed to parse analytics', err);
   }
   return { views: [], searches: [] };
-}
-
-function saveStored(data: StoredAnalytics) {
-  if (typeof window === 'undefined') return;
-  try {
-    // Keep max 2000 events to prevent localStorage overflow
-    if (data.views.length > 2000) data.views = data.views.slice(-2000);
-    if (data.searches.length > 2000) data.searches = data.searches.slice(-2000);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (err) {
-    console.error('Failed to save analytics', err);
-  }
-}
-
-/**
- * Record a genuine page view
- */
-export async function trackPageView(path: string) {
-  if (typeof window === 'undefined') return;
-
-  const country = detectVisitorCountry();
-  const today = new Date().toISOString().split('T')[0];
-  const stored = getStored();
-
-  stored.views.push({
-    path,
-    date: today,
-    timestamp: Date.now(),
-    country
-  });
-  saveStored(stored);
-
-  // Sync with Supabase if active
-  const supabase = getSupabase();
-  if (supabase) {
-    try {
-      await supabase.from('analytics_page_views').insert({
-        path,
-        device_type: window.innerWidth < 768 ? 'mobile' : 'desktop',
-        country
-      });
-    } catch {
-      // Non-blocking
-    }
-  }
-}
-
-/**
- * Record a genuine user search query
- */
-export async function trackSearchQuery(query: string) {
-  if (typeof window === 'undefined' || !query.trim()) return;
-
-  const clean = query.trim().toLowerCase();
-  const stored = getStored();
-  stored.searches.push({ query: clean, timestamp: Date.now() });
-  saveStored(stored);
-
-  // Sync with Supabase if active
-  const supabase = getSupabase();
-  if (supabase) {
-    try {
-      await supabase.from('search_queries').insert({ query: clean });
-    } catch {
-      // Non-blocking
-    }
-  }
-}
-
-/**
- * Detect client country from locale / timeZone
- */
-function detectVisitorCountry(): string {
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-    if (tz.includes('Karachi') || tz.includes('Asia/Karachi')) return 'Pakistan';
-    if (tz.includes('Kolkata') || tz.includes('Calcutta')) return 'India';
-    if (tz.includes('Riyadh')) return 'Saudi Arabia';
-    if (tz.includes('Dubai')) return 'United Arab Emirates';
-    if (tz.includes('Dhaka')) return 'Bangladesh';
-    if (tz.includes('London') || tz.includes('Europe/London')) return 'United Kingdom';
-    if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles')) return 'United States';
-    if (tz.includes('Europe')) return 'Europe';
-    if (tz.includes('Asia')) return 'Asia';
-  } catch {
-    // fallback
-  }
-  return 'Global';
 }
 
 /**

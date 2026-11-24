@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Zap, Smartphone, Scale, BookOpen, ArrowUp, Volume2, VolumeX } from 'lucide-react';
@@ -8,25 +8,32 @@ import { soundEffects } from '@/utils/soundEffects';
 
 export const MobileBottomNav = () => {
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const [open, setOpen] = useState(false);
   const [showDock, setShowDock] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
-  useEffect(() => {
-    setSoundEnabled(soundEffects.isEnabled());
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
 
+  useEffect(() => {
     const handleScroll = () => {
       setShowDock(window.scrollY > 360);
     };
 
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const timer = setTimeout(() => {
+      setSoundEnabled(soundEffects.isEnabled());
+      handleScroll();
+    }, 0);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleToggleSound = () => {
     const nextState = soundEffects.toggleSound();

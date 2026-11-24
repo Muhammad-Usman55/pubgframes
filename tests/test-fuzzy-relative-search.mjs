@@ -1,5 +1,4 @@
-import { DEVICES_DATA, searchDevices } from '../src/data/devices.js';
-import { scoreDeviceRelevance, searchDevicesWithFuzzy } from '../src/utils/fuzzySearch.js';
+import { searchDevices } from '../src/data/devices.js';
 
 console.log('====================================================');
 console.log('   PUBGFRAMES RELATIVE & FUZZY SEARCH TEST SUITE    ');

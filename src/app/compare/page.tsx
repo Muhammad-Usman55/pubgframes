@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, Suspense, useRef, useEffect } from 'react';
+import { useState, useMemo, Suspense, useRef, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
 import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
@@ -11,6 +11,8 @@ import { ArrowLeftRight, Share2, Check, Search, Smartphone, X } from 'lucide-rea
 import { soundEffects } from '@/utils/soundEffects';
 import Link from 'next/link';
 import { AdBanner } from '@/components/AdBanner';
+
+const GRAPHICS_TIERS: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
 
 function SearchableDeviceSelect({
   label,
@@ -231,8 +233,6 @@ function CompareContent() {
     };
   }, []);
 
-  const tiers: GraphicsTier[] = ['Smooth', 'Balanced', 'HD', 'HDR', 'Ultra HD'];
-
   const handleSwap = () => {
     soundEffects.playClick();
     setDeviceA(deviceB);
@@ -251,7 +251,7 @@ function CompareContent() {
   };
 
   const chartData = useMemo(() => {
-    return tiers.map((tier) => {
+    return GRAPHICS_TIERS.map((tier) => {
       const fpsA = deviceA.graphicsModes[tier]?.supported ? deviceA.graphicsModes[tier].estimatedFps : 0;
       const fpsB = deviceB.graphicsModes[tier]?.supported ? deviceB.graphicsModes[tier].estimatedFps : 0;
       return {
