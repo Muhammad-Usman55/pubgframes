@@ -11,15 +11,16 @@ export function getAdSenseClientId(): string | null {
   return /^ca-pub-\d{10,20}$/.test(rawAdSenseId) ? rawAdSenseId : null;
 }
 
+const DEFAULT_GA_MEASUREMENT_ID = 'G-FEZB4X2HVC';
+const DEFAULT_GOOGLE_SITE_VERIFICATION = '1_eR-BQXU2XK2n7seIS1-BRwE6GLcvwSDC5us33FzOc';
+const DEFAULT_GOOGLE_TAG_ID = 'GTM-M75M9WZM';
+
 export function getGaMeasurementId(): string | null {
   const rawGaId =
     (process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '').trim().replace(/^['"]|['"]$/g, '') ||
     readConfigEnv('NEXT_PUBLIC_GA_MEASUREMENT_ID');
-  return /^G-[A-Z0-9]{6,16}$/i.test(rawGaId) ? rawGaId : null;
+  return /^G-[A-Z0-9]{6,16}$/i.test(rawGaId) ? rawGaId : DEFAULT_GA_MEASUREMENT_ID;
 }
-
-const DEFAULT_GOOGLE_SITE_VERIFICATION = '1_eR-BQXU2XK2n7seIS1-BRwE6GLcvwSDC5us33FzOc';
-const DEFAULT_GOOGLE_TAG_ID = 'GTM-M75M9WZM';
 
 export function getGoogleSiteVerification(): string | null {
   const rawGoogleVerification =

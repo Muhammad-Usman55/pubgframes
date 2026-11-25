@@ -180,15 +180,24 @@ export default function RootLayout({
   return (
     <html lang="en" className={jakarta.variable}>
       <head>
-        {googleTagId && (
+        {(googleTagId || gaMeasurementId) && (
           <>
             <script
               async
-              src={`https://www.googletagmanager.com/gtm.js?id=${googleTagId}`}
+              src={`https://www.googletagmanager.com/gtm.js?id=${googleTagId || gaMeasurementId}`}
             />
             <script
               dangerouslySetInnerHTML={{
-                __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());`
+                __html: [
+                  'window.dataLayer = window.dataLayer || [];',
+                  'function gtag(){dataLayer.push(arguments);}',
+                  "gtag('js', new Date());",
+                  gaMeasurementId
+                    ? `gtag('config', '${gaMeasurementId}', { anonymize_ip: true });`
+                    : ''
+                ]
+                  .filter(Boolean)
+                  .join('\n')
               }}
             />
           </>
@@ -212,7 +221,10 @@ export default function RootLayout({
           />
         )}
         <Suspense fallback={null}>
-          <GoogleAnalyticsTracker gaId={gaMeasurementId} hasGoogleTag={Boolean(googleTagId)} />
+          <GoogleAnalyticsTracker
+            gaId={gaMeasurementId}
+            hasGoogleTag={Boolean(googleTagId || gaMeasurementId)}
+          />
         </Suspense>
         <TelemetryTracker />
         <MotionObserver />

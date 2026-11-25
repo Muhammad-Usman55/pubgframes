@@ -25,12 +25,9 @@ export function GoogleAnalyticsTracker({
   useEffect(() => {
     if (!gaId || !pathname || pathname.startsWith('/admin')) return;
 
-    // Initial page load is sent automatically when GA script runs, or configured cleanly via existing Google tag
+    // Initial page load is sent automatically by <head> gtag('config', ...) or Script tag below
     if (isFirstNavigation.current) {
       isFirstNavigation.current = false;
-      if (hasGoogleTag && typeof window !== 'undefined' && typeof window.gtag === 'function') {
-        window.gtag('config', gaId, { anonymize_ip: true });
-      }
       return;
     }
 
