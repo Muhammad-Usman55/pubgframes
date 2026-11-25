@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendGa4MeasurementEvent } from '@/lib/gaMeasurementProtocol';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: NextRequest) {
@@ -22,24 +23,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const topic = (body.topic || 'Benchmark Submission').slice(0, 80);
+    const deviceModel = (body.deviceModel || '').slice(0, 120);
+
     const sb = createAdminClient();
-    if (!sb) {
-      return NextResponse.json({ ok: true, persisted: 'none' });
+    let persisted: 'none' | 'table_pending' | 'supabase' = 'none';
+
+    if (sb) {
+      const { error } = await sb.from('contact_messages').insert({
+        name: name.slice(0, 120),
+        email: email.slice(0, 160),
+        topic,
+        device_model: deviceModel,
+        message: message.slice(0, 2000)
+      });
+      persisted = error ? 'table_pending' : 'supabase';
     }
 
-    const { error } = await sb.from('contact_messages').insert({
-      name: name.slice(0, 120),
-      email: email.slice(0, 160),
-      topic: (body.topic || 'Benchmark Submission').slice(0, 80),
-      device_model: (body.deviceModel || '').slice(0, 120),
-      message: message.slice(0, 2000)
+    void sendGa4MeasurementEvent({
+      eventName: 'generate_lead',
+      request,
+      params: {
+        topic,
+        device_model: deviceModel || undefined,
+        persisted
+      }
     });
 
-    if (error) {
-      return NextResponse.json({ ok: true, persisted: 'table_pending' });
-    }
-
-    return NextResponse.json({ ok: true, persisted: 'supabase' });
+    return NextResponse.json({ ok: true, persisted });
   } catch {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
   }

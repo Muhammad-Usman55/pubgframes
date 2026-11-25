@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { sendGa4MeasurementEvent } from '@/lib/gaMeasurementProtocol';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: NextRequest) {
@@ -15,13 +16,13 @@ export async function POST(request: NextRequest) {
     };
 
     const sb = createAdminClient();
-    if (!sb) {
-      return NextResponse.json({ ok: true, persisted: 'none' });
-    }
 
     if (body.type === 'pageview' && body.path) {
       if (body.path.startsWith('/admin') || body.path.startsWith('/api')) {
         return NextResponse.json({ ok: true, persisted: 'skipped' });
+      }
+      if (!sb) {
+        return NextResponse.json({ ok: true, persisted: 'none' });
       }
       const { error } = await sb.from('analytics_page_views').insert({
         path: body.path.slice(0, 240),
@@ -34,12 +35,30 @@ export async function POST(request: NextRequest) {
     }
 
     if (body.type === 'search' && body.query?.trim()) {
-      const { error } = await sb.from('search_queries').insert({
-        query: body.query.trim().toLowerCase().slice(0, 120),
-        result_count: typeof body.resultCount === 'number' ? body.resultCount : 0,
-        selected_device_id: body.selectedDeviceId || null
+      const normalizedQuery = body.query.trim().toLowerCase().slice(0, 120);
+      const resultCount = typeof body.resultCount === 'number' ? body.resultCount : 0;
+
+      let persisted: 'none' | 'table_pending' | 'supabase' = 'none';
+      if (sb) {
+        const { error } = await sb.from('search_queries').insert({
+          query: normalizedQuery,
+          result_count: resultCount,
+          selected_device_id: body.selectedDeviceId || null
+        });
+        persisted = error ? 'table_pending' : 'supabase';
+      }
+
+      void sendGa4MeasurementEvent({
+        eventName: 'fps_catalog_search',
+        request,
+        params: {
+          search_term: normalizedQuery,
+          result_count: resultCount,
+          selected_device_id: body.selectedDeviceId || undefined
+        }
       });
-      return NextResponse.json({ ok: true, persisted: error ? 'table_pending' : 'supabase' });
+
+      return NextResponse.json({ ok: true, persisted });
     }
 
     return NextResponse.json({ ok: false }, { status: 400 });

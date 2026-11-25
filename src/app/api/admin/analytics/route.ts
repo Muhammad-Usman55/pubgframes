@@ -3,6 +3,10 @@ import {
   ADMIN_NO_STORE_HEADERS,
   verifyRequestAdminSession
 } from '@/lib/adminServerAuth';
+import {
+  getGa4ApiSecret,
+  isGa4MeasurementProtocolConfigured
+} from '@/lib/gaMeasurementProtocol';
 import { createAdminClient, getAdminDatabaseDiagnostics } from '@/utils/supabase/admin';
 import { aggregateAnalyticsEvents, EMPTY_ANALYTICS } from '@/lib/analytics';
 import {
@@ -33,6 +37,8 @@ export async function GET(request: NextRequest) {
   const googleIntegrations = {
     searchConsoleConfigured: Boolean(getGoogleSiteVerification()),
     ga4Configured: Boolean(getGaMeasurementId() || getGoogleTagId()),
+    ga4ApiSecretConfigured: Boolean(getGa4ApiSecret()),
+    measurementProtocolConfigured: isGa4MeasurementProtocolConfigured(),
     adSenseConfigured: Boolean(getAdSenseClientId())
   };
 

@@ -63,6 +63,8 @@ interface AdminUserRow {
 interface GoogleIntegrationsStatus {
   searchConsoleConfigured: boolean;
   ga4Configured: boolean;
+  ga4ApiSecretConfigured?: boolean;
+  measurementProtocolConfigured?: boolean;
   adSenseConfigured: boolean;
 }
 
@@ -1332,22 +1334,35 @@ export default function AdminDashboardClient({
             {/* Google Search Console, GA4 & AdSense Status */}
             <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
               <h2 className="text-base font-semibold text-[#0b0c0e]">Google Search Console, Analytics &amp; AdSense</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                   {
                     title: 'Google Search Console',
                     envKey: 'google9005f42ed50cf491.html + meta',
-                    ready: true
+                    ready: googleStatus.searchConsoleConfigured,
+                    badge: googleStatus.searchConsoleConfigured ? 'Configured' : 'Add Env Key'
                   },
                   {
-                    title: 'Google Analytics 4',
-                    envKey: 'NEXT_PUBLIC_GA_MEASUREMENT_ID',
-                    ready: googleStatus.ga4Configured
+                    title: 'Google Tag / GA4',
+                    envKey: 'GTM-M75M9WZM / NEXT_PUBLIC_GA_MEASUREMENT_ID',
+                    ready: googleStatus.ga4Configured,
+                    badge: googleStatus.ga4Configured ? 'Configured' : 'Add Env Key'
+                  },
+                  {
+                    title: 'GA4 Measurement Protocol',
+                    envKey: 'GA4_API_SECRET + NEXT_PUBLIC_GA_MEASUREMENT_ID',
+                    ready: Boolean(googleStatus.measurementProtocolConfigured),
+                    badge: googleStatus.measurementProtocolConfigured
+                      ? 'Configured'
+                      : googleStatus.ga4ApiSecretConfigured
+                        ? 'Needs G- ID'
+                        : 'Add Env Key'
                   },
                   {
                     title: 'Google AdSense',
                     envKey: 'NEXT_PUBLIC_ADSENSE_CLIENT_ID',
-                    ready: googleStatus.adSenseConfigured
+                    ready: googleStatus.adSenseConfigured,
+                    badge: googleStatus.adSenseConfigured ? 'Configured' : 'Add Env Key'
                   }
                 ].map((item) => (
                   <div
@@ -1357,13 +1372,13 @@ export default function AdminDashboardClient({
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-medium text-[#0b0c0e]">{item.title}</span>
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        className={`px-2 py-0.5 rounded text-xs font-medium shrink-0 ${
                           item.ready
                             ? 'bg-[#dcfce7] text-[#166534]'
                             : 'bg-[#fef3c7] text-[#92400e]'
                         }`}
                       >
-                        {item.ready ? 'Configured' : 'Add Env Key'}
+                        {item.badge}
                       </span>
                     </div>
                     <div className="font-mono text-xs text-[#525866] break-all">{item.envKey}</div>
