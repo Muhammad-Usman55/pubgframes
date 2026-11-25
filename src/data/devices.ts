@@ -31,6 +31,8 @@ import { IQOO_DEVICES } from './iqooDevices';
 import { GLOBAL_REGION_BRANDS_DEVICES } from './globalRegionBrandsDevices';
 import { RUGGED_AMERICAS_EUROPE_DEVICES } from './ruggedAmericasEuropeDevices';
 import { GLOBAL_LATEST_AND_TABLETS_DEVICES } from './globalLatestAndTabletsDevices';
+import { USA_MAINSTREAM_DEVICES } from './usaMainstreamDevices';
+import { USA_CARRIER_AND_INDIE_DEVICES } from './usaCarrierAndIndieDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1280,7 +1282,11 @@ const RAW_DEVICES: DeviceInfo[] = [
   // --- WORLDWIDE REGIONAL, RUGGED & 2025-2026 MODELS ---
   ...GLOBAL_REGION_BRANDS_DEVICES,
   ...RUGGED_AMERICAS_EUROPE_DEVICES,
-  ...GLOBAL_LATEST_AND_TABLETS_DEVICES
+  ...GLOBAL_LATEST_AND_TABLETS_DEVICES,
+
+  // --- USA MARKET MAINSTREAM, CARRIER, RUGGED & INDIE LINEUPS ---
+  ...USA_MAINSTREAM_DEVICES,
+  ...USA_CARRIER_AND_INDIE_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1312,7 +1318,7 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   qmobile: ['qmobile', 'q-mobile', 'q mobile'],
   oneplus: ['oneplus', '1+'],
   asus: ['asus', 'rog', 'asus-rog'],
-  redmagic: ['redmagic', 'red-magic'],
+  redmagic: ['redmagic', 'red-magic', 'red magic'],
   zte: ['zte', 'nubia'],
   nothing: ['nothing', 'cmf'],
   sony: ['sony', 'xperia'],
@@ -1320,20 +1326,26 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   hmd: ['hmd', 'hmd-global'],
   lenovo: ['lenovo', 'legion'],
   iqoo: ['iqoo', 'i-qoo'],
-  'black-shark': ['black-shark', 'blackshark'],
+  'black-shark': ['black-shark', 'blackshark', 'black shark'],
   blackberry: ['blackberry', 'bb'],
   motorola: ['motorola', 'moto'],
   'vgo-tel': ['vgo-tel', 'vgotel', 'vgo tel'],
   sharp: ['sharp', 'aquos'],
   fujitsu: ['fujitsu', 'arrows'],
-  't-mobile': ['t-mobile', 'revvl']
+  't-mobile': ['t-mobile', 't mobile', 'revvl'],
+  att: ['att', 'at&t', 'at-t'],
+  boost: ['boost', 'celero', 'boost-mobile'],
+  nuu: ['nuu', 'nuu-mobile'],
+  'consumer-cellular': ['consumer-cellular', 'consumer cellular'],
+  light: ['light', 'light-phone'],
+  minimal: ['minimal', 'minimal-phone']
 };
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
   const b = brand.toLowerCase();
   const aliasTargets = new Set<string>([b]);
   for (const [canonical, aliases] of Object.entries(BRAND_ALIAS_GROUPS)) {
-    if (aliases.includes(b)) {
+    if (canonical === b || aliases.includes(b)) {
       aliasTargets.add(canonical);
       for (const a of aliases) aliasTargets.add(a);
     }
@@ -1342,14 +1354,7 @@ export function getDevicesByBrand(brand: string): DeviceInfo[] {
   return DEVICES_DATA.filter((d) => {
     const brandLower = d.brand.toLowerCase();
     const slugLower = d.brandSlug.toLowerCase();
-    if (brandLower === b || slugLower === b) return true;
-    for (const target of aliasTargets) {
-      if (brandLower === target || slugLower === target) return true;
-      if (target.length >= 4 && (brandLower.includes(target) || slugLower.includes(target))) {
-        return true;
-      }
-    }
-    return false;
+    return aliasTargets.has(brandLower) || aliasTargets.has(slugLower);
   });
 }
 
