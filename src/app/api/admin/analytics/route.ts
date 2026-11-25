@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
       viewsTableReady
         ? sb
             .from('analytics_page_views')
-            .select('path, country, timestamp')
+            .select('path, country, device_type, user_agent, timestamp')
             .order('timestamp', { ascending: false })
             .limit(2000)
         : Promise.resolve({ data: [], error: null }),

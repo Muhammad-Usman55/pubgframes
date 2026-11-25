@@ -835,25 +835,27 @@ export default function AdminDashboardClient({
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
                 <div className="flex items-center justify-between text-sm text-[#525866]">
-                  <span>Total views</span>
+                  <span>Unique visitors</span>
+                  <Users className="w-4 h-4 text-[#1f2de6]" />
+                </div>
+                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
+                  {realStats.uniqueVisitors.toLocaleString()}
+                </div>
+                <div className="text-xs text-[#525866] tabular-nums">
+                  Today: {realStats.todayVisitors.toLocaleString()} · Active (15m): {realStats.activeVisitors}
+                </div>
+              </div>
+
+              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
+                <div className="flex items-center justify-between text-sm text-[#525866]">
+                  <span>Page views</span>
                   <TrendingUp className="w-4 h-4 text-[#166534]" />
                 </div>
                 <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
                   {realStats.totalViews.toLocaleString()}
                 </div>
-                <div className="text-xs text-[#525866]">Recorded visits</div>
-              </div>
-
-              <div className="p-5 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-1.5">
-                <div className="flex items-center justify-between text-sm text-[#525866]">
-                  <span>Today</span>
-                  <Users className="w-4 h-4 text-[#1f2de6]" />
-                </div>
-                <div className="text-3xl font-semibold text-[#0b0c0e] tabular-nums">
-                  {realStats.todayViews.toLocaleString()}
-                </div>
                 <div className="text-xs text-[#525866] tabular-nums">
-                  Active (15m): {realStats.activeVisitors}
+                  Today: {realStats.todayViews.toLocaleString()} unique page visits
                 </div>
               </div>
 
@@ -884,7 +886,7 @@ export default function AdminDashboardClient({
               <div className="lg:col-span-2 p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-base font-semibold text-[#0b0c0e]">Weekly traffic distribution</h2>
-                  <span className="text-xs text-[#525866]">Visits by day</span>
+                  <span className="text-xs text-[#525866]">Unique visitors (last 7 days)</span>
                 </div>
 
                 <div className="h-48 flex items-end justify-between gap-2 sm:gap-4 pt-6">
@@ -893,7 +895,11 @@ export default function AdminDashboardClient({
                     const heightPercent =
                       item.visitors > 0 ? Math.max(Math.round((item.visitors / maxCount) * 100), 10) : 4;
                     return (
-                      <div key={item.day} className="flex-1 flex flex-col items-center gap-2">
+                      <div
+                        key={item.day}
+                        title={`${item.visitors} unique visitor(s), ${item.views} page view(s)`}
+                        className="flex-1 flex flex-col items-center gap-2"
+                      >
                         <span className="text-xs text-[#525866] tabular-nums">{item.visitors}</span>
                         <div className="w-full h-32 flex items-end justify-center">
                           <div
