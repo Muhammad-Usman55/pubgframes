@@ -18,11 +18,16 @@ export function getGaMeasurementId(): string | null {
   return /^G-[A-Z0-9]{6,16}$/i.test(rawGaId) ? rawGaId : null;
 }
 
+const DEFAULT_GOOGLE_SITE_VERIFICATION = '1_eR-BQXU2XK2n7seIS1-BRwE6GLcvwSDC5us33FzOc';
+
 export function getGoogleSiteVerification(): string | null {
   const rawGoogleVerification =
     (process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '').trim().replace(/^['"]|['"]$/g, '') ||
     readConfigEnv('NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION');
-  return rawGoogleVerification.length >= 10 ? rawGoogleVerification : null;
+  if (rawGoogleVerification.length >= 10) {
+    return rawGoogleVerification;
+  }
+  return DEFAULT_GOOGLE_SITE_VERIFICATION;
 }
 
 export function getSiteUrl(): string {
