@@ -41,6 +41,10 @@ import { PAKISTAN_DOMESTIC_BRANDS_DEVICES } from './pakistanDomesticBrandsDevice
 import { PAKISTAN_MARKET_MODELS_DEVICES } from './pakistanMarketModelsDevices';
 import { IRAN_DOMESTIC_BRANDS_DEVICES } from './iranDomesticBrandsDevices';
 import { IRAN_MARKET_POPULAR_DEVICES } from './iranMarketPopularDevices';
+import { SAUDI_REGIONAL_BRANDS_DEVICES } from './saudiRegionalBrandsDevices';
+import { SAUDI_KSA_RETAIL_DEVICES } from './saudiKsaRetailDevices';
+import { UAE_REGIONAL_BRANDS_DEVICES } from './uaeRegionalBrandsDevices';
+import { UAE_MARKET_RETAIL_DEVICES } from './uaeMarketRetailDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1310,7 +1314,15 @@ const RAW_DEVICES: DeviceInfo[] = [
 
   // --- IRAN DOMESTIC BRANDS & DIGIKALA POPULAR LINEUPS ---
   ...IRAN_DOMESTIC_BRANDS_DEVICES,
-  ...IRAN_MARKET_POPULAR_DEVICES
+  ...IRAN_MARKET_POPULAR_DEVICES,
+
+  // --- SAUDI ARABIA (KSA) & GCC REGIONAL BRANDS & RETAIL LINEUPS ---
+  ...SAUDI_REGIONAL_BRANDS_DEVICES,
+  ...SAUDI_KSA_RETAIL_DEVICES,
+
+  // --- UAE & DUBAI REGIONAL BRANDS & RETAIL/CARRIER LINEUPS ---
+  ...UAE_REGIONAL_BRANDS_DEVICES,
+  ...UAE_MARKET_RETAIL_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1371,7 +1383,13 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   digit: ['digit', 'jazz-digit', 'jazz'],
   daria: ['daria', 'daria-bond'],
   glx: ['glx', 'general-luxe', 'generaluxe'],
-  gplus: ['gplus', 'g-plus', 'goldiran']
+  gplus: ['gplus', 'g-plus', 'goldiran'],
+  'g-tab': ['g-tab', 'gtab', 'g tab'],
+  'i-life': ['i-life', 'ilife', 'i life'],
+  'obi-worldphone': ['obi-worldphone', 'obi worldphone', 'obi'],
+  eurostar: ['eurostar', 'eurostar-epad'],
+  touchmate: ['touchmate', 'touch mate'],
+  xtouch: ['xtouch', 'x-touch']
 };
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
