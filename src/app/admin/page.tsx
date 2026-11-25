@@ -67,6 +67,16 @@ interface GoogleIntegrationsStatus {
   adSenseConfigured: boolean;
 }
 
+interface DatabaseDiagnostics {
+  hasUrl: boolean;
+  urlValid: boolean;
+  urlSource: string | null;
+  hasServiceKey: boolean;
+  keySource: string | null;
+  configError?: string;
+  connectionError?: string;
+}
+
 const COMPLETE_SQL_SCHEMA = `-- PUBGFrames Production Schema (Zero Dummy Data)
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -231,6 +241,7 @@ export default function AdminDashboardPage() {
     ga4Configured: false,
     adSenseConfigured: false
   });
+  const [dbDiagnostics, setDbDiagnostics] = useState<DatabaseDiagnostics | null>(null);
   const [loadingStats, setLoadingStats] = useState(false);
   const [copiedSql, setCopiedSql] = useState(false);
   const sqlCopyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -247,6 +258,7 @@ export default function AdminDashboardPage() {
         const payload = (await analyticsRes.json()) as {
           supabaseConfigured: boolean;
           tablesReady: boolean;
+          diagnostics?: DatabaseDiagnostics;
           tablesStatus: TableStatus[];
           analytics: RealAnalyticsData;
           messages: ContactMessageRow[];
@@ -256,6 +268,7 @@ export default function AdminDashboardPage() {
 
         setSupabaseConfigured(payload.supabaseConfigured);
         setTablesReady(payload.tablesReady);
+        setDbDiagnostics(payload.diagnostics || null);
         setTablesStatus(payload.tablesStatus || []);
         setMessages(payload.messages || []);
         setAdminUsers(payload.adminUsers || []);
@@ -653,17 +666,26 @@ export default function AdminDashboardPage() {
       </header>
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
-        {/* Pending SQL Banner */}
+        {/* Pending SQL / Env Diagnostics Banner */}
         {!tablesReady && (
           <div className="p-4 sm:p-5 rounded-xl bg-[#ffffff] border border-[#f59e0b]/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-[#b45309] shrink-0 mt-0.5" />
               <div className="space-y-1 text-sm">
                 <p className="font-semibold text-[#0b0c0e]">
-                  Supabase tables need one-time SQL initialization
+                  {!supabaseConfigured
+                    ? 'Hosting Supabase environment variables are missing or invalid'
+                    : dbDiagnostics?.connectionError
+                      ? 'Supabase connection returned an API or network error'
+                      : 'Supabase tables need one-time SQL initialization'}
                 </p>
                 <p className="text-[#3d4350]">
-                  Auth superuser is active, and keys are configured. Copy the schema script and run it once in Supabase Dashboard &rarr; SQL Editor to enable global PostgreSQL telemetry &amp; device writes.
+                  {!supabaseConfigured
+                    ? dbDiagnostics?.configError ||
+                      'Add NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL) and SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SECRET_KEY) in your hosting dashboard, then redeploy without build cache.'
+                    : dbDiagnostics?.connectionError
+                      ? `Detail: ${dbDiagnostics.connectionError}`
+                      : 'Auth superuser is active, and keys are configured. Copy the schema script and run it once in Supabase Dashboard -> SQL Editor to enable global PostgreSQL telemetry & device writes.'}
                 </p>
               </div>
             </div>
@@ -1218,12 +1240,18 @@ export default function AdminDashboardPage() {
                 {tablesStatus.map((t) => (
                   <div
                     key={t.name}
-                    className="p-3.5 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] flex items-center justify-between"
+                    className="p-3.5 rounded-lg bg-[#f6f7f9] border border-[#e2e5ea] flex items-center justify-between gap-2"
                   >
-                    <div>
+                    <div className="min-w-0">
                       <div className="font-mono text-sm font-medium text-[#0b0c0e]">{t.name}</div>
-                      <div className="text-xs text-[#525866] tabular-nums">
-                        {t.ready ? `${t.count} row(s)` : 'Run SQL schema to create'}
+                      <div className="text-xs text-[#525866] tabular-nums truncate">
+                        {t.ready
+                          ? `${t.count} row(s)`
+                          : t.error
+                            ? t.error
+                            : !supabaseConfigured
+                              ? 'Add server env vars to connect'
+                              : 'Run SQL schema to create'}
                       </div>
                     </div>
                     <span
@@ -1285,14 +1313,28 @@ export default function AdminDashboardPage() {
 
             {/* Vercel Env Checklist */}
             <div className="p-5 sm:p-6 rounded-xl bg-[#ffffff] border border-[#e2e5ea] space-y-3">
-              <h2 className="text-base font-semibold text-[#0b0c0e]">Vercel environment variables</h2>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="text-base font-semibold text-[#0b0c0e]">Vercel &amp; hosting environment variables</h2>
+                {dbDiagnostics && (
+                  <span
+                    className={`px-2.5 py-0.5 rounded text-xs font-medium ${
+                      dbDiagnostics.urlValid && dbDiagnostics.hasServiceKey
+                        ? 'bg-[#dcfce7] text-[#166534]'
+                        : 'bg-[#fee2e2] text-[#991b1b]'
+                    }`}
+                  >
+                    URL: {dbDiagnostics.urlValid ? `OK (${dbDiagnostics.urlSource})` : 'Missing/Invalid'} &middot; Secret Key:{' '}
+                    {dbDiagnostics.hasServiceKey ? `OK (${dbDiagnostics.keySource})` : 'Missing'}
+                  </span>
+                )}
+              </div>
               <p className="text-sm text-[#525866]">
-                Configure these keys in Vercel Project Settings &rarr; Environment Variables (no `.env` secrets needed in Git):
+                Configure these keys in Vercel Project Settings &rarr; Environment Variables for <strong>Production &amp; Preview</strong>, then click <strong>Redeploy</strong> with Build Cache disabled so `NEXT_PUBLIC_*` values are compiled cleanly:
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-[#0b0c0e]">
-                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_SUPABASE_URL</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_SUPABASE_URL (or SUPABASE_URL)</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</li>
-                <li className="p-2.5 rounded bg-[#eef0f3]">SUPABASE_SERVICE_ROLE_KEY</li>
+                <li className="p-2.5 rounded bg-[#eef0f3]">SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SECRET_KEY)</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_EMAIL &amp; ADMIN_PASSWORD</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">ADMIN_SESSION_SECRET</li>
                 <li className="p-2.5 rounded bg-[#eef0f3]">NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION</li>

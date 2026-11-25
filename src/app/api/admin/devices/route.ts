@@ -95,30 +95,49 @@ function deviceToRow(d: DeviceInfo) {
   };
 }
 
+const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
+
 export async function GET() {
   const session = await getVerifiedAdminSession();
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
   }
 
   const sb = createAdminClient();
   if (!sb) {
-    return NextResponse.json({ devices: [], tableReady: false });
+    return NextResponse.json({ devices: [], tableReady: false }, { headers: NO_STORE_HEADERS });
   }
 
-  const { data, error } = await sb
-    .from('devices')
-    .select('*')
-    .order('updated_at', { ascending: false });
+  try {
+    const { data, error } = await sb
+      .from('devices')
+      .select('*')
+      .order('updated_at', { ascending: false });
 
-  if (error) {
-    return NextResponse.json({ devices: [], tableReady: false, error: error.message });
+    if (error) {
+      return NextResponse.json(
+        { devices: [], tableReady: false, error: error.message },
+        { headers: NO_STORE_HEADERS }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        devices: (data as DbDeviceRow[]).map(rowToDevice),
+        tableReady: true
+      },
+      { headers: NO_STORE_HEADERS }
+    );
+  } catch (err) {
+    return NextResponse.json(
+      {
+        devices: [],
+        tableReady: false,
+        error: err instanceof Error ? err.message : 'Unable to reach Supabase host'
+      },
+      { headers: NO_STORE_HEADERS }
+    );
   }
-
-  return NextResponse.json({
-    devices: (data as DbDeviceRow[]).map(rowToDevice),
-    tableReady: true
-  });
 }
 
 export async function POST(request: NextRequest) {
@@ -165,13 +184,27 @@ export async function DELETE(request: NextRequest) {
 
   const sb = createAdminClient();
   if (!sb) {
-    return NextResponse.json({ ok: false, persisted: 'none' });
+    return NextResponse.json({ ok: false, persisted: 'none' }, { headers: NO_STORE_HEADERS });
   }
 
-  const { error } = await sb.from('devices').delete().eq('id', id);
-  if (error) {
-    return NextResponse.json({ ok: false, persisted: 'table_pending', error: error.message });
-  }
+  try {
+    const { error } = await sb.from('devices').delete().eq('id', id);
+    if (error) {
+      return NextResponse.json(
+        { ok: false, persisted: 'table_pending', error: error.message },
+        { headers: NO_STORE_HEADERS }
+      );
+    }
 
-  return NextResponse.json({ ok: true, persisted: 'supabase' });
+    return NextResponse.json({ ok: true, persisted: 'supabase' }, { headers: NO_STORE_HEADERS });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        ok: false,
+        persisted: 'table_pending',
+        error: err instanceof Error ? err.message : 'Network error reaching Supabase'
+      },
+      { headers: NO_STORE_HEADERS }
+    );
+  }
 }

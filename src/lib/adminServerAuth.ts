@@ -12,17 +12,30 @@ export interface VerifiedAdminSession {
   exp: number;
 }
 
+function readServerEnv(...names: string[]): string {
+  const env = process.env;
+  for (const name of names) {
+    const raw = env[name];
+    if (typeof raw === 'string') {
+      const cleaned = raw.trim().replace(/^['"]|['"]$/g, '').trim();
+      if (cleaned) return cleaned;
+    }
+  }
+  return '';
+}
+
 export function getSingleSuperuserEmail(): string {
-  return (process.env.ADMIN_EMAIL || 'usmanshahidhnd2108@gmail.com').trim().toLowerCase();
+  return (readServerEnv('ADMIN_EMAIL') || 'usmanshahidhnd2108@gmail.com').toLowerCase();
 }
 
 function getSigningSecret(): string {
   return (
-    process.env.ADMIN_SESSION_SECRET ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_SECRET_KEY ||
-    process.env.ADMIN_PASSWORD ||
-    'pubgframes-local-dev-secret-change-in-prod'
+    readServerEnv(
+      'ADMIN_SESSION_SECRET',
+      'SUPABASE_SERVICE_ROLE_KEY',
+      'SUPABASE_SECRET_KEY',
+      'ADMIN_PASSWORD'
+    ) || 'pubgframes-local-dev-secret-change-in-prod'
   );
 }
 
@@ -101,14 +114,15 @@ export async function verifySuperuserCredentials(
     return { ok: false, error: 'Password is required.' };
   }
 
-  const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').trim();
-  const supabaseAnon = (
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-    ''
-  ).trim();
+  const supabaseUrl = readServerEnv('SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL').replace(/\/+$/, '');
+  const supabaseAnon = readServerEnv(
+    'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
+    'SUPABASE_PUBLISHABLE_KEY',
+    'SUPABASE_ANON_KEY'
+  );
 
-  if (supabaseUrl && supabaseAnon) {
+  if (supabaseUrl && /^https?:\/\/.+/.test(supabaseUrl) && supabaseAnon) {
     try {
       const sb = createClient(supabaseUrl, supabaseAnon, {
         auth: { autoRefreshToken: false, persistSession: false }
@@ -136,15 +150,15 @@ export async function verifySuperuserCredentials(
         return { ok: true, email: allowedEmail };
       }
 
-      if (error && !error.message.toLowerCase().includes('fetch')) {
+      if (error && error.message.toLowerCase().includes('invalid login credentials')) {
         return { ok: false, error: 'Invalid email or security password.' };
       }
     } catch {
-      // Fall through to env check only on network outage
+      // Fall through to server env check when Supabase Auth is unreachable or misconfigured
     }
   }
 
-  const expectedPassword = process.env.ADMIN_PASSWORD || '@oZhQ95XP';
+  const expectedPassword = readServerEnv('ADMIN_PASSWORD') || '@oZhQ95XP';
   if (safeEqualString(passwordInput, expectedPassword)) {
     return { ok: true, email: allowedEmail };
   }
