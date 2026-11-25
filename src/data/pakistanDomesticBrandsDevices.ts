@@ -1,0 +1,282 @@
+import { DeviceInfo } from '@/types/device';
+import { createDevice } from './deviceFactory';
+
+/**
+ * Pakistani Domestic & Locally Assembled Mobile Brands:
+ * VGO TEL, Dcode, Sparx, SEGO, QMobile, Jazz Digit, Voice Mobile, Rivo, and GFive.
+ */
+export const PAKISTAN_DOMESTIC_BRANDS_DEVICES: DeviceInfo[] = [
+  // --- VGO TEL (PAKISTAN) ---
+  createDevice({
+    brand: 'VGO TEL',
+    brandSlug: 'vgo-tel',
+    model: 'New 24',
+    releaseYear: 2024,
+    chipset: 'MediaTek Helio G35 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.53" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 135000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.0
+  }),
+  createDevice({
+    brand: 'VGO TEL',
+    brandSlug: 'vgo-tel',
+    model: 'Smart 8',
+    releaseYear: 2024,
+    chipset: 'Unisoc SC9863A (28nm)',
+    gpu: 'PowerVR GE8322',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 90,
+    screenSize: '6.75" HD+ IPS LCD 90Hz',
+    batteryCapacity: 5000,
+    antutuScore: 105000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.3
+  }),
+  createDevice({
+    brand: 'VGO TEL',
+    brandSlug: 'vgo-tel',
+    model: 'Smart 7',
+    releaseYear: 2023,
+    chipset: 'MediaTek Quad-Core 1.5GHz',
+    gpu: 'PowerVR GE8300',
+    ramOptions: ['3GB'],
+    displayRefreshRate: 60,
+    screenSize: '5.99" HD+ IPS LCD 60Hz',
+    batteryCapacity: 3000,
+    antutuScore: 85000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 3.9
+  }),
+
+  // --- DCODE (PAKISTAN) ---
+  createDevice({
+    brand: 'Dcode',
+    model: 'Cygnal 4',
+    releaseYear: 2025,
+    chipset: 'MediaTek Helio G37 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 90,
+    screenSize: '6.74" HD+ IPS LCD 90Hz',
+    batteryCapacity: 5000,
+    antutuScore: 145000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.1
+  }),
+  createDevice({
+    brand: 'Dcode',
+    model: 'Cygnal 3',
+    releaseYear: 2024,
+    chipset: 'MediaTek Helio G37 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.52" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 140000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.0
+  }),
+  createDevice({
+    brand: 'Dcode',
+    model: 'Bold 2',
+    releaseYear: 2023,
+    chipset: 'MediaTek Helio G37 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 90,
+    screenSize: '6.52" HD+ IPS LCD 90Hz',
+    batteryCapacity: 5000,
+    antutuScore: 142000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.1
+  }),
+
+  // --- SPARX (PAKISTAN) ---
+  createDevice({
+    brand: 'Sparx',
+    model: 'Neo 11',
+    releaseYear: 2024,
+    chipset: 'MediaTek Helio G35 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.52" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 135000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.0
+  }),
+  createDevice({
+    brand: 'Sparx',
+    model: 'Neo 8 Plus',
+    releaseYear: 2024,
+    chipset: 'Unisoc T606 (12nm)',
+    gpu: 'Mali-G57 MP1',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 90,
+    screenSize: '6.75" HD+ IPS LCD 90Hz',
+    batteryCapacity: 5000,
+    antutuScore: 245000,
+    gyroscope: 'Software Gyro',
+    maxSupportedFps: 40,
+    overallGamingRating: 6.1
+  }),
+  createDevice({
+    brand: 'Sparx',
+    model: 'Neo 7 Pro',
+    releaseYear: 2023,
+    chipset: 'MediaTek Helio G25 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.52" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 115000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.5
+  }),
+
+  // --- SEGO (PAKISTAN) ---
+  createDevice({
+    brand: 'SEGO',
+    model: 'Zero 50',
+    releaseYear: 2025,
+    chipset: 'MediaTek Helio G99 (6nm)',
+    gpu: 'Mali-G57 MC2',
+    ramOptions: ['8GB'],
+    displayRefreshRate: 120,
+    screenSize: '6.67" FHD+ 3D Curved AMOLED 120Hz',
+    batteryCapacity: 5000,
+    antutuScore: 420000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 60,
+    overallGamingRating: 7.5
+  }),
+  createDevice({
+    brand: 'SEGO',
+    model: 'Smart 9',
+    releaseYear: 2024,
+    chipset: 'MediaTek Quad-Core 1.3GHz',
+    gpu: 'PowerVR GE8300',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.6" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 95000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.2
+  }),
+
+  // --- QMOBILE (PAKISTAN) ---
+  createDevice({
+    brand: 'QMobile',
+    model: 'QMobile QSmart Blaze',
+    releaseYear: 2024,
+    chipset: 'Unisoc SC9863A (28nm)',
+    gpu: 'PowerVR GE8322',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.6" HD+ V-Notch Display',
+    batteryCapacity: 5000,
+    antutuScore: 105000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.3
+  }),
+  createDevice({
+    brand: 'QMobile',
+    model: 'QMobile View Max Pro',
+    releaseYear: 2023,
+    chipset: 'MediaTek Helio G35 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['3GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.6" HD+ IPS LCD 60Hz',
+    batteryCapacity: 4000,
+    antutuScore: 130000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.6
+  }),
+
+  // --- JAZZ DIGIT, VOICE, RIVO & GFIVE (PAKISTAN HERITAGE & CARRIER) ---
+  createDevice({
+    brand: 'Digit',
+    model: 'Jazz Digit 4G Bold',
+    releaseYear: 2022,
+    chipset: 'MediaTek MT6731 (Quad-Core)',
+    gpu: 'PowerVR GE8100',
+    ramOptions: ['512MB'],
+    displayRefreshRate: 60,
+    screenSize: '2.4" QVGA KaiOS Keypad Display',
+    batteryCapacity: 1700,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.0,
+    isUnsupportedHardware: true,
+    notes: 'Pakistan Jazz Digit 4G KaiOS keypad handset cannot install or run PUBG Mobile.'
+  }),
+  createDevice({
+    brand: 'Voice',
+    model: 'Xtreme V90',
+    releaseYear: 2014,
+    chipset: 'MediaTek Quad-Core 1.5GHz',
+    gpu: 'PowerVR SGX544',
+    ramOptions: ['2GB'],
+    displayRefreshRate: 60,
+    screenSize: '4.7" HD IPS LCD 60Hz',
+    batteryCapacity: 1750,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.5,
+    isUnsupportedHardware: true,
+    notes: 'Classic Pakistani Voice Xtreme Android 4.2 device falls below PUBG Mobile 64-bit requirements.'
+  }),
+  createDevice({
+    brand: 'Rivo',
+    model: 'Phantom PZ15',
+    releaseYear: 2015,
+    chipset: 'MediaTek MT6592 (Octa-Core)',
+    gpu: 'Mali-450 MP4',
+    ramOptions: ['2GB'],
+    displayRefreshRate: 60,
+    screenSize: '5.0" HD Super AMOLED 60Hz',
+    batteryCapacity: 2000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.6,
+    isUnsupportedHardware: true,
+    notes: 'Legacy Pakistani Rivo Android 4.4 device falls below modern PUBG Mobile minimum OS/CPU specs.'
+  }),
+  createDevice({
+    brand: 'GFive',
+    model: 'President G10',
+    releaseYear: 2014,
+    chipset: 'MediaTek MT6592 / MT6589T',
+    gpu: 'Mali-450 MP4',
+    ramOptions: ['1GB'],
+    displayRefreshRate: 60,
+    screenSize: '5.5" FHD IPS LCD 60Hz',
+    batteryCapacity: 2500,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.4,
+    isUnsupportedHardware: true,
+    notes: 'Legacy 1GB RAM / 32-bit chipset falls below PUBG Mobile minimum requirements.'
+  })
+];

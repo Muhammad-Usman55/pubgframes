@@ -37,6 +37,8 @@ import { CHINA_MAJOR_DEVICES } from './chinaMajorDevices';
 import { CHINA_BRANDS_AND_TABLETS_DEVICES } from './chinaBrandsAndTabletsDevices';
 import { INDIA_DOMESTIC_BRANDS_DEVICES } from './indiaDomesticBrandsDevices';
 import { INDIA_MARKET_LINEUPS_DEVICES } from './indiaMarketLineupsDevices';
+import { PAKISTAN_DOMESTIC_BRANDS_DEVICES } from './pakistanDomesticBrandsDevices';
+import { PAKISTAN_MARKET_MODELS_DEVICES } from './pakistanMarketModelsDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1298,7 +1300,11 @@ const RAW_DEVICES: DeviceInfo[] = [
 
   // --- INDIA DOMESTIC BRANDS & INDIA-MARKET LINEUPS ---
   ...INDIA_DOMESTIC_BRANDS_DEVICES,
-  ...INDIA_MARKET_LINEUPS_DEVICES
+  ...INDIA_MARKET_LINEUPS_DEVICES,
+
+  // --- PAKISTAN DOMESTIC BRANDS & PTA POPULAR LINEUPS ---
+  ...PAKISTAN_DOMESTIC_BRANDS_DEVICES,
+  ...PAKISTAN_MARKET_MODELS_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1355,7 +1361,8 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   leeco: ['leeco', 'letv'],
   xiaolajiao: ['xiaolajiao', 'small-pepper', 'small pepper'],
   'ai-plus': ['ai-plus', 'ai+', 'ai plus'],
-  jio: ['jio', 'reliance-jio', 'jiophone']
+  jio: ['jio', 'reliance-jio', 'jiophone'],
+  digit: ['digit', 'jazz-digit', 'jazz']
 };
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
