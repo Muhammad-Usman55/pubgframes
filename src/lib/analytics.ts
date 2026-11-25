@@ -345,8 +345,16 @@ export function clearBrowserFallbackAnalytics() {
   }
 }
 
+const CRAWLER_UA_PATTERN =
+  /bot|crawler|spider|slurp|googlebot|google-inspectiontool|googleother|adsbot-google|mediapartners-google|bingbot|duckduckbot|yandex|baiduspider|facebookexternalhit|lighthouse|pagespeed|gtmetrix/i;
+
+function isCrawlerClient(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return CRAWLER_UA_PATTERN.test(navigator.userAgent || '');
+}
+
 export function trackPageView(path: string) {
-  if (typeof window === 'undefined' || !path || path.startsWith('/admin')) return;
+  if (typeof window === 'undefined' || !path || path.startsWith('/admin') || isCrawlerClient()) return;
 
   const visitorId = getOrCreateVisitorId();
   if (!shouldRecordPathInSession(path)) {
@@ -377,7 +385,7 @@ export function trackPageView(path: string) {
 }
 
 export function trackSearchQuery(query: string, resultCount = 0, selectedDeviceId?: string) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || isCrawlerClient()) return;
   const clean = query.trim();
   if (clean.length < 2) return;
 
