@@ -35,14 +35,14 @@ export const Hero = () => {
 
           <p
             className="text-base sm:text-xl text-[#0b0c0e] leading-[1.45] max-w-[44ch] animate-hero-line"
-            style={{ animationDelay: '90ms' }}
+            style={{ animationDelay: '35ms' }}
           >
             Look up tested FPS limits, graphics presets, gyroscope support, and heat behavior for {totalCount} smartphones and tablets before you play.
           </p>
 
           <div
             className="flex flex-wrap items-center gap-3 sm:gap-4 pt-1 animate-hero-line"
-            style={{ animationDelay: '160ms' }}
+            style={{ animationDelay: '70ms' }}
           >
             <a
               href="#fps-calculator"
@@ -62,7 +62,7 @@ export const Hero = () => {
 
           <div
             className="pt-2 sm:pt-4 space-y-2 animate-hero-line"
-            style={{ animationDelay: '220ms' }}
+            style={{ animationDelay: '105ms' }}
           >
             <p className="text-sm font-medium text-[#3d4350]">
               Jump straight to a brand
@@ -89,7 +89,8 @@ export const Hero = () => {
               src="/gameplay/hero-art.jpg"
               alt="PUBG Mobile competitive gameplay tested on smartphone hardware"
               fill
-              className="object-cover animate-hero-drift"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
               priority
             />
           </figure>

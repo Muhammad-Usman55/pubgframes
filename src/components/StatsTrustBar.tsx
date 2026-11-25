@@ -40,7 +40,7 @@ export const StatsTrustBar = () => {
                 <div
                   key={idx}
                   className="reveal-on-scroll space-y-1"
-                  style={{ transitionDelay: `${idx * 70}ms` }}
+                  style={{ transitionDelay: `${idx * 35}ms` }}
                 >
                   <div className="text-[28px] sm:text-[36px] font-semibold text-white tabular-nums leading-none">
                     {stat.figure}
@@ -63,6 +63,8 @@ export const StatsTrustBar = () => {
                 src="/gameplay/helmet-crop.jpg"
                 alt="PUBG Mobile Level 3 Spetsnaz Helmet"
                 fill
+                sizes="(max-width: 1024px) 100vw, 34vw"
+                loading="lazy"
                 className="object-cover"
               />
             </figure>

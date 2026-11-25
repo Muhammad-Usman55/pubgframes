@@ -19,18 +19,27 @@ export const MobileBottomNav = () => {
   }
 
   useEffect(() => {
+    let rafId = 0;
+    const updateDock = () => {
+      rafId = 0;
+      const next = window.scrollY > 360;
+      setShowDock((prev) => (prev === next ? prev : next));
+    };
+
     const handleScroll = () => {
-      setShowDock(window.scrollY > 360);
+      if (rafId) return;
+      rafId = requestAnimationFrame(updateDock);
     };
 
     const timer = setTimeout(() => {
       setSoundEnabled(soundEffects.isEnabled());
-      handleScroll();
+      updateDock();
     }, 0);
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       clearTimeout(timer);
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);

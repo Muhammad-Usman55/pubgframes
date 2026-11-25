@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, useDeferredValue } from 'react';
 import Link from 'next/link';
 import { Smartphone, Search, ShieldCheck, AlertTriangle, Copy, Check, ArrowUpRight, Flame, X } from 'lucide-react';
 import { ALL_BRANDS, DEVICES_DATA, calculateFps, getThermalThrottledFps } from '@/data/devices';
-import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
+import { searchDevicesWithFuzzy, prewarmDeviceSearchIndex } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
 import { trackSearchQuery } from '@/lib/analytics';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
@@ -27,12 +27,21 @@ export const FpsCheckerWidget = () => {
   const [selectedBrandFilter, setSelectedBrandFilter] = useState<string>('All');
   const [gamingMinutes, setGamingMinutes] = useState<number>(0);
   const [copied, setCopied] = useState(false);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const idleWin = window as Window & {
+      requestIdleCallback?: (cb: () => void) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const idleId = idleWin.requestIdleCallback
+      ? idleWin.requestIdleCallback(() => prewarmDeviceSearchIndex(DEVICES_DATA))
+      : window.setTimeout(() => prewarmDeviceSearchIndex(DEVICES_DATA), 120);
+
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setIsDropdownOpen(false);
@@ -40,17 +49,20 @@ export const FpsCheckerWidget = () => {
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
+      if (idleWin.cancelIdleCallback) idleWin.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
       document.removeEventListener('mousedown', handleClickOutside);
       if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
     };
   }, []);
 
   const filteredDevices = useMemo(() => {
-    return searchDevicesWithFuzzy(DEVICES_DATA, searchQuery, {
+    if (!isDropdownOpen) return [];
+    return searchDevicesWithFuzzy(DEVICES_DATA, deferredSearchQuery, {
       brandFilter: selectedBrandFilter,
-      limit: 120
+      limit: deferredSearchQuery.trim() ? 40 : 25
     });
-  }, [selectedBrandFilter, searchQuery]);
+  }, [isDropdownOpen, selectedBrandFilter, deferredSearchQuery]);
 
   const baseFpsResult = useMemo(() => {
     if (!selectedDevice) return null;

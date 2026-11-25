@@ -1,68 +1,99 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import Link from 'next/link';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
-import { scoreDeviceRelevance } from '@/utils/fuzzySearch';
+import { DeviceInfo } from '@/types/device';
+import { scoreDeviceRelevance, prewarmDeviceSearchIndex } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
 import { trackSearchQuery } from '@/lib/analytics';
 import { Search, X } from 'lucide-react';
 import { AdBanner } from '@/components/AdBanner';
 
+const gamingPhoneCache = new WeakMap<DeviceInfo, boolean>();
+
+function isGamingPhone(device: DeviceInfo): boolean {
+  const cached = gamingPhoneCache.get(device);
+  if (cached !== undefined) return cached;
+
+  const modelLower = device.model.toLowerCase();
+  const coolingLower = device.coolingSystem.toLowerCase();
+  const result =
+    device.brand === 'Black Shark' ||
+    device.brand === 'iQOO' ||
+    device.brand === 'Razer' ||
+    modelLower.includes('rog') ||
+    modelLower.includes('redmagic') ||
+    modelLower.includes('legion') ||
+    modelLower.includes('gaming') ||
+    coolingLower.includes('fan') ||
+    coolingLower.includes('gamecool') ||
+    modelLower.includes('gt 20 pro') ||
+    modelLower.includes('gt 10 pro') ||
+    modelLower.includes('f4 gt');
+
+  gamingPhoneCache.set(device, result);
+  return result;
+}
+
 export default function DevicesCatalogPage() {
   const [search, setSearch] = useState('');
+  const deferredSearch = useDeferredValue(search);
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [selectedFpsFilter, setSelectedFpsFilter] = useState<'All' | '120' | '90' | '60' | '40' | 'Unsupported'>('All');
   const [onlyGamingPhones, setOnlyGamingPhones] = useState(false);
   const [sortBy, setSortBy] = useState<'popularity' | 'name' | 'fps'>('popularity');
   const [visibleCount, setVisibleCount] = useState(48);
 
+  useEffect(() => {
+    const idleWin = window as Window & {
+      requestIdleCallback?: (cb: () => void) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const idleId = idleWin.requestIdleCallback
+      ? idleWin.requestIdleCallback(() => prewarmDeviceSearchIndex(DEVICES_DATA))
+      : window.setTimeout(() => prewarmDeviceSearchIndex(DEVICES_DATA), 120);
+    return () => {
+      if (idleWin.cancelIdleCallback) idleWin.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+    };
+  }, []);
+
   const filteredDevices = useMemo(() => {
-    const cleanSearch = search.trim();
+    const cleanSearch = deferredSearch.trim();
+    const matches: Array<{ device: DeviceInfo; score: number }> = [];
 
-    return DEVICES_DATA
-      .map((device) => {
-        const matchBrand = selectedBrand === 'All' || device.brand === selectedBrand;
-        const matchFps =
-          selectedFpsFilter === 'All'
-            ? true
-            : selectedFpsFilter === 'Unsupported'
-              ? device.maxSupportedFps === 0 || device.isUnsupportedHardware
-              : device.maxSupportedFps.toString() === selectedFpsFilter;
+    for (let i = 0; i < DEVICES_DATA.length; i++) {
+      const device = DEVICES_DATA[i];
+      if (selectedBrand !== 'All' && device.brand !== selectedBrand) continue;
 
-        const isGaming =
-          device.brand === 'Black Shark' ||
-          device.brand === 'iQOO' ||
-          device.brand === 'Razer' ||
-          device.model.toLowerCase().includes('rog') ||
-          device.model.toLowerCase().includes('redmagic') ||
-          device.model.toLowerCase().includes('legion') ||
-          device.model.toLowerCase().includes('gaming') ||
-          device.coolingSystem.toLowerCase().includes('fan') ||
-          device.coolingSystem.toLowerCase().includes('gamecool') ||
-          device.model.toLowerCase().includes('gt 20 pro') ||
-          device.model.toLowerCase().includes('gt 10 pro') ||
-          device.model.toLowerCase().includes('f4 gt');
-
-        const matchGaming = !onlyGamingPhones || isGaming;
-        if (!matchBrand || !matchFps || !matchGaming) return null;
-
-        const score = cleanSearch ? scoreDeviceRelevance(device, cleanSearch) : 100;
-        if (score === 0) return null;
-
-        return { device, score };
-      })
-      .filter((item): item is { device: (typeof DEVICES_DATA)[0]; score: number } => item !== null)
-      .sort((a, b) => {
-        if (cleanSearch && b.score !== a.score) {
-          return b.score - a.score;
+      if (selectedFpsFilter !== 'All') {
+        if (selectedFpsFilter === 'Unsupported') {
+          if (device.maxSupportedFps !== 0 && !device.isUnsupportedHardware) continue;
+        } else if (device.maxSupportedFps.toString() !== selectedFpsFilter) {
+          continue;
         }
-        if (sortBy === 'popularity') return a.device.popularityRank - b.device.popularityRank;
-        if (sortBy === 'fps') return b.device.maxSupportedFps - a.device.maxSupportedFps;
-        return a.device.model.localeCompare(b.device.model);
-      })
-      .map((item) => item.device);
-  }, [search, selectedBrand, selectedFpsFilter, onlyGamingPhones, sortBy]);
+      }
+
+      if (onlyGamingPhones && !isGamingPhone(device)) continue;
+
+      const score = cleanSearch ? scoreDeviceRelevance(device, cleanSearch) : 100;
+      if (score === 0) continue;
+
+      matches.push({ device, score });
+    }
+
+    matches.sort((a, b) => {
+      if (cleanSearch && b.score !== a.score) {
+        return b.score - a.score;
+      }
+      if (sortBy === 'popularity') return a.device.popularityRank - b.device.popularityRank;
+      if (sortBy === 'fps') return b.device.maxSupportedFps - a.device.maxSupportedFps;
+      return a.device.model.localeCompare(b.device.model);
+    });
+
+    return matches.map((item) => item.device);
+  }, [deferredSearch, selectedBrand, selectedFpsFilter, onlyGamingPhones, sortBy]);
 
   const displayedDevices = filteredDevices.slice(0, visibleCount);
 
@@ -174,7 +205,7 @@ export default function DevicesCatalogPage() {
                 setSelectedBrand(brand);
                 setVisibleCount(48);
               }}
-              className={`px-3 py-1.5 rounded-md font-medium transition-colors duration-150 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-md font-medium cursor-pointer ${
                 selectedBrand === brand
                   ? 'bg-[#0b0c0e] text-white'
                   : 'bg-[#eef0f3] text-[#3d4350] hover:text-[#0b0c0e]'
@@ -240,7 +271,7 @@ export default function DevicesCatalogPage() {
           return (
             <div
               key={device.id}
-              className="p-4 sm:p-5 rounded-lg bg-[#ffffff] flex flex-col justify-between space-y-4 sm:space-y-5"
+              className="device-card-perf p-4 sm:p-5 rounded-lg bg-[#ffffff] flex flex-col justify-between space-y-4 sm:space-y-5"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">

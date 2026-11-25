@@ -9,7 +9,7 @@
   --color-accent: #1f2de6;
   --color-accent-ink: #ffffff;
   --color-dark: #111317;
-  --font-sans: "Switzer", var(--font-jakarta), system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-jakarta), "Switzer", system-ui, -apple-system, sans-serif;
 }
 
 :root {
@@ -39,7 +39,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -55,7 +54,6 @@ body {
   padding-bottom: 0px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
   touch-action: manipulation;
 }
 
@@ -103,36 +101,40 @@ p {
 
 @keyframes line-rise {
   from {
-    opacity: 0.99;
-    transform: translateY(14px);
+    opacity: 0.96;
+    transform: translate3d(0, 8px, 0);
   }
   to {
     opacity: 1;
-    transform: none;
+    transform: translate3d(0, 0, 0);
   }
 }
 
 .animate-hero-line {
-  animation: line-rise 600ms var(--ease-expo) both;
-}
-
-.animate-hero-drift {
-  animation: hero-drift 16s var(--ease-soft) infinite alternate;
+  animation: line-rise 260ms var(--ease-expo) both;
 }
 
 .js .reveal-on-scroll {
-  opacity: 1;
-  transform: translateY(18px);
-  transition: transform var(--t-reveal) var(--ease-out);
+  transform: translate3d(0, 10px, 0);
+  transition: transform 280ms var(--ease-out);
+  will-change: transform;
 }
 
 .js .reveal-on-scroll.is-visible {
-  opacity: 1;
-  transform: none;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.device-card-perf {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .animate-hero-line,
+  .js .reveal-on-scroll {
+    animation: none;
+    transition: none;
+    transform: none;
   }
 }

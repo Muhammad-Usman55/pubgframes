@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface FpsGaugeProps {
   fps: number;
@@ -17,22 +17,29 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
   isUnsupported = false,
   isEmpty = false
 }) => {
-  const [currentFps, setCurrentFps] = useState(
-    isEmpty || isUnsupported ? 0 : Math.min(fps, maxFps)
-  );
+  const initialFps = isEmpty || isUnsupported ? 0 : Math.min(fps, maxFps);
+  const [currentFps, setCurrentFps] = useState(initialFps);
+  const currentRef = useRef(initialFps);
 
   useEffect(() => {
     const target = isEmpty || isUnsupported ? 0 : Math.min(fps, maxFps);
-    const startVal = currentFps;
-    const duration = 450;
+    const startVal = currentRef.current;
+    if (startVal === target) return;
+
+    const duration = 260;
     const startTime = performance.now();
-    let animationFrameId: number;
+    let animationFrameId = 0;
 
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
-      setCurrentFps(Math.round(startVal + (target - startVal) * ease));
+      const nextVal = Math.round(startVal + (target - startVal) * ease);
+
+      if (nextVal !== currentRef.current) {
+        currentRef.current = nextVal;
+        setCurrentFps(nextVal);
+      }
 
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(animate);
@@ -43,7 +50,6 @@ export const FpsGauge: React.FC<FpsGaugeProps> = ({
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fps, maxFps, isUnsupported, isEmpty]);
 
   const clampedFps = isEmpty || isUnsupported ? 0 : Math.min(currentFps, maxFps);

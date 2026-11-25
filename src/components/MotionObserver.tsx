@@ -26,17 +26,27 @@ export function MotionObserver() {
           }
         }
       },
-      { rootMargin: '0px 0px -4% 0px', threshold: 0.05 }
+      { rootMargin: '120px 0px 120px 0px', threshold: 0.01 }
     );
 
+    const immediateReveal: Element[] = [];
+    const viewportThreshold = window.innerHeight * 0.95;
     elements.forEach((el) => {
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.65) {
-        requestAnimationFrame(() => el.classList.add('is-visible'));
+      if (rect.top < viewportThreshold) {
+        immediateReveal.push(el);
       } else {
         observer.observe(el);
       }
     });
+
+    if (immediateReveal.length > 0) {
+      requestAnimationFrame(() => {
+        for (const el of immediateReveal) {
+          el.classList.add('is-visible');
+        }
+      });
+    }
 
     return () => observer.disconnect();
   }, [pathname]);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SlidersHorizontal } from 'lucide-react';
@@ -8,8 +8,13 @@ import { soundEffects } from '@/utils/soundEffects';
 
 export const GraphicsComparisonSection = () => {
   const [selectedMode, setSelectedMode] = useState<'Smooth' | 'Balanced' | 'HD' | 'Ultra HD'>('Smooth');
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const isDragging = useRef(false);
+  const positionRef = useRef(50);
+  const pendingXRef = useRef<number | null>(null);
+  const rafIdRef = useRef<number | null>(null);
+  const isDraggingRef = useRef(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
 
   const modes = [
     {
@@ -56,11 +61,42 @@ export const GraphicsComparisonSection = () => {
 
   const activePreset = modes.find((m) => m.id === selectedMode) || modes[0];
 
-  const handleSliderMove = (clientX: number, rect: DOMRect) => {
-    const x = clientX - rect.left;
-    const percent = Math.max(8, Math.min(92, (x / rect.width) * 100));
-    setSliderPosition(percent);
-  };
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
+
+  const applySliderPosition = useCallback((percent: number) => {
+    const clamped = Math.max(8, Math.min(92, percent));
+    positionRef.current = clamped;
+    if (overlayRef.current) {
+      overlayRef.current.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
+    }
+    if (dividerRef.current) {
+      dividerRef.current.style.left = `${clamped}%`;
+    }
+  }, []);
+
+  const scheduleSliderMove = useCallback(
+    (clientX: number) => {
+      pendingXRef.current = clientX;
+      if (rafIdRef.current !== null) return;
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
+        const x = pendingXRef.current;
+        const track = trackRef.current;
+        if (x === null || !track) return;
+        const rect = track.getBoundingClientRect();
+        if (rect.width > 0) {
+          applySliderPosition(((x - rect.left) / rect.width) * 100);
+        }
+      });
+    },
+    [applySliderPosition]
+  );
 
   return (
     <section className="max-w-[1440px] mx-auto px-4 sm:px-8 py-8 sm:py-20 space-y-6 sm:space-y-10">
@@ -86,28 +122,26 @@ export const GraphicsComparisonSection = () => {
         </div>
 
         <div
-          style={{ containerType: 'inline-size' }}
+          ref={trackRef}
           className="relative w-full aspect-[16/10] sm:aspect-[21/9] rounded-md overflow-hidden cursor-ew-resize select-none touch-none bg-[#111317]"
-          onMouseDown={(e) => {
-            isDragging.current = true;
-            handleSliderMove(e.clientX, e.currentTarget.getBoundingClientRect());
+          onPointerDown={(e) => {
+            isDraggingRef.current = true;
+            e.currentTarget.setPointerCapture?.(e.pointerId);
+            scheduleSliderMove(e.clientX);
           }}
-          onMouseMove={(e) => {
-            if (isDragging.current) {
-              handleSliderMove(e.clientX, e.currentTarget.getBoundingClientRect());
+          onPointerMove={(e) => {
+            if (isDraggingRef.current) {
+              scheduleSliderMove(e.clientX);
             }
           }}
-          onMouseUp={() => { isDragging.current = false; }}
-          onMouseLeave={() => { isDragging.current = false; }}
-          onTouchStart={(e) => {
-            if (e.touches[0]) {
-              handleSliderMove(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
+          onPointerUp={(e) => {
+            isDraggingRef.current = false;
+            if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
+              e.currentTarget.releasePointerCapture(e.pointerId);
             }
           }}
-          onTouchMove={(e) => {
-            if (e.touches[0]) {
-              handleSliderMove(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
-            }
+          onPointerCancel={() => {
+            isDraggingRef.current = false;
           }}
         >
           <div className="absolute inset-0 w-full h-full">
@@ -115,6 +149,8 @@ export const GraphicsComparisonSection = () => {
               src="/gameplay/ultrahd-real.jpg"
               alt="Ultra HD 4K PUBG Mobile visual comparison"
               fill
+              sizes="(max-width: 1024px) 100vw, 85vw"
+              loading="lazy"
               className="object-cover"
             />
             <div className="hidden sm:block absolute top-3 right-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
@@ -123,25 +159,27 @@ export const GraphicsComparisonSection = () => {
           </div>
 
           <div
-            className="absolute inset-0 overflow-hidden"
-            style={{ width: `${sliderPosition}%` }}
+            ref={overlayRef}
+            className="absolute inset-0 w-full h-full will-change-[clip-path]"
+            style={{ clipPath: 'inset(0 50% 0 0)' }}
           >
-            <div className="relative w-full h-full" style={{ width: '100cqw' }}>
-              <Image
-                src="/gameplay/smooth-real.jpg"
-                alt="Smooth 120 FPS PUBG Mobile visual comparison"
-                fill
-                className="object-cover"
-              />
-            </div>
+            <Image
+              src="/gameplay/smooth-real.jpg"
+              alt="Smooth 120 FPS PUBG Mobile visual comparison"
+              fill
+              sizes="(max-width: 1024px) 100vw, 85vw"
+              loading="lazy"
+              className="object-cover"
+            />
             <div className="hidden sm:block absolute top-3 left-3 px-3 py-1.5 rounded-md bg-[#111317] text-white text-sm font-medium">
               Smooth &middot; 120 FPS
             </div>
           </div>
 
           <div
+            ref={dividerRef}
             className="absolute top-0 bottom-0 w-0.5 bg-white pointer-events-none"
-            style={{ left: `${sliderPosition}%` }}
+            style={{ left: '50%' }}
           >
             <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-[#111317] border-2 border-white flex items-center justify-center pointer-events-auto cursor-ew-resize">
               <SlidersHorizontal className="w-4 h-4 text-white" />
@@ -193,6 +231,8 @@ export const GraphicsComparisonSection = () => {
               src={activePreset.image}
               alt={`PUBG Mobile ${activePreset.name} preset screen`}
               fill
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              loading="lazy"
               className="object-cover"
             />
           </figure>

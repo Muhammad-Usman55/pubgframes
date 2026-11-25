@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  images: {
+    formats: ['image/avif', 'image/webp']
+  },
   turbopack: {
     rules: {
       '*.css': {

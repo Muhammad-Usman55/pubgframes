@@ -49,7 +49,7 @@ export const FeatureCards = () => {
             <div
               key={idx}
               className="reveal-on-scroll flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              style={{ transitionDelay: `${idx * 70}ms` }}
+              style={{ transitionDelay: `${idx * 35}ms` }}
             >
               <div className="space-y-1 max-w-[50ch]">
                 <h3 className="text-xl font-semibold text-[#0b0c0e] tracking-tight">

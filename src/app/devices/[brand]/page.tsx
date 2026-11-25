@@ -65,7 +65,7 @@ export default async function BrandCatalogPage({ params }: BrandPageProps) {
           return (
             <div
               key={device.id}
-              className="p-5 rounded-lg bg-[#ffffff] border border-[#e2e5ea] hover:border-[#c5cbd4] transition-colors duration-150 flex flex-col justify-between space-y-4"
+              className="device-card-perf p-5 rounded-lg bg-[#ffffff] border border-[#e2e5ea] hover:border-[#c5cbd4] transition-colors duration-150 flex flex-col justify-between space-y-4"
             >
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between gap-2">

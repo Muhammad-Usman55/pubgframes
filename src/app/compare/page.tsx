@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useMemo, Suspense, useRef, useEffect } from 'react';
+import { useState, useMemo, Suspense, useRef, useEffect, useDeferredValue } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DEVICES_DATA, ALL_BRANDS } from '@/data/devices';
-import { searchDevicesWithFuzzy } from '@/utils/fuzzySearch';
+import { searchDevicesWithFuzzy, prewarmDeviceSearchIndex } from '@/utils/fuzzySearch';
 import { formatDeviceName } from '@/utils/formatDeviceName';
 import { trackSearchQuery } from '@/lib/analytics';
 import { DeviceInfo, GraphicsTier } from '@/types/device';
@@ -31,21 +31,37 @@ function SearchableDeviceSelect({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [brandFilter, setBrandFilter] = useState('All');
+  const deferredQuery = useDeferredValue(query);
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const idleWin = window as Window & {
+      requestIdleCallback?: (cb: () => void) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const idleId = idleWin.requestIdleCallback
+      ? idleWin.requestIdleCallback(() => prewarmDeviceSearchIndex(DEVICES_DATA))
+      : window.setTimeout(() => prewarmDeviceSearchIndex(DEVICES_DATA), 120);
+
     const handleClick = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    return () => {
+      if (idleWin.cancelIdleCallback) idleWin.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
+      document.removeEventListener('mousedown', handleClick);
+    };
   }, []);
 
-  const matches = useMemo(
-    () => searchDevicesWithFuzzy(DEVICES_DATA, query, { brandFilter, limit: 120 }),
-    [query, brandFilter]
-  );
+  const matches = useMemo(() => {
+    if (!open) return [];
+    return searchDevicesWithFuzzy(DEVICES_DATA, deferredQuery, {
+      brandFilter,
+      limit: deferredQuery.trim() ? 40 : 25
+    });
+  }, [open, deferredQuery, brandFilter]);
 
   return (
     <div ref={ref} data-ui="compare-picker" className="relative p-4 sm:p-5 rounded-lg bg-[#ffffff] space-y-3">
