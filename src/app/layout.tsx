@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
-import Script from 'next/script';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/Navbar';
@@ -210,16 +209,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-      </head>
-      <body className="bg-[#eef0f3] text-[#0b0c0e] antialiased min-h-dvh flex flex-col font-sans selection:bg-[#1f2de6] selection:text-white">
         {adSenseClientId && (
-          <Script
+          <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClientId}`}
             crossOrigin="anonymous"
-            strategy="afterInteractive"
           />
         )}
+      </head>
+      <body className="bg-[#eef0f3] text-[#0b0c0e] antialiased min-h-dvh flex flex-col font-sans selection:bg-[#1f2de6] selection:text-white">
         <Suspense fallback={null}>
           <GoogleAnalyticsTracker
             gaId={gaMeasurementId}

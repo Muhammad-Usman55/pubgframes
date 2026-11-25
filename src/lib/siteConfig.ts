@@ -4,11 +4,13 @@ function readConfigEnv(name: string): string {
   return typeof val === 'string' ? val.trim().replace(/^['"]|['"]$/g, '').trim() : '';
 }
 
+const DEFAULT_ADSENSE_CLIENT_ID = 'ca-pub-1672363375576063';
+
 export function getAdSenseClientId(): string | null {
   const rawAdSenseId =
     (process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || '').trim().replace(/^['"]|['"]$/g, '') ||
     readConfigEnv('NEXT_PUBLIC_ADSENSE_CLIENT_ID');
-  return /^ca-pub-\d{10,20}$/.test(rawAdSenseId) ? rawAdSenseId : null;
+  return /^ca-pub-\d{10,20}$/.test(rawAdSenseId) ? rawAdSenseId : DEFAULT_ADSENSE_CLIENT_ID;
 }
 
 const DEFAULT_GA_MEASUREMENT_ID = 'G-FEZB4X2HVC';
