@@ -28,6 +28,9 @@ import { BLACK_SHARK_DEVICES } from './blackSharkDevices';
 import { LEGION_DEVICES } from './legionDevices';
 import { RAZER_DEVICES } from './razerDevices';
 import { IQOO_DEVICES } from './iqooDevices';
+import { GLOBAL_REGION_BRANDS_DEVICES } from './globalRegionBrandsDevices';
+import { RUGGED_AMERICAS_EUROPE_DEVICES } from './ruggedAmericasEuropeDevices';
+import { GLOBAL_LATEST_AND_TABLETS_DEVICES } from './globalLatestAndTabletsDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1272,7 +1275,12 @@ const RAW_DEVICES: DeviceInfo[] = [
   ...IQOO_DEVICES,
 
   // --- GLOBAL & LEGACY BRANDS (NOKIA, LENOVO, ITEL, HTC, BLU, ETC. - 17+ MODELS) ---
-  ...GLOBAL_BRANDS_DEVICES
+  ...GLOBAL_BRANDS_DEVICES,
+
+  // --- WORLDWIDE REGIONAL, RUGGED & 2025-2026 MODELS ---
+  ...GLOBAL_REGION_BRANDS_DEVICES,
+  ...RUGGED_AMERICAS_EUROPE_DEVICES,
+  ...GLOBAL_LATEST_AND_TABLETS_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1298,47 +1306,49 @@ export function getDeviceBySlug(slug: string): DeviceInfo | undefined {
   return DEVICES_DATA.find((d) => d.slug.toLowerCase() === slug.toLowerCase() || d.id === slug);
 }
 
+const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
+  google: ['google', 'pixel', 'google-pixel'],
+  xiaomi: ['xiaomi', 'mi'],
+  qmobile: ['qmobile', 'q-mobile', 'q mobile'],
+  oneplus: ['oneplus', '1+'],
+  asus: ['asus', 'rog', 'asus-rog'],
+  redmagic: ['redmagic', 'red-magic'],
+  zte: ['zte', 'nubia'],
+  nothing: ['nothing', 'cmf'],
+  sony: ['sony', 'xperia'],
+  nokia: ['nokia'],
+  hmd: ['hmd', 'hmd-global'],
+  lenovo: ['lenovo', 'legion'],
+  iqoo: ['iqoo', 'i-qoo'],
+  'black-shark': ['black-shark', 'blackshark'],
+  blackberry: ['blackberry', 'bb'],
+  motorola: ['motorola', 'moto'],
+  'vgo-tel': ['vgo-tel', 'vgotel', 'vgo tel'],
+  sharp: ['sharp', 'aquos'],
+  fujitsu: ['fujitsu', 'arrows'],
+  't-mobile': ['t-mobile', 'revvl']
+};
+
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
   const b = brand.toLowerCase();
+  const aliasTargets = new Set<string>([b]);
+  for (const [canonical, aliases] of Object.entries(BRAND_ALIAS_GROUPS)) {
+    if (aliases.includes(b)) {
+      aliasTargets.add(canonical);
+      for (const a of aliases) aliasTargets.add(a);
+    }
+  }
+
   return DEVICES_DATA.filter((d) => {
     const brandLower = d.brand.toLowerCase();
     const slugLower = d.brandSlug.toLowerCase();
     if (brandLower === b || slugLower === b) return true;
-    if ((b === 'google' || b === 'pixel' || b === 'google-pixel') && (brandLower.includes('google') || slugLower.includes('google'))) return true;
-    if ((b === 'xiaomi' || b === 'mi') && (brandLower === 'xiaomi' || slugLower === 'xiaomi')) return true;
-    if (b === 'poco' && (brandLower === 'poco' || slugLower === 'poco')) return true;
-    if (b === 'redmi' && (brandLower === 'redmi' || slugLower === 'redmi')) return true;
-    if (b === 'vivo' && (brandLower === 'vivo' || slugLower === 'vivo')) return true;
-    if ((b === 'motorola' || b === 'moto') && (brandLower === 'motorola' || slugLower === 'motorola')) return true;
-    if (b === 'lg' && (brandLower === 'lg' || slugLower === 'lg')) return true;
-    if ((b === 'qmobile' || b === 'q-mobile' || b === 'q mobile') && (brandLower === 'qmobile' || slugLower === 'qmobile')) return true;
-    if ((b === 'oneplus' || b === '1+') && (brandLower === 'oneplus' || slugLower === 'oneplus')) return true;
-    if (b === 'realme' && (brandLower === 'realme' || slugLower === 'realme')) return true;
-    if (b === 'infinix' && (brandLower === 'infinix' || slugLower === 'infinix')) return true;
-    if (b === 'tecno' && (brandLower === 'tecno' || slugLower === 'tecno')) return true;
-    if ((b === 'asus' || b === 'rog' || b === 'asus-rog') && (brandLower.includes('asus') || slugLower.includes('asus'))) return true;
-    if ((b === 'redmagic' || b === 'red-magic') && (brandLower === 'redmagic' || slugLower === 'redmagic')) return true;
-    if ((b === 'zte' || b === 'nubia') && (brandLower === 'zte' || slugLower === 'zte' || brandLower.includes('nubia') || slugLower.includes('nubia') || brandLower === 'redmagic' || slugLower === 'redmagic')) return true;
-    if (b === 'honor' && (brandLower === 'honor' || slugLower === 'honor')) return true;
-    if ((b === 'nothing' || b === 'cmf') && (brandLower === 'nothing' || slugLower === 'nothing')) return true;
-    if ((b === 'sony' || b === 'xperia') && (brandLower === 'sony' || slugLower === 'sony')) return true;
-    if ((b === 'nokia' || b === 'hmd') && (brandLower === 'nokia' || slugLower === 'nokia')) return true;
-    if ((b === 'lenovo' || b === 'legion') && (brandLower === 'lenovo' || slugLower === 'lenovo')) return true;
-    if (b === 'itel' && (brandLower === 'itel' || slugLower === 'itel')) return true;
-    if ((b === 'iqoo' || b === 'i-qoo') && (brandLower === 'iqoo' || slugLower === 'iqoo')) return true;
-    if (b === 'meizu' && (brandLower === 'meizu' || slugLower === 'meizu')) return true;
-    if ((b === 'black-shark' || b === 'blackshark') && (brandLower.includes('black') || slugLower.includes('black'))) return true;
-    if (b === 'razer' && (brandLower === 'razer' || slugLower === 'razer')) return true;
-    if (b === 'htc' && (brandLower === 'htc' || slugLower === 'htc')) return true;
-    if ((b === 'blackberry' || b === 'bb') && (brandLower === 'blackberry' || slugLower === 'blackberry')) return true;
-    if (b === 'blackview' && (brandLower === 'blackview' || slugLower === 'blackview')) return true;
-    if (b === 'ulefone' && (brandLower === 'ulefone' || slugLower === 'ulefone')) return true;
-    if (b === 'doogee' && (brandLower === 'doogee' || slugLower === 'doogee')) return true;
-    if (b === 'lava' && (brandLower === 'lava' || slugLower === 'lava')) return true;
-    if (b === 'micromax' && (brandLower === 'micromax' || slugLower === 'micromax')) return true;
-    if (b === 'blu' && (brandLower === 'blu' || slugLower === 'blu')) return true;
-    if (b === 'alcatel' && (brandLower === 'alcatel' || slugLower === 'alcatel')) return true;
-    if (b === 'acer' && (brandLower === 'acer' || slugLower === 'acer')) return true;
+    for (const target of aliasTargets) {
+      if (brandLower === target || slugLower === target) return true;
+      if (target.length >= 4 && (brandLower.includes(target) || slugLower.includes(target))) {
+        return true;
+      }
+    }
     return false;
   });
 }
