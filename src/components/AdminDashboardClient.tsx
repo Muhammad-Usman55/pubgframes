@@ -1393,6 +1393,9 @@ export default function AdminDashboardClient({
                   <a href="/sitemap.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
                     /sitemap.xml
                   </a>
+                  <a href="/sitemap-index.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
+                    /sitemap-index.xml
+                  </a>
                   <a href="/devices/sitemap.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
                     /devices/sitemap.xml
                   </a>

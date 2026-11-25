@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/generate-sitemaps.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:sitemaps": "node scripts/generate-sitemaps.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
