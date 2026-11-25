@@ -13,6 +13,7 @@ import {
   getAdSenseClientId,
   getGaMeasurementId,
   getGoogleSiteVerification,
+  getGoogleTagId,
   getSiteUrl
 } from '@/lib/siteConfig';
 
@@ -27,6 +28,7 @@ const siteUrl = getSiteUrl();
 const adSenseClientId = getAdSenseClientId();
 const gaMeasurementId = getGaMeasurementId();
 const googleVerification = getGoogleSiteVerification();
+const googleTagId = getGoogleTagId();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -178,6 +180,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={jakarta.variable}>
       <head>
+        {googleTagId && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtm.js?id=${googleTagId}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());`
+              }}
+            />
+          </>
+        )}
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -197,7 +212,7 @@ export default function RootLayout({
           />
         )}
         <Suspense fallback={null}>
-          <GoogleAnalyticsTracker gaId={gaMeasurementId} />
+          <GoogleAnalyticsTracker gaId={gaMeasurementId} hasGoogleTag={Boolean(googleTagId)} />
         </Suspense>
         <TelemetryTracker />
         <MotionObserver />

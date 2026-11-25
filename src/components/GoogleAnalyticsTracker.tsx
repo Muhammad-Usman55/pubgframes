@@ -11,7 +11,13 @@ declare global {
   }
 }
 
-export function GoogleAnalyticsTracker({ gaId }: { gaId: string | null }) {
+export function GoogleAnalyticsTracker({
+  gaId,
+  hasGoogleTag = false
+}: {
+  gaId: string | null;
+  hasGoogleTag?: boolean;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const isFirstNavigation = useRef(true);
@@ -19,9 +25,12 @@ export function GoogleAnalyticsTracker({ gaId }: { gaId: string | null }) {
   useEffect(() => {
     if (!gaId || !pathname || pathname.startsWith('/admin')) return;
 
-    // Initial page load is sent automatically by gtag('config', gaId)
+    // Initial page load is sent automatically when GA script runs, or configured cleanly via existing Google tag
     if (isFirstNavigation.current) {
       isFirstNavigation.current = false;
+      if (hasGoogleTag && typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('config', gaId, { anonymize_ip: true });
+      }
       return;
     }
 
@@ -34,9 +43,9 @@ export function GoogleAnalyticsTracker({ gaId }: { gaId: string | null }) {
         page_title: document.title
       });
     }
-  }, [gaId, pathname, searchParams]);
+  }, [gaId, hasGoogleTag, pathname, searchParams]);
 
-  if (!gaId) {
+  if (!gaId || hasGoogleTag) {
     return null;
   }
 

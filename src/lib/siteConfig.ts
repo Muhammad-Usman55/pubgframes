@@ -19,6 +19,7 @@ export function getGaMeasurementId(): string | null {
 }
 
 const DEFAULT_GOOGLE_SITE_VERIFICATION = '1_eR-BQXU2XK2n7seIS1-BRwE6GLcvwSDC5us33FzOc';
+const DEFAULT_GOOGLE_TAG_ID = 'GTM-M75M9WZM';
 
 export function getGoogleSiteVerification(): string | null {
   const rawGoogleVerification =
@@ -28,6 +29,16 @@ export function getGoogleSiteVerification(): string | null {
     return rawGoogleVerification;
   }
   return DEFAULT_GOOGLE_SITE_VERIFICATION;
+}
+
+export function getGoogleTagId(): string | null {
+  const rawGoogleTagId =
+    (process.env.NEXT_PUBLIC_GOOGLE_TAG_ID || '').trim().replace(/^['"]|['"]$/g, '') ||
+    readConfigEnv('NEXT_PUBLIC_GOOGLE_TAG_ID');
+  if (/^(GTM|G|GT)-[A-Z0-9]{4,20}$/i.test(rawGoogleTagId)) {
+    return rawGoogleTagId;
+  }
+  return DEFAULT_GOOGLE_TAG_ID;
 }
 
 export function getSiteUrl(): string {

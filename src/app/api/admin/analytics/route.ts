@@ -8,7 +8,8 @@ import { aggregateAnalyticsEvents, EMPTY_ANALYTICS } from '@/lib/analytics';
 import {
   getAdSenseClientId,
   getGaMeasurementId,
-  getGoogleSiteVerification
+  getGoogleSiteVerification,
+  getGoogleTagId
 } from '@/lib/siteConfig';
 
 const REQUIRED_TABLES = [
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest) {
 
   const googleIntegrations = {
     searchConsoleConfigured: Boolean(getGoogleSiteVerification()),
-    ga4Configured: Boolean(getGaMeasurementId()),
+    ga4Configured: Boolean(getGaMeasurementId() || getGoogleTagId()),
     adSenseConfigured: Boolean(getAdSenseClientId())
   };
 
