@@ -35,6 +35,8 @@ import { USA_MAINSTREAM_DEVICES } from './usaMainstreamDevices';
 import { USA_CARRIER_AND_INDIE_DEVICES } from './usaCarrierAndIndieDevices';
 import { CHINA_MAJOR_DEVICES } from './chinaMajorDevices';
 import { CHINA_BRANDS_AND_TABLETS_DEVICES } from './chinaBrandsAndTabletsDevices';
+import { INDIA_DOMESTIC_BRANDS_DEVICES } from './indiaDomesticBrandsDevices';
+import { INDIA_MARKET_LINEUPS_DEVICES } from './indiaMarketLineupsDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1292,7 +1294,11 @@ const RAW_DEVICES: DeviceInfo[] = [
 
   // --- CHINA DOMESTIC, FLAGSHIP, GAMING TABLETS & NICHE BRANDS ---
   ...CHINA_MAJOR_DEVICES,
-  ...CHINA_BRANDS_AND_TABLETS_DEVICES
+  ...CHINA_BRANDS_AND_TABLETS_DEVICES,
+
+  // --- INDIA DOMESTIC BRANDS & INDIA-MARKET LINEUPS ---
+  ...INDIA_DOMESTIC_BRANDS_DEVICES,
+  ...INDIA_MARKET_LINEUPS_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1347,7 +1353,9 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   minimal: ['minimal', 'minimal-phone'],
   '360-mobile': ['360-mobile', '360', 'qihoo-360'],
   leeco: ['leeco', 'letv'],
-  xiaolajiao: ['xiaolajiao', 'small-pepper', 'small pepper']
+  xiaolajiao: ['xiaolajiao', 'small-pepper', 'small pepper'],
+  'ai-plus': ['ai-plus', 'ai+', 'ai plus'],
+  jio: ['jio', 'reliance-jio', 'jiophone']
 };
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
