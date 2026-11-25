@@ -1,18 +1,22 @@
-import { NextResponse } from 'next/server';
-import { getVerifiedAdminSession } from '@/lib/adminServerAuth';
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  ADMIN_NO_STORE_HEADERS,
+  verifyRequestAdminSession
+} from '@/lib/adminServerAuth';
 
-const NO_STORE = { 'Cache-Control': 'no-store, max-age=0' };
-
-export async function GET() {
-  const session = await getVerifiedAdminSession();
+export async function GET(request: NextRequest) {
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ authenticated: false }, { status: 401, headers: NO_STORE });
+    return NextResponse.json(
+      { authenticated: false },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
   return NextResponse.json(
     {
       authenticated: true,
       user: { email: session.email, role: session.role }
     },
-    { headers: NO_STORE }
+    { headers: ADMIN_NO_STORE_HEADERS }
   );
 }

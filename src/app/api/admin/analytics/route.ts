@@ -1,5 +1,8 @@
-import { NextResponse } from 'next/server';
-import { getVerifiedAdminSession } from '@/lib/adminServerAuth';
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  ADMIN_NO_STORE_HEADERS,
+  verifyRequestAdminSession
+} from '@/lib/adminServerAuth';
 import { createAdminClient, getAdminDatabaseDiagnostics } from '@/utils/supabase/admin';
 import { aggregateAnalyticsEvents, EMPTY_ANALYTICS } from '@/lib/analytics';
 import {
@@ -17,12 +20,13 @@ const REQUIRED_TABLES = [
   'todos'
 ] as const;
 
-const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
-
-export async function GET() {
-  const session = await getVerifiedAdminSession();
+export async function GET(request: NextRequest) {
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const googleIntegrations = {
@@ -45,7 +49,7 @@ export async function GET() {
         adminUsers: [{ email: session.email, role: session.role }],
         googleIntegrations
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   }
 
@@ -127,7 +131,7 @@ export async function GET() {
             : [{ email: session.email, role: session.role }],
         googleIntegrations
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   } catch (err) {
     const connectionError = err instanceof Error ? err.message : 'Unable to reach Supabase host';
@@ -150,15 +154,18 @@ export async function GET() {
         adminUsers: [{ email: session.email, role: session.role }],
         googleIntegrations
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   }
 }
 
-export async function DELETE() {
-  const session = await getVerifiedAdminSession();
+export async function DELETE(request: NextRequest) {
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const sb = createAdminClient();
@@ -173,9 +180,9 @@ export async function DELETE() {
         .delete()
         .neq('id', '00000000-0000-0000-0000-000000000000');
     } catch {
-      return NextResponse.json({ ok: false }, { status: 502, headers: NO_STORE_HEADERS });
+      return NextResponse.json({ ok: false }, { status: 502, headers: ADMIN_NO_STORE_HEADERS });
     }
   }
 
-  return NextResponse.json({ ok: true }, { headers: NO_STORE_HEADERS });
+  return NextResponse.json({ ok: true }, { headers: ADMIN_NO_STORE_HEADERS });
 }

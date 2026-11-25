@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   ADMIN_COOKIE_NAME,
+  ADMIN_NO_STORE_HEADERS,
+  ADMIN_SESSION_TTL_SECONDS,
+  isHttpsRequest,
   signAdminSessionToken,
   verifySuperuserCredentials
 } from '@/lib/adminServerAuth';
-
-function isHttpsRequest(request: NextRequest): boolean {
-  const forwardedProto = request.headers.get('x-forwarded-proto') || '';
-  const firstProto = forwardedProto.split(',')[0].trim().toLowerCase();
-  return firstProto === 'https' || request.nextUrl.protocol === 'https:';
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,17 +16,17 @@ export async function POST(request: NextRequest) {
     if (!result.ok || !result.email) {
       return NextResponse.json(
         { authenticated: false, error: result.error || 'Authentication failed' },
-        { status: 401, headers: { 'Cache-Control': 'no-store, max-age=0' } }
+        { status: 401, headers: ADMIN_NO_STORE_HEADERS }
       );
     }
 
-    const token = signAdminSessionToken(result.email);
+    const token = signAdminSessionToken(result.email, request.headers.get('user-agent'));
     const response = NextResponse.json(
       {
         authenticated: true,
         user: { email: result.email, role: 'super_admin' }
       },
-      { headers: { 'Cache-Control': 'no-store, max-age=0' } }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
 
     response.cookies.set(ADMIN_COOKIE_NAME, token, {
@@ -37,14 +34,14 @@ export async function POST(request: NextRequest) {
       sameSite: 'lax',
       secure: isHttpsRequest(request),
       path: '/',
-      maxAge: 60 * 60 * 2
+      maxAge: ADMIN_SESSION_TTL_SECONDS
     });
 
     return response;
   } catch {
     return NextResponse.json(
       { authenticated: false, error: 'Invalid login payload' },
-      { status: 400, headers: { 'Cache-Control': 'no-store, max-age=0' } }
+      { status: 400, headers: ADMIN_NO_STORE_HEADERS }
     );
   }
 }

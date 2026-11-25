@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerifiedAdminSession } from '@/lib/adminServerAuth';
+import {
+  ADMIN_NO_STORE_HEADERS,
+  verifyRequestAdminSession
+} from '@/lib/adminServerAuth';
 import { createAdminClient } from '@/utils/supabase/admin';
 import { DeviceInfo } from '@/types/device';
 
@@ -95,17 +98,21 @@ function deviceToRow(d: DeviceInfo) {
   };
 }
 
-const NO_STORE_HEADERS = { 'Cache-Control': 'no-store, max-age=0' };
-
-export async function GET() {
-  const session = await getVerifiedAdminSession();
+export async function GET(request: NextRequest) {
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE_HEADERS });
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const sb = createAdminClient();
   if (!sb) {
-    return NextResponse.json({ devices: [], tableReady: false }, { headers: NO_STORE_HEADERS });
+    return NextResponse.json(
+      { devices: [], tableReady: false },
+      { headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   try {
@@ -117,7 +124,7 @@ export async function GET() {
     if (error) {
       return NextResponse.json(
         { devices: [], tableReady: false, error: error.message },
-        { headers: NO_STORE_HEADERS }
+        { headers: ADMIN_NO_STORE_HEADERS }
       );
     }
 
@@ -126,7 +133,7 @@ export async function GET() {
         devices: (data as DbDeviceRow[]).map(rowToDevice),
         tableReady: true
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   } catch (err) {
     return NextResponse.json(
@@ -135,56 +142,80 @@ export async function GET() {
         tableReady: false,
         error: err instanceof Error ? err.message : 'Unable to reach Supabase host'
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   }
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getVerifiedAdminSession();
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const sb = createAdminClient();
   if (!sb) {
-    return NextResponse.json({ ok: false, persisted: 'none', error: 'Supabase not configured' });
+    return NextResponse.json(
+      { ok: false, persisted: 'none', error: 'Supabase not configured' },
+      { headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   try {
     const payload = (await request.json()) as { device?: DeviceInfo; devices?: DeviceInfo[] };
     const list = payload.devices || (payload.device ? [payload.device] : []);
     if (list.length === 0) {
-      return NextResponse.json({ error: 'No device payload supplied' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'No device payload supplied' },
+        { status: 400, headers: ADMIN_NO_STORE_HEADERS }
+      );
     }
 
     const rows = list.map(deviceToRow);
     const { error } = await sb.from('devices').upsert(rows, { onConflict: 'id' });
 
     if (error) {
-      return NextResponse.json({ ok: false, persisted: 'table_pending', error: error.message });
+      return NextResponse.json(
+        { ok: false, persisted: 'table_pending', error: error.message },
+        { headers: ADMIN_NO_STORE_HEADERS }
+      );
     }
 
-    return NextResponse.json({ ok: true, persisted: 'supabase', count: rows.length });
+    return NextResponse.json(
+      { ok: true, persisted: 'supabase', count: rows.length },
+      { headers: ADMIN_NO_STORE_HEADERS }
+    );
   } catch {
-    return NextResponse.json({ error: 'Invalid device payload' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid device payload' },
+      { status: 400, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 }
 
 export async function DELETE(request: NextRequest) {
-  const session = await getVerifiedAdminSession();
+  const session = verifyRequestAdminSession(request);
   if (!session) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json(
+      { error: 'Unauthorized' },
+      { status: 401, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const id = request.nextUrl.searchParams.get('id');
   if (!id) {
-    return NextResponse.json({ error: 'Missing device id' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing device id' },
+      { status: 400, headers: ADMIN_NO_STORE_HEADERS }
+    );
   }
 
   const sb = createAdminClient();
   if (!sb) {
-    return NextResponse.json({ ok: false, persisted: 'none' }, { headers: NO_STORE_HEADERS });
+    return NextResponse.json({ ok: false, persisted: 'none' }, { headers: ADMIN_NO_STORE_HEADERS });
   }
 
   try {
@@ -192,11 +223,11 @@ export async function DELETE(request: NextRequest) {
     if (error) {
       return NextResponse.json(
         { ok: false, persisted: 'table_pending', error: error.message },
-        { headers: NO_STORE_HEADERS }
+        { headers: ADMIN_NO_STORE_HEADERS }
       );
     }
 
-    return NextResponse.json({ ok: true, persisted: 'supabase' }, { headers: NO_STORE_HEADERS });
+    return NextResponse.json({ ok: true, persisted: 'supabase' }, { headers: ADMIN_NO_STORE_HEADERS });
   } catch (err) {
     return NextResponse.json(
       {
@@ -204,7 +235,7 @@ export async function DELETE(request: NextRequest) {
         persisted: 'table_pending',
         error: err instanceof Error ? err.message : 'Network error reaching Supabase'
       },
-      { headers: NO_STORE_HEADERS }
+      { headers: ADMIN_NO_STORE_HEADERS }
     );
   }
 }

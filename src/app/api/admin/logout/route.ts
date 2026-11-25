@@ -1,20 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ADMIN_COOKIE_NAME } from '@/lib/adminServerAuth';
+import {
+  ADMIN_COOKIE_NAME,
+  ADMIN_NO_STORE_HEADERS,
+  isHttpsRequest
+} from '@/lib/adminServerAuth';
 
 export async function POST(request: NextRequest) {
-  const forwardedProto = request.headers.get('x-forwarded-proto') || '';
-  const isHttps =
-    forwardedProto.split(',')[0].trim().toLowerCase() === 'https' ||
-    request.nextUrl.protocol === 'https:';
-
   const response = NextResponse.json(
     { authenticated: false },
-    { headers: { 'Cache-Control': 'no-store, max-age=0' } }
+    { headers: ADMIN_NO_STORE_HEADERS }
   );
   response.cookies.set(ADMIN_COOKIE_NAME, '', {
     httpOnly: true,
     sameSite: 'lax',
-    secure: isHttps,
+    secure: isHttpsRequest(request),
     path: '/',
     maxAge: 0
   });

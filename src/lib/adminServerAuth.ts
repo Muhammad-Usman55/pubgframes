@@ -1,95 +1,37 @@
-import crypto from 'crypto';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { createClient } from '@supabase/supabase-js';
 import { createAdminClient } from '@/utils/supabase/admin';
+import {
+  ADMIN_COOKIE_NAME,
+  ADMIN_NO_STORE_HEADERS,
+  ADMIN_SESSION_TTL_SECONDS,
+  getSingleSuperuserEmail,
+  isHttpsRequest,
+  readServerEnv,
+  safeEqualString,
+  signAdminSessionToken,
+  verifyAdminSessionToken,
+  verifyRequestAdminSession,
+  type VerifiedAdminSession
+} from '@/lib/adminSessionToken';
 
-export const ADMIN_COOKIE_NAME = 'pf_admin_session';
-const SESSION_TTL_MS = 2 * 60 * 60 * 1000;
-
-export interface VerifiedAdminSession {
-  email: string;
-  role: 'super_admin';
-  exp: number;
-}
-
-function readServerEnv(...names: string[]): string {
-  const env = process.env;
-  for (const name of names) {
-    const raw = env[name];
-    if (typeof raw === 'string') {
-      const cleaned = raw.trim().replace(/^['"]|['"]$/g, '').trim();
-      if (cleaned) return cleaned;
-    }
-  }
-  return '';
-}
-
-export function getSingleSuperuserEmail(): string {
-  return (readServerEnv('ADMIN_EMAIL') || 'usmanshahidhnd2108@gmail.com').toLowerCase();
-}
-
-function getSigningSecret(): string {
-  return (
-    readServerEnv(
-      'ADMIN_SESSION_SECRET',
-      'SUPABASE_SERVICE_ROLE_KEY',
-      'SUPABASE_SECRET_KEY',
-      'ADMIN_PASSWORD'
-    ) || 'pubgframes-local-dev-secret-change-in-prod'
-  );
-}
-
-function safeEqualString(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  if (bufA.length !== bufB.length) return false;
-  return crypto.timingSafeEqual(bufA, bufB);
-}
-
-export function signAdminSessionToken(email: string): string {
-  const payload: VerifiedAdminSession = {
-    email: email.trim().toLowerCase(),
-    role: 'super_admin',
-    exp: Date.now() + SESSION_TTL_MS
-  };
-  const encodedPayload = Buffer.from(JSON.stringify(payload), 'utf8').toString('base64url');
-  const signature = crypto
-    .createHmac('sha256', getSigningSecret())
-    .update(encodedPayload)
-    .digest('base64url');
-  return `${encodedPayload}.${signature}`;
-}
-
-export function verifyAdminSessionToken(token: string | undefined): VerifiedAdminSession | null {
-  if (!token) return null;
-  const parts = token.split('.');
-  if (parts.length !== 2) return null;
-
-  const [encodedPayload, signature] = parts;
-  const expectedSig = crypto
-    .createHmac('sha256', getSigningSecret())
-    .update(encodedPayload)
-    .digest('base64url');
-
-  if (!safeEqualString(signature, expectedSig)) {
-    return null;
-  }
-
-  try {
-    const parsed = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8')) as VerifiedAdminSession;
-    if (!parsed?.email || parsed.role !== 'super_admin' || !parsed.exp) return null;
-    if (Date.now() > parsed.exp) return null;
-    if (parsed.email.trim().toLowerCase() !== getSingleSuperuserEmail()) return null;
-    return parsed;
-  } catch {
-    return null;
-  }
-}
+export {
+  ADMIN_COOKIE_NAME,
+  ADMIN_NO_STORE_HEADERS,
+  ADMIN_SESSION_TTL_SECONDS,
+  getSingleSuperuserEmail,
+  isHttpsRequest,
+  signAdminSessionToken,
+  verifyAdminSessionToken,
+  verifyRequestAdminSession,
+  type VerifiedAdminSession
+};
 
 export async function getVerifiedAdminSession(): Promise<VerifiedAdminSession | null> {
-  const cookieStore = await cookies();
+  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
   const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
-  return verifyAdminSessionToken(token);
+  const userAgent = headerStore.get('user-agent');
+  return verifyAdminSessionToken(token, userAgent);
 }
 
 /**

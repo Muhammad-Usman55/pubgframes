@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -15,17 +13,19 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     let active = true;
-    fetch('/api/admin/session', { cache: 'no-store' })
-      .then((res) => {
-        if (res.ok && active) {
-          router.replace('/admin');
+    fetch('/api/admin/session', { cache: 'no-store', credentials: 'same-origin' })
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = (await res.json()) as { authenticated?: boolean };
+        if (active && data?.authenticated === true) {
+          window.location.replace('/admin');
         }
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => {
       active = false;
     };
-  }, [router]);
+  }, []);
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,6 +35,8 @@ export default function AdminLoginPage() {
     try {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
+        credentials: 'same-origin',
+        cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email.trim(),
@@ -50,8 +52,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.replace('/admin');
-      router.refresh();
+      window.location.replace('/admin');
     } catch {
       setError('Unable to reach authentication service. Please try again.');
       setLoading(false);
