@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendGa4MeasurementEvent } from '@/lib/gaMeasurementProtocol';
+import { getSiteUrl } from '@/lib/siteConfig';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: NextRequest) {
@@ -44,6 +45,7 @@ export async function POST(request: NextRequest) {
       eventName: 'generate_lead',
       request,
       params: {
+        page_location: `${getSiteUrl()}/contact`,
         topic,
         device_model: deviceModel || undefined,
         persisted

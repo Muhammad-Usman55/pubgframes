@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendGa4MeasurementEvent } from '@/lib/gaMeasurementProtocol';
+import { getSiteUrl } from '@/lib/siteConfig';
 import { createAdminClient } from '@/utils/supabase/admin';
 
 export async function POST(request: NextRequest) {
@@ -52,6 +53,7 @@ export async function POST(request: NextRequest) {
         eventName: 'fps_catalog_search',
         request,
         params: {
+          page_location: request.headers.get('referer') || `${getSiteUrl()}/devices`,
           search_term: normalizedQuery,
           result_count: resultCount,
           selected_device_id: body.selectedDeviceId || undefined

@@ -63,5 +63,5 @@ export function getSiteUrl(): string {
     return `https://${vercelPreview}`;
   }
 
-  return 'https://pubgframes.com';
+  return 'https://pubgframes.vercel.app';
 }

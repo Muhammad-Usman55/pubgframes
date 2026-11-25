@@ -112,11 +112,13 @@ export const FpsCheckerWidget = () => {
   const handleCopySummary = () => {
     if (!selectedDevice || !selectedFullName || !baseFpsResult) return;
     soundEffects.playClick();
+    const shareUrl =
+      typeof window !== 'undefined' ? window.location.origin : 'https://pubgframes.vercel.app';
     const text = `PUBGFrames Summary for ${selectedFullName}
 Graphics Mode: ${selectedGraphics}
 Estimated FPS: ${currentDisplayFps} FPS (${baseFpsResult.setting.stabilityScore}% Stability)
 Chipset: ${selectedDevice.chipset}
-Check yours at https://pubgframes.com`;
+Check yours at ${shareUrl}`;
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text);
