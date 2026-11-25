@@ -1275,8 +1275,8 @@ export default function AdminDashboardPage() {
                 {[
                   {
                     title: 'Google Search Console',
-                    envKey: 'NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION',
-                    ready: googleStatus.searchConsoleConfigured
+                    envKey: 'google9005f42ed50cf491.html + meta',
+                    ready: true
                   },
                   {
                     title: 'Google Analytics 4',
@@ -1308,6 +1308,28 @@ export default function AdminDashboardPage() {
                     <div className="font-mono text-xs text-[#525866] break-all">{item.envKey}</div>
                   </div>
                 ))}
+              </div>
+              <div className="p-3.5 rounded-lg bg-[#eef0f3] space-y-2">
+                <div className="text-xs font-semibold text-[#0b0c0e]">
+                  Google Search Console Sitemaps ({allDevicesList.length.toLocaleString()} devices indexed)
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs font-mono">
+                  <a href="/sitemap.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
+                    /sitemap.xml
+                  </a>
+                  <a href="/devices/sitemap.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
+                    /devices/sitemap.xml
+                  </a>
+                  <a href="/guides/sitemap.xml" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#1f2de6] hover:underline">
+                    /guides/sitemap.xml
+                  </a>
+                  <a href="/robots.txt" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#0b0c0e] hover:underline">
+                    /robots.txt
+                  </a>
+                  <a href="/google9005f42ed50cf491.html" target="_blank" className="px-2.5 py-1 rounded bg-[#ffffff] text-[#166534] hover:underline">
+                    /google9005f42ed50cf491.html
+                  </a>
+                </div>
               </div>
             </div>
 
