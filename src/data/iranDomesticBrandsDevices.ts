@@ -1,0 +1,231 @@
+import { DeviceInfo } from '@/types/device';
+import { createDevice } from './deviceFactory';
+
+/**
+ * Iranian Domestic & Local Mobile Brands:
+ * Daria (Bond II, Bond II Lite, Bond 5G), GLX / General Luxe (S4, Shahin III/II, Aria, Spider 1),
+ * Goldiran GPlus (Q20, S10, P10, Q10), Marshal, and Orod.
+ */
+export const IRAN_DOMESTIC_BRANDS_DEVICES: DeviceInfo[] = [
+  // --- DARIA (DARIA BOND) ---
+  createDevice({
+    brand: 'Daria',
+    model: 'Daria Bond II',
+    releaseYear: 2025,
+    chipset: 'MediaTek Dimensity 8350 (4nm)',
+    gpu: 'Mali-G615 MC6',
+    ramOptions: ['12GB LPDDR5X'],
+    displayRefreshRate: 120,
+    screenSize: '6.67" 1.5K Flat AMOLED 120Hz',
+    batteryCapacity: 5000,
+    antutuScore: 1410000,
+    gyroscope: 'Ultra Fast Hardware Gyro',
+    coolingSystem: 'Large Vapor Chamber Cooling',
+    maxSupportedFps: 120,
+    overallGamingRating: 9.2
+  }),
+  createDevice({
+    brand: 'Daria',
+    model: 'Daria Bond II Lite',
+    releaseYear: 2025,
+    chipset: 'MediaTek Dimensity 7050 (6nm)',
+    gpu: 'Mali-G68 MC4',
+    ramOptions: ['8GB'],
+    displayRefreshRate: 120,
+    screenSize: '6.78" FHD+ LTPS 120Hz',
+    batteryCapacity: 5000,
+    antutuScore: 560000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 90,
+    overallGamingRating: 8.1
+  }),
+  createDevice({
+    brand: 'Daria',
+    model: 'Daria Bond 5G',
+    releaseYear: 2023,
+    chipset: 'MediaTek Dimensity 7050 (6nm)',
+    gpu: 'Mali-G68 MC4',
+    ramOptions: ['8GB'],
+    displayRefreshRate: 120,
+    screenSize: '6.78" Curved AMOLED 120Hz',
+    batteryCapacity: 4700,
+    antutuScore: 550000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 90,
+    overallGamingRating: 8.1
+  }),
+
+  // --- GLX (GENERAL LUXE IRAN) ---
+  createDevice({
+    brand: 'GLX',
+    model: 'GLX S4',
+    releaseYear: 2024,
+    chipset: 'MediaTek Helio G99 (6nm)',
+    gpu: 'Mali-G57 MC2',
+    ramOptions: ['8GB'],
+    displayRefreshRate: 90,
+    screenSize: '6.67" FHD+ IPS LCD 90Hz',
+    batteryCapacity: 5000,
+    antutuScore: 410000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 60,
+    overallGamingRating: 7.4
+  }),
+  createDevice({
+    brand: 'GLX',
+    model: 'Shahin III 5G',
+    releaseYear: 2022,
+    chipset: 'MediaTek Dimensity 700 (7nm)',
+    gpu: 'Mali-G57 MC2',
+    ramOptions: ['8GB LPDDR4X'],
+    displayRefreshRate: 90,
+    screenSize: '6.57" Curved AMOLED 90Hz',
+    batteryCapacity: 4200,
+    antutuScore: 360000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 40,
+    overallGamingRating: 6.8
+  }),
+  createDevice({
+    brand: 'GLX',
+    model: 'Shahin II',
+    releaseYear: 2020,
+    chipset: 'MediaTek Helio P60 (12nm)',
+    gpu: 'Mali-G72 MP3',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.3" FHD+ IPS LCD 60Hz',
+    batteryCapacity: 4000,
+    antutuScore: 185000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 30,
+    overallGamingRating: 5.4
+  }),
+  createDevice({
+    brand: 'GLX',
+    model: 'GLX Aria',
+    releaseYear: 2017,
+    chipset: 'MediaTek Helio P10 (MT6755M)',
+    gpu: 'Mali-T860 MP2',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '5.5" FHD Sharp LTPS LCD 60Hz',
+    batteryCapacity: 4000,
+    antutuScore: 68000,
+    gyroscope: 'Hardware Gyro',
+    maxSupportedFps: 25,
+    overallGamingRating: 3.4
+  }),
+  createDevice({
+    brand: 'GLX',
+    model: 'Spider 1',
+    releaseYear: 2015,
+    chipset: 'MediaTek MT6589 (Quad-Core)',
+    gpu: 'PowerVR SGX544',
+    ramOptions: ['1GB'],
+    displayRefreshRate: 60,
+    screenSize: '5.0" HD IPS LCD 60Hz',
+    batteryCapacity: 2000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.4,
+    isUnsupportedHardware: true,
+    notes: '1GB RAM / 32-bit legacy GLX device cannot run modern PUBG Mobile.'
+  }),
+
+  // --- GPLUS (GOLDIRAN IRAN) ---
+  createDevice({
+    brand: 'GPlus',
+    model: 'GPlus Q20',
+    releaseYear: 2021,
+    chipset: 'MediaTek Helio G25 (12nm)',
+    gpu: 'PowerVR GE8320',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.5" HD+ IPS LCD 60Hz',
+    batteryCapacity: 5000,
+    antutuScore: 115000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.5
+  }),
+  createDevice({
+    brand: 'GPlus',
+    model: 'GPlus S10',
+    releaseYear: 2022,
+    chipset: 'MediaTek Helio P23 / Entry Octa-Core',
+    gpu: 'Mali-G71 MP2',
+    ramOptions: ['4GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.5" HD+ IPS LCD 60Hz',
+    batteryCapacity: 4000,
+    antutuScore: 105000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 25,
+    overallGamingRating: 4.2
+  }),
+  createDevice({
+    brand: 'GPlus',
+    model: 'GPlus P10',
+    releaseYear: 2020,
+    chipset: 'Unisoc Entry Quad-Core',
+    gpu: 'PowerVR GE8300',
+    ramOptions: ['3GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.26" HD+ IPS LCD 60Hz',
+    batteryCapacity: 3500,
+    antutuScore: 85000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 20,
+    overallGamingRating: 3.6
+  }),
+  createDevice({
+    brand: 'GPlus',
+    model: 'GPlus Q10',
+    releaseYear: 2020,
+    chipset: 'MediaTek Helio A22 (12nm)',
+    gpu: 'PowerVR GE8300',
+    ramOptions: ['3GB'],
+    displayRefreshRate: 60,
+    screenSize: '6.26" HD+ IPS LCD 60Hz',
+    batteryCapacity: 3500,
+    antutuScore: 95000,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 20,
+    overallGamingRating: 3.8
+  }),
+
+  // --- MARSHAL & OROD (IRAN DOMESTIC) ---
+  createDevice({
+    brand: 'Marshal',
+    model: 'Marshal ME-352',
+    releaseYear: 2015,
+    chipset: 'MediaTek MT6572 (Dual-Core)',
+    gpu: 'Mali-400',
+    ramOptions: ['512MB'],
+    displayRefreshRate: 60,
+    screenSize: '4.0" WVGA TFT LCD',
+    batteryCapacity: 1400,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.0,
+    isUnsupportedHardware: true,
+    notes: 'Legacy Marshal Android 4.2 device falls far below PUBG Mobile requirements.'
+  }),
+  createDevice({
+    brand: 'Orod',
+    model: 'Orod 150 Lite',
+    releaseYear: 2022,
+    chipset: 'Basic Feature Phone Chipset',
+    gpu: 'None',
+    ramOptions: ['32MB'],
+    displayRefreshRate: 60,
+    screenSize: '1.8" QQVGA Feature Keypad',
+    batteryCapacity: 800,
+    gyroscope: 'Not Supported',
+    maxSupportedFps: 0,
+    overallGamingRating: 1.0,
+    isUnsupportedHardware: true,
+    notes: 'Basic Iranian Irancell/GSM keypad feature phone without smartphone OS support.'
+  })
+];

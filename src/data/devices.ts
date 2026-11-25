@@ -39,6 +39,8 @@ import { INDIA_DOMESTIC_BRANDS_DEVICES } from './indiaDomesticBrandsDevices';
 import { INDIA_MARKET_LINEUPS_DEVICES } from './indiaMarketLineupsDevices';
 import { PAKISTAN_DOMESTIC_BRANDS_DEVICES } from './pakistanDomesticBrandsDevices';
 import { PAKISTAN_MARKET_MODELS_DEVICES } from './pakistanMarketModelsDevices';
+import { IRAN_DOMESTIC_BRANDS_DEVICES } from './iranDomesticBrandsDevices';
+import { IRAN_MARKET_POPULAR_DEVICES } from './iranMarketPopularDevices';
 
 const RAW_DEVICES: DeviceInfo[] = [
   // --- POCO ---
@@ -1304,7 +1306,11 @@ const RAW_DEVICES: DeviceInfo[] = [
 
   // --- PAKISTAN DOMESTIC BRANDS & PTA POPULAR LINEUPS ---
   ...PAKISTAN_DOMESTIC_BRANDS_DEVICES,
-  ...PAKISTAN_MARKET_MODELS_DEVICES
+  ...PAKISTAN_MARKET_MODELS_DEVICES,
+
+  // --- IRAN DOMESTIC BRANDS & DIGIKALA POPULAR LINEUPS ---
+  ...IRAN_DOMESTIC_BRANDS_DEVICES,
+  ...IRAN_MARKET_POPULAR_DEVICES
 ];
 
 // De-duplicate devices by brandSlug + slug and ensure unique IDs across static generation & UI lists
@@ -1362,7 +1368,10 @@ const BRAND_ALIAS_GROUPS: Record<string, string[]> = {
   xiaolajiao: ['xiaolajiao', 'small-pepper', 'small pepper'],
   'ai-plus': ['ai-plus', 'ai+', 'ai plus'],
   jio: ['jio', 'reliance-jio', 'jiophone'],
-  digit: ['digit', 'jazz-digit', 'jazz']
+  digit: ['digit', 'jazz-digit', 'jazz'],
+  daria: ['daria', 'daria-bond'],
+  glx: ['glx', 'general-luxe', 'generaluxe'],
+  gplus: ['gplus', 'g-plus', 'goldiran']
 };
 
 export function getDevicesByBrand(brand: string): DeviceInfo[] {
